@@ -1,0 +1,10 @@
+extends Node
+
+const ENEMIES = "enemies"
+const PLAYER = "player"
+const BOSS = "boss"
+const BOSS_BAR = "boss_bar"
+const SPAWN_CONTROL = "spawn_control"
+const FLOOR_CONTROL = "floor_control"
+const MINIGAMES = "minigames"
+const BALLOON = "balloon"

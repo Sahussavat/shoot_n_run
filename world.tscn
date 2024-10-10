@@ -1,0 +1,371 @@
+[gd_scene load_steps=23 format=3 uid="uid://crpl7h5cj0fnh"]
+
+[ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://tako.tscn" id="1_4qw1f"]
+[ext_resource type="PackedScene" uid="uid://by8c6yag6c626" path="res://normal_floor.tscn" id="3_h0nk7"]
+[ext_resource type="Script" path="res://floors.gd" id="3_y77mu"]
+[ext_resource type="Script" path="res://control_canvas.gd" id="4_dpgrs"]
+[ext_resource type="Script" path="res://obstacle_floors/fall_detect.gd" id="5_gu7bx"]
+[ext_resource type="Script" path="res://player_control/player_health_bar.gd" id="5_sox66"]
+[ext_resource type="Script" path="res://spawn_control.gd" id="6_jlpxs"]
+[ext_resource type="Script" path="res://coin_show.gd" id="6_yxx3v"]
+[ext_resource type="Script" path="res://boss_health.gd" id="7_52j5g"]
+[ext_resource type="FontFile" uid="uid://crv230mibegw5" path="res://fonts/upceb.ttf" id="8_82ahw"]
+[ext_resource type="Script" path="res://mini_games.gd" id="8_478de"]
+[ext_resource type="Script" path="res://quick_type_game.gd" id="8_l3hdx"]
+[ext_resource type="Script" path="res://speech_game.gd" id="11_2180s"]
+[ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://balloon.tscn" id="12_i48g0"]
+[ext_resource type="Texture2D" uid="uid://m1r8b2hjuhbd" path="res://Parallax Clouds Pack by Captainskeleto/test_custom_bg.png" id="15_k2uto"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dln0u"]
+content_margin_left = 25.0
+content_margin_top = 25.0
+content_margin_right = 25.0
+content_margin_bottom = 25.0
+bg_color = Color(0, 0, 0, 0.662745)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fq1x"]
+size = Vector2(128, 1564)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j6lnw"]
+size = Vector2(1472, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3dcyf"]
+size = Vector2(8368, 1932)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kq3gn"]
+size = Vector2(3569, 1440)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x6dqw"]
+size = Vector2(3385, 1472)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_khd6k"]
+size = Vector2(3712.05, 1523.27)
+
+[node name="World" type="Node2D"]
+process_mode = 1
+
+[node name="tako" parent="." groups=["player"] instance=ExtResource("1_4qw1f")]
+position = Vector2(136, 512)
+
+[node name="floors" type="Node2D" parent="." groups=["floor_control"]]
+script = ExtResource("3_y77mu")
+
+[node name="normal_floor" parent="floors" groups=["floor"] instance=ExtResource("3_h0nk7")]
+position = Vector2(0, 576)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("4_dpgrs")
+
+[node name="black_fade" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="player_health" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 360.0
+offset_bottom = 51.0
+value = 100.0
+show_percentage = false
+script = ExtResource("5_sox66")
+
+[node name="coin_show" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = 472.0
+offset_top = 24.0
+offset_right = 512.0
+offset_bottom = 64.0
+script = ExtResource("6_yxx3v")
+
+[node name="Label" type="Label" parent="CanvasLayer/coin_show"]
+layout_mode = 2
+text = "Coin: "
+
+[node name="coin_value" type="Label" parent="CanvasLayer/coin_show"]
+layout_mode = 2
+
+[node name="boss_health" type="ProgressBar" parent="CanvasLayer" groups=["boss_bar"]]
+visible = false
+offset_left = 264.0
+offset_top = 608.0
+offset_right = 960.0
+offset_bottom = 635.0
+value = 100.0
+show_percentage = false
+script = ExtResource("7_52j5g")
+
+[node name="Label" type="Label" parent="CanvasLayer/boss_health"]
+layout_mode = 0
+offset_right = 696.0
+offset_bottom = 23.0
+text = "King"
+horizontal_alignment = 1
+
+[node name="mini_games" type="PanelContainer" parent="CanvasLayer" groups=["minigames"]]
+visible = false
+offset_left = 192.0
+offset_top = 75.0
+offset_right = 960.0
+offset_bottom = 581.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dln0u")
+script = ExtResource("8_478de")
+
+[node name="quick_type_game" type="VBoxContainer" parent="CanvasLayer/mini_games"]
+process_mode = 4
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 50
+script = ExtResource("8_l3hdx")
+
+[node name="question_text" type="Label" parent="CanvasLayer/mini_games/quick_type_game"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 60
+text = "ตะเกียบคีบเนื้อ"
+horizontal_alignment = 1
+
+[node name="show_text" type="HBoxContainer" parent="CanvasLayer/mini_games/quick_type_game"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/mini_games/quick_type_game/show_text"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Label2" type="Label" parent="CanvasLayer/mini_games/quick_type_game/show_text"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Label3" type="Label" parent="CanvasLayer/mini_games/quick_type_game/show_text"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="choices" type="HBoxContainer" parent="CanvasLayer/mini_games/quick_type_game"]
+layout_mode = 2
+theme_override_constants/separation = 102
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/mini_games/quick_type_game/choices"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="key" type="Label" parent="CanvasLayer/mini_games/quick_type_game/choices/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 50
+text = "1:"
+
+[node name="word" type="Label" parent="CanvasLayer/mini_games/quick_type_game/choices/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 50
+text = "test"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/mini_games/quick_type_game/choices"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="key" type="Label" parent="CanvasLayer/mini_games/quick_type_game/choices/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 50
+text = "2:"
+
+[node name="word" type="Label" parent="CanvasLayer/mini_games/quick_type_game/choices/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 50
+text = "test"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/mini_games/quick_type_game/choices"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="key" type="Label" parent="CanvasLayer/mini_games/quick_type_game/choices/HBoxContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 50
+text = "3:"
+
+[node name="word" type="Label" parent="CanvasLayer/mini_games/quick_type_game/choices/HBoxContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 50
+text = "test"
+
+[node name="win_count" type="HBoxContainer" parent="CanvasLayer/mini_games/quick_type_game"]
+layout_mode = 2
+alignment = 1
+
+[node name="counter" type="Label" parent="CanvasLayer/mini_games/quick_type_game/win_count"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="Label2" type="Label" parent="CanvasLayer/mini_games/quick_type_game/win_count"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "/"
+
+[node name="max" type="Label" parent="CanvasLayer/mini_games/quick_type_game/win_count"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "4"
+
+[node name="timer_show" type="ProgressBar" parent="CanvasLayer/mini_games/quick_type_game"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="speech_game" type="VBoxContainer" parent="CanvasLayer/mini_games"]
+process_mode = 4
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 30
+script = ExtResource("11_2180s")
+
+[node name="question_text" type="Label" parent="CanvasLayer/mini_games/speech_game"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 50
+text = "ตะเกียบคีบเนื้อ"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="show_answer" type="Label" parent="CanvasLayer/mini_games/speech_game"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 35
+text = "ตะเกียบคีบเนื้อ"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="win_show" type="HBoxContainer" parent="CanvasLayer/mini_games/speech_game"]
+layout_mode = 2
+alignment = 1
+
+[node name="win_count" type="Label" parent="CanvasLayer/mini_games/speech_game/win_show"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="label" type="Label" parent="CanvasLayer/mini_games/speech_game/win_show"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "/"
+
+[node name="win_max" type="Label" parent="CanvasLayer/mini_games/speech_game/win_show"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "3"
+
+[node name="show_buttton" type="HBoxContainer" parent="CanvasLayer/mini_games/speech_game"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/mini_games/speech_game/show_buttton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 40
+text = "กด"
+
+[node name="button_to_start" type="Label" parent="CanvasLayer/mini_games/speech_game/show_buttton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 40
+text = "P"
+
+[node name="Label2" type="Label" parent="CanvasLayer/mini_games/speech_game/show_buttton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_82ahw")
+theme_override_font_sizes/font_size = 40
+text = "เพื่อเริ่ม"
+
+[node name="mistake_bar" type="ProgressBar" parent="CanvasLayer/mini_games/speech_game"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="Balloon" parent="CanvasLayer" instance=ExtResource("12_i48g0")]
+process_mode = 2
+visible = false
+
+[node name="wall" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="wall"]
+position = Vector2(1216, 384)
+shape = SubResource("RectangleShape2D_6fq1x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall"]
+position = Vector2(-64, 370)
+shape = SubResource("RectangleShape2D_6fq1x")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="wall"]
+position = Vector2(608, 1216)
+shape = SubResource("RectangleShape2D_j6lnw")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="wall"]
+position = Vector2(608, -448)
+shape = SubResource("RectangleShape2D_j6lnw")
+
+[node name="fall_detect" type="Area2D" parent="wall"]
+collision_layer = 0
+script = ExtResource("5_gu7bx")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="wall/fall_detect"]
+position = Vector2(480, 1890)
+shape = SubResource("RectangleShape2D_3dcyf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall/fall_detect"]
+position = Vector2(-1911.5, 200)
+shape = SubResource("RectangleShape2D_kq3gn")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="wall/fall_detect"]
+position = Vector2(2971.5, 224)
+shape = SubResource("RectangleShape2D_x6dqw")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="wall/fall_detect"]
+position = Vector2(472, -1396.8)
+scale = Vector2(2.26721, -1.15961)
+shape = SubResource("RectangleShape2D_khd6k")
+
+[node name="spawn_control" type="Node2D" parent="." groups=["spawn_control"]]
+script = ExtResource("6_jlpxs")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_filter = 1
+position = Vector2(576, 320)
+texture = ExtResource("15_k2uto")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 256.0
+offset_top = 448.0
+offset_right = 320.0
+offset_bottom = 512.0

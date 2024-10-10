@@ -1,0 +1,94 @@
+[gd_scene load_steps=13 format=3 uid="uid://crpl7h5cj0fnh"]
+
+[ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://tako.tscn" id="1_4qw1f"]
+[ext_resource type="PackedScene" uid="uid://by8c6yag6c626" path="res://normal_floor.tscn" id="3_h0nk7"]
+[ext_resource type="Script" path="res://floors.gd" id="3_y77mu"]
+[ext_resource type="Script" path="res://control_canvas.gd" id="4_dpgrs"]
+[ext_resource type="Script" path="res://fall_detect.gd" id="5_gu7bx"]
+[ext_resource type="Script" path="res://spawn_enemies_control.gd" id="6_1s8mb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fq1x"]
+size = Vector2(128, 1564)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j6lnw"]
+size = Vector2(1472, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3dcyf"]
+size = Vector2(15264, 1176)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kq3gn"]
+size = Vector2(1209, 1285)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x6dqw"]
+size = Vector2(1025, 1281)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_khd6k"]
+size = Vector2(1598.44, 453.944)
+
+[node name="World" type="Node2D"]
+
+[node name="tako" parent="." instance=ExtResource("1_4qw1f")]
+position = Vector2(136, 512)
+
+[node name="floors" type="Node2D" parent="."]
+script = ExtResource("3_y77mu")
+
+[node name="normal_floor" parent="floors" groups=["floor"] instance=ExtResource("3_h0nk7")]
+position = Vector2(0, 576)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("4_dpgrs")
+
+[node name="black_fade" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1216, 384)
+shape = SubResource("RectangleShape2D_6fq1x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-64, 370)
+shape = SubResource("RectangleShape2D_6fq1x")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(608, 1216)
+shape = SubResource("RectangleShape2D_j6lnw")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(608, -448)
+shape = SubResource("RectangleShape2D_j6lnw")
+
+[node name="fall_detect" type="Area2D" parent="StaticBody2D"]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("5_gu7bx")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D/fall_detect"]
+position = Vector2(1312, 1356)
+shape = SubResource("RectangleShape2D_3dcyf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D/fall_detect"]
+position = Vector2(-731.5, 122.5)
+shape = SubResource("RectangleShape2D_kq3gn")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D/fall_detect"]
+position = Vector2(1791.5, 128.5)
+shape = SubResource("RectangleShape2D_x6dqw")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D/fall_detect"]
+position = Vector2(484, -776.801)
+scale = Vector2(2.26721, -1.15961)
+shape = SubResource("RectangleShape2D_khd6k")
+
+[node name="spawned_list" type="Node2D" parent="."]
+script = ExtResource("6_1s8mb")
+
+[connection signal="body_shape_entered" from="StaticBody2D/fall_detect" to="StaticBody2D/fall_detect" method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="StaticBody2D/fall_detect" to="StaticBody2D/fall_detect" method="_on_body_shape_exited"]

@@ -11,15 +11,15 @@ config_version=5
 [application]
 
 config/name="shoot_n_run"
-run/main_scene="res://world.tscn"
+run/main_scene="res://nodes/worlds/world.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-GroupsName="*res://GROUPS_NAME.gd"
+GroupsName="*res://script/utills/GROUPS_NAME.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
-BalloonControl="*res://balloon_control.gd"
+BalloonControl="*res://script/dialogues/balloon_control.gd"
 
 [dialogue_manager]
 

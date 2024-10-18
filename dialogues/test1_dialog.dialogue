@@ -1,5 +1,14 @@
 ~ this_is_a_node_title
+#สามารถดูวิธีใช้ได้จาก https://www.youtube.com/watch?v=UhPFk8FSbd8&list=PLWEX_DQyaQyyquh1NHU2onWyYUsfQCI_3&index=5
+#ได้มีการปรับแต่งตัว add-on เล็กน้อย เพิ่มความสามารถให้สามารถระบุไฟล์ภาพตัวละครที่เจาะจงมากขึ้น และตำแหน่งของภาพ
 This is a line said by nobody.
+#มี pattern คือ ชื่อตัวละคร[feel]ความรู้สึก[a]ตำแหน่งภาพ
+#เมื่อระบบทำการคำนวณหาไฟล์ ไฟล์ที่หาจะต้องชื่อ ชื่อตัวละคร_ความรู้สึก.png เช่น Jack_angry.png, 
+#Jack_angry1.png, Jack_angry_small.png
+
+#ตำแหน่งภาพ สามารถกำหนดได้ทั้ง left, center, right
+
+#ตัวอย่างการใช้งาน
 Sprite2[feel]angry[a]center: [[Hi|Hello|Howdy]], this is some dialogue.
 Sprite3[feel]angry[a]center: [[Hi|Hello|Howdy]], this is some dialogue.
 Sprite3[feel]angry: Here are some choices.

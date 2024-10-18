@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://csnlkp70l87po"]
-
-[ext_resource type="Script" path="res://shop.gd" id="1_dvmbh"]
-[ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://balloon.tscn" id="2_tr35g"]
-
-[node name="Shop" type="Node2D"]
-script = ExtResource("1_dvmbh")
-
-[node name="Balloon" parent="." instance=ExtResource("2_tr35g")]

@@ -66,7 +66,7 @@ func set_half_hp_mode():
 		$Sprite2D.material.shader = preload("res://shader/anger_boss_color.gdshader")
 
 func on_death():
-	minigames.run_the_game(minigames.game_type.SPEECH_TYPE, 
+	minigames.run_the_game(minigames.game_type.CALCULATE_TYPE, 
 	func():
 		get_tree().paused = false
 		spawn_control.force_stop_all_events()

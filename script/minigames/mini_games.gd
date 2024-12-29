@@ -3,6 +3,7 @@ extends PanelContainer
 enum game_type {
 	QUICK_TYPE, ##minigame ประเภทพิมพ์เร็ว
 	SPEECH_TYPE, ##minigame ประเภทพูดตามคำบอก
+	CALCULATE_TYPE, ##minigame ประเภทคิดเลขไว
 }
 
 var current_game
@@ -33,6 +34,8 @@ func get_minigames(_game_type):
 			return $quick_type_game
 		game_type.SPEECH_TYPE:
 			return $speech_game
+		game_type.CALCULATE_TYPE:
+			return $cal_game
 
 func turn_off_game(game):
 	game.process_mode = Node.PROCESS_MODE_DISABLED

@@ -22,6 +22,7 @@ var floors_path = [
 	
 	#[floor_types.RANDOM, 1],
 	[floor_types.FALL, 1, func():
+		FloorsUtill.save_floor_position(floors_path)
 		spawn_control.create(spawn_enemies_dash).start()
 		],
 	[floor_types.OBSTACLE, 1, func():
@@ -70,6 +71,7 @@ signal done_reset
 @onready var center_pos = current_child.position
 
 func _ready():
+	FloorsUtill.load_floor_position(floors_path)
 	if not is_in_group(GroupsName.FLOOR_CONTROL):
 		add_to_group(GroupsName.FLOOR_CONTROL)
 	randomize()
@@ -104,23 +106,22 @@ func _process(_delta):
 	else:
 		if floors.size() > 0:
 			floors.pop_back().queue_free()
-		
 		var _normal_floor = normal_floor.instantiate()
 		_normal_floor.position = first_floor_pos
 		add_child(_normal_floor)
-		floors.push_front(_normal_floor)
+		floors.push_back(_normal_floor)
 		var pos_prev_floor_x = _normal_floor.position.x
 		for _floor in floors:
 			_floor.position.x = pos_prev_floor_x
 			pos_prev_floor_x = pos_prev_floor_x + get_floor_size(_floor)
 			current_child = _floor
 		is_reset = false
+		scene_floor_min_count = -3
 		done_reset.emit()
 
 func get_next_floor():
 	var floor_type = null
 	var floor_event = null
-	
 	if force_floor:
 		var fl = force_floor
 		if not is_force_floor_loop:
@@ -196,5 +197,6 @@ func end_event():
 	is_event_end = true
 
 func trigger_boss_event():
+	FloorsUtill.save_floor_position(floors_path)
 	if boss_event:
 		boss_event.call()

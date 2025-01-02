@@ -6,7 +6,7 @@ enum stat {
 }
 var current_stat = stat.MOVE
 
-var just_press_check_arr = {}
+@onready var key_utill = KeyUtill
 
 @onready var attack_c_player = preload("res://script/player_control/attack_c_player.gd")
 @onready var dodge_c_player = preload("res://script/player_control/dodge_c_player.gd")
@@ -19,6 +19,8 @@ var just_press_check_arr = {}
 func _ready():
 	if not is_in_group(GroupsName.PLAYER):
 		add_to_group(GroupsName.PLAYER)
+	if not is_in_group(GroupsName.INPUT_GROUP):
+		add_to_group(GroupsName.INPUT_GROUP)
 	attack_c_player = attack_c_player.new(self)
 	movement_c_player = movement_c_player.new(self)
 	dodge_c_player = dodge_c_player.new(self, movement_c_player)
@@ -36,28 +38,12 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-func is_just_pressed(key_code):
-	var is_pressed = (Input.is_physical_key_pressed(key_code) or Input.is_mouse_button_pressed(key_code))
-	var string_key_code = OS.get_keycode_string(key_code)
-	if not just_press_check_arr.has(string_key_code):
-		just_press_check_arr[string_key_code] = false
-
-	if is_pressed and not just_press_check_arr[string_key_code]:
-		just_press_check_arr[string_key_code] = true
-		return true
-	elif not is_pressed:
-		just_press_check_arr[string_key_code] = false
-	
-	return false
-
-		
-
 func get_mouse_direction():
 	return (get_global_mouse_position() - position).normalized().x
 
 func get_direction():
-	var is_left_press = int(Input.is_physical_key_pressed(KEY_A))
-	var is_right_press = int(Input.is_physical_key_pressed(KEY_D))
+	var is_left_press = int(Input.is_physical_key_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.MOVE_LEFT]))
+	var is_right_press = int(Input.is_physical_key_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.MOVE_RIGHT]))
 	
 	return is_right_press - is_left_press
 
@@ -72,18 +58,19 @@ func set_anim(anim_name):
 func move(delta):
 	movement_c_player.update(delta)
 	
-	if is_just_pressed(KEY_SPACE) and movement_c_player.can_jump():
+	if key_utill.is_just_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.JUMP]) and movement_c_player.can_jump():
 		movement_c_player.jump()
 	# Handle jump.
 	if get_direction():
 		movement_c_player.move()
-		if is_just_pressed(KEY_SHIFT):
+		if key_utill.is_just_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.DASH]):
 			current_stat = stat.DASH
 	else:
 		movement_c_player.idle()
 	
-	if is_just_pressed(MOUSE_BUTTON_LEFT):
+	if key_utill.is_just_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.ATTACK]):
 		attack_c_player.enable_attack()
+		AudioUtill.play_bgm("bgm_test")
 	attack_c_player.update()
 	
 

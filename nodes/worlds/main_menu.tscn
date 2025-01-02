@@ -1,0 +1,214 @@
+[gd_scene load_steps=9 format=3 uid="uid://de2d5cu5ia6pl"]
+
+[ext_resource type="Script" path="res://script/system_control/menu.gd" id="1_brglx"]
+[ext_resource type="Script" path="res://script/system_control/volume_sliders.gd" id="1_knyg6"]
+[ext_resource type="Script" path="res://script/system_control/key_control_btn.gd" id="2_f0d38"]
+[ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="2_wuw02"]
+[ext_resource type="Texture2D" uid="uid://bfbb7rwrm7dpr" path="res://img/Parallax Clouds Pack by Captainskeleto/Parallax10.png" id="5_2ngkv"]
+[ext_resource type="Script" path="res://script/system_control/choose_map_btn.gd" id="5_7p5y3"]
+[ext_resource type="VideoStream" path="res://videoes/teaser-takoperos-birthday-hnueng-s-ng-cham-etriiymtaw-aelwmaasnukdwykannakha-1080-publer.io.ogv" id="7_rdlw7"]
+[ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="8_wqevp"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="main_menu" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 417.0
+offset_right = 960.0
+offset_bottom = 448.0
+theme_override_constants/separation = 50
+alignment = 1
+script = ExtResource("1_brglx")
+
+[node name="start" type="Button" parent="main_menu" node_paths=PackedStringArray("page_target")]
+layout_mode = 2
+text = "Start"
+script = ExtResource("2_wuw02")
+page_target = NodePath("../../choose_map")
+
+[node name="setting" type="Button" parent="main_menu" node_paths=PackedStringArray("page_target")]
+layout_mode = 2
+text = "Setting"
+script = ExtResource("2_wuw02")
+page_target = NodePath("../../setting")
+
+[node name="quit" type="Button" parent="main_menu"]
+layout_mode = 2
+text = "Quit"
+
+[node name="setting" type="TabContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 192.0
+offset_top = 96.0
+offset_right = 960.0
+offset_bottom = 512.0
+
+[node name="Audio" type="TabBar" parent="setting"]
+layout_mode = 2
+script = ExtResource("1_knyg6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="setting/Audio"]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 704.0
+offset_bottom = 385.0
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="master" type="VBoxContainer" parent="setting/Audio/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="setting/Audio/VBoxContainer/master"]
+layout_mode = 2
+text = "Master Volume"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="setting/Audio/VBoxContainer/master"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="bgm" type="VBoxContainer" parent="setting/Audio/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="setting/Audio/VBoxContainer/bgm"]
+layout_mode = 2
+text = "BGM Volume"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="setting/Audio/VBoxContainer/bgm"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="se" type="VBoxContainer" parent="setting/Audio/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="setting/Audio/VBoxContainer/se"]
+layout_mode = 2
+text = "Sound Effect Volume"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="setting/Audio/VBoxContainer/se"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Control" type="TabBar" parent="setting"]
+visible = false
+layout_mode = 2
+script = ExtResource("2_f0d38")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="setting/Control"]
+layout_mode = 2
+offset_left = 128.0
+offset_top = 65.0
+offset_right = 640.0
+offset_bottom = 297.0
+
+[node name="controls" type="GridContainer" parent="setting/Control/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="default_btn" type="Button" parent="setting/Control"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 338.0
+offset_right = 448.0
+offset_bottom = 369.0
+text = "Default"
+
+[node name="choose_map" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 256.0
+offset_top = 128.0
+offset_right = 832.0
+offset_bottom = 512.0
+script = ExtResource("5_7p5y3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="choose_map"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="map_name" type="Label" parent="choose_map/VBoxContainer"]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="choose_map/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="prev" type="Button" parent="choose_map/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "<"
+
+[node name="image" type="TextureRect" parent="choose_map/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_2ngkv")
+
+[node name="next" type="Button" parent="choose_map/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = ">"
+
+[node name="start" type="Button" parent="choose_map/VBoxContainer"]
+layout_mode = 2
+text = "start"
+
+[node name="Control" type="Control" parent="."]
+process_mode = 3
+visible = false
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("8_wqevp")
+
+[node name="cutscene" type="VideoStreamPlayer" parent="Control"]
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+stream = ExtResource("7_rdlw7")
+autoplay = true
+expand = true
+
+[node name="skip_container" type="VBoxContainer" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 960.0
+offset_top = 64.0
+offset_right = 1088.0
+offset_bottom = 128.0
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/skip_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "Skip: Hold "
+
+[node name="skip_key" type="Label" parent="Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "[ ESC ]"
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/skip_container"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+show_percentage = false

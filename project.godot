@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="shoot_n_run"
-run/main_scene="res://nodes/worlds/world.tscn"
+run/main_scene="res://nodes/worlds/main_menu.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 GroupsName="*res://script/utills/GROUPS_NAME.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 BalloonControl="*res://script/dialogues/balloon_control.gd"
+AudioUtill="*res://audio_utill.gd"
+GameControlKeycode="*res://game_control_keycode.gd"
+ChangePage="*res://change_page.gd"
+KeyUtill="*res://key_utill.gd"
+FloorsUtill="*res://floors_utill.gd"
 
 [dialogue_manager]
 

@@ -17,6 +17,9 @@ var is_in_half_hp_mode = false
 var is_cooldown_in_half_hp = false
 var enable_to_attack = false
 
+var pass_question1 = false
+var pass_question2 = false
+
 enum attack_type {
 	RANDOM,
 	SPAWN_OBS_FLOOR, ##spawn พื้นสิ่งกีดขวาง
@@ -64,18 +67,34 @@ func set_half_hp_mode():
 		cooldown_in_half_hp.start()
 		$Sprite2D.material = ShaderMaterial.new()
 		$Sprite2D.material.shader = preload("res://shader/anger_boss_color.gdshader")
+	elif health.health <= health.max_health/1.5 and not pass_question1:
+		get_tree().paused = true
+		minigames.run_the_game(minigames.game_type.QUICK_TYPE, 
+		func():
+			pass_question1 = true
+			get_tree().paused = false
+			, 
+		func():
+			health.set_health(health.max_health)
+			get_tree().paused = false
+			)
+	elif health.health <= health.max_health/2.5 and not pass_question2:
+		get_tree().paused = true
+		minigames.run_the_game(minigames.game_type.SPEECH_TYPE, 
+		func():
+			pass_question2 = true
+			get_tree().paused = false
+			, 
+		func():
+			health.set_health(health.max_health * 0.5)
+			get_tree().paused = false
+			)
 
 func on_death():
 	minigames.run_the_game(minigames.game_type.CALCULATE_TYPE, 
 	func():
-		get_tree().paused = false
-		spawn_control.force_stop_all_events()
-		floors_control.stop_loop()
 		queue_free()
-		var currect_scene = get_tree().get_current_scene()
-		var shop_scene = preload("res://nodes/worlds/shop.tscn").instantiate()
-		get_tree().root.add_child(shop_scene)
-		get_tree().root.remove_child(currect_scene)
+		ChangePage.change_to_target_scene("res://nodes/worlds/shop.tscn")
 		, 
 	func():
 		health.set_health(health.max_health * 0.5)

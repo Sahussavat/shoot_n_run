@@ -11,19 +11,20 @@ var current_game
 # Called when the node enters the scene tree for the first time.
 func run_the_game(_game_type, win_fn, lose_fn):
 	visible = true
+		
 	current_game = get_minigames(_game_type)
 	if current_game:
 		var game = current_game
 		clear_all_connects(game)
 		game.player_has_win.connect(func():
-			turn_off_game(game)
 			win_fn.call()
 			visible = false
+			turn_off_game(game)
 			)
 		game.player_has_lose.connect(func():
-			turn_off_game(game)
 			lose_fn.call()
 			visible = false
+			turn_off_game(game)
 			)
 		turn_on_game(game)
 		game.run()
@@ -38,8 +39,8 @@ func get_minigames(_game_type):
 			return $cal_game
 
 func turn_off_game(game):
-	game.process_mode = Node.PROCESS_MODE_DISABLED
 	game.visible = false
+	game.process_mode = Node.PROCESS_MODE_DISABLED
 
 func turn_on_game(game):
 	game.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -64,6 +65,14 @@ func switch_to_other_game(_game_type):
 		var game = get_minigames(_game_type)
 		clear_all_connects(game)
 		switch_to_other_connect(current_game.player_has_win, game.player_has_win)
+		game.player_has_win.connect(func():
+			visible = false
+			turn_off_game(game)
+			)
 		switch_to_other_connect(current_game.player_has_lose, game.player_has_lose)
+		game.player_has_lose.connect(func():
+			visible = false
+			turn_off_game(game)
+			)
 		turn_on_game(game)
 		game.run()

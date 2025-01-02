@@ -28,7 +28,7 @@ var timer_show_tween
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_text_question()
-	choice_type_utill = choice_type_utill.new(self)
+	choice_type_utill = choice_type_utill.new(self, 3, 10)
 	choice_boxes = choices.get_children()
 	show_boxes = show_text.get_children()
 

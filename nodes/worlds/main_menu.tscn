@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://de2d5cu5ia6pl"]
+[gd_scene load_steps=8 format=3 uid="uid://de2d5cu5ia6pl"]
 
 [ext_resource type="Script" path="res://script/system_control/menu.gd" id="1_brglx"]
 [ext_resource type="Script" path="res://script/system_control/volume_sliders.gd" id="1_knyg6"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="2_wuw02"]
 [ext_resource type="Texture2D" uid="uid://bfbb7rwrm7dpr" path="res://img/Parallax Clouds Pack by Captainskeleto/Parallax10.png" id="5_2ngkv"]
 [ext_resource type="Script" path="res://script/system_control/choose_map_btn.gd" id="5_7p5y3"]
-[ext_resource type="VideoStream" path="res://videoes/teaser-takoperos-birthday-hnueng-s-ng-cham-etriiymtaw-aelwmaasnukdwykannakha-1080-publer.io.ogv" id="7_rdlw7"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="8_wqevp"]
 
 [node name="MainMenu" type="Control"]
@@ -173,7 +172,6 @@ text = "start"
 
 [node name="Control" type="Control" parent="."]
 process_mode = 3
-visible = false
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
@@ -183,7 +181,6 @@ script = ExtResource("8_wqevp")
 layout_mode = 2
 offset_right = 1152.0
 offset_bottom = 648.0
-stream = ExtResource("7_rdlw7")
 autoplay = true
 expand = true
 

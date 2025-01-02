@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://crpl7h5cj0fnh"]
+[gd_scene load_steps=30 format=3 uid="uid://crpl7h5cj0fnh"]
 
 [ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://nodes/player/tako.tscn" id="1_pu0p8"]
 [ext_resource type="Script" path="res://script/system_control/floors.gd" id="2_yt6a4"]
@@ -21,7 +21,6 @@
 [ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="14_8fln6"]
 [ext_resource type="Script" path="res://script/system_control/spawn_control.gd" id="14_uwrpj"]
 [ext_resource type="Texture2D" uid="uid://m1r8b2hjuhbd" path="res://img/Parallax Clouds Pack by Captainskeleto/test_custom_bg.png" id="15_knx2q"]
-[ext_resource type="VideoStream" path="res://videoes/teaser-takoperos-birthday-hnueng-s-ng-cham-etriiymtaw-aelwmaasnukdwykannakha-1080-publer.io.ogv" id="19_r4ifd"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="20_5kdm1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dln0u"]
@@ -505,7 +504,6 @@ script = ExtResource("20_5kdm1")
 layout_mode = 2
 offset_right = 1152.0
 offset_bottom = 648.0
-stream = ExtResource("19_r4ifd")
 autoplay = true
 expand = true
 

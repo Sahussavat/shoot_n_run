@@ -9,6 +9,7 @@ var temp_menu_process_mode = PROCESS_MODE_INHERIT
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	video_player.stream = StartLoading.assets["test_vid"]
 	show_skip_key()
 	add_to_group(GroupsName.CUTSCENE)
 	video_player.finished.connect(on_finished)
@@ -42,6 +43,7 @@ func play_video():
 	menu.process_mode = Node.PROCESS_MODE_DISABLED
 	get_tree().paused = true
 	visible = true
+	video_player.play()
 
 func on_skip_bar_changed(val):
 	var v = clamp(val, 0, skip_bar.max_value)

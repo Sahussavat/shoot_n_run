@@ -13,14 +13,14 @@
 [ext_resource type="Script" path="res://script/minigames/speech_game.gd" id="11_spk0v"]
 [ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://nodes/dialogue/balloon.tscn" id="12_0tg23"]
 [ext_resource type="Script" path="res://script/minigames/cal_game.gd" id="12_22m34"]
-[ext_resource type="Script" path="res://script/system_control/volume_sliders.gd" id="13_0xmgb"]
 [ext_resource type="Script" path="res://script/system_control/menu.gd" id="13_4m1i4"]
 [ext_resource type="Script" path="res://nodes/worlds/game_over_btn.gd" id="13_pa7p0"]
 [ext_resource type="Script" path="res://script/system_control/fall_detect.gd" id="13_qkxb4"]
-[ext_resource type="Script" path="res://script/system_control/key_control_btn.gd" id="14_05s54"]
 [ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="14_8fln6"]
 [ext_resource type="Script" path="res://script/system_control/spawn_control.gd" id="14_uwrpj"]
+[ext_resource type="PackedScene" uid="uid://bd6i2usn56jyb" path="res://nodes/menu/setting.tscn" id="14_yg7mh"]
 [ext_resource type="Texture2D" uid="uid://m1r8b2hjuhbd" path="res://img/Parallax Clouds Pack by Captainskeleto/test_custom_bg.png" id="15_knx2q"]
+[ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="17_ydq3y"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="20_5kdm1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dln0u"]
@@ -365,94 +365,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Main Menu"
 
-[node name="setting" type="TabContainer" parent="CanvasLayer"]
-process_mode = 2
+[node name="setting" parent="CanvasLayer" instance=ExtResource("14_yg7mh")]
 visible = false
 offset_left = 192.0
 offset_top = 96.0
 offset_right = 960.0
 offset_bottom = 512.0
-current_tab = 1
-
-[node name="Audio" type="TabBar" parent="CanvasLayer/setting"]
-visible = false
-layout_mode = 2
-script = ExtResource("13_0xmgb")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/setting/Audio"]
-layout_mode = 0
-offset_left = 64.0
-offset_right = 704.0
-offset_bottom = 385.0
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="master" type="VBoxContainer" parent="CanvasLayer/setting/Audio/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/setting/Audio/VBoxContainer/master"]
-layout_mode = 2
-text = "Master Volume"
-horizontal_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="CanvasLayer/setting/Audio/VBoxContainer/master"]
-layout_mode = 2
-max_value = 1.0
-step = 0.01
-value = 1.0
-
-[node name="bgm" type="VBoxContainer" parent="CanvasLayer/setting/Audio/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/setting/Audio/VBoxContainer/bgm"]
-layout_mode = 2
-text = "BGM Volume"
-horizontal_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="CanvasLayer/setting/Audio/VBoxContainer/bgm"]
-layout_mode = 2
-max_value = 1.0
-step = 0.01
-value = 1.0
-
-[node name="se" type="VBoxContainer" parent="CanvasLayer/setting/Audio/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/setting/Audio/VBoxContainer/se"]
-layout_mode = 2
-text = "Sound Effect Volume"
-horizontal_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="CanvasLayer/setting/Audio/VBoxContainer/se"]
-layout_mode = 2
-max_value = 1.0
-step = 0.01
-value = 1.0
-
-[node name="Control" type="TabBar" parent="CanvasLayer/setting"]
-layout_mode = 2
-script = ExtResource("14_05s54")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/setting/Control"]
-layout_mode = 2
-offset_left = 128.0
-offset_top = 65.0
-offset_right = 640.0
-offset_bottom = 297.0
-
-[node name="controls" type="GridContainer" parent="CanvasLayer/setting/Control/ScrollContainer"]
-layout_mode = 2
-theme_override_constants/h_separation = 50
-theme_override_constants/v_separation = 20
-columns = 2
-
-[node name="default_btn" type="Button" parent="CanvasLayer/setting/Control"]
-layout_mode = 0
-offset_left = 320.0
-offset_top = 338.0
-offset_right = 448.0
-offset_bottom = 369.0
-text = "Default"
 
 [node name="menu" type="PanelContainer" parent="CanvasLayer"]
 process_mode = 3
@@ -482,6 +400,8 @@ page_target = NodePath("../../../setting")
 [node name="to_main_menu" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
 layout_mode = 2
 text = "Quit to Main Menu"
+script = ExtResource("17_ydq3y")
+world_target = &"res://nodes/worlds/main_menu.tscn"
 
 [node name="quit_game" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
 layout_mode = 2

@@ -6,12 +6,15 @@ enum game_type {
 	CALCULATE_TYPE, ##minigame ประเภทคิดเลขไว
 }
 
+var menu
+var temp_menu_process_mode = PROCESS_MODE_INHERIT
+
 var current_game
 
 # Called when the node enters the scene tree for the first time.
 func run_the_game(_game_type, win_fn, lose_fn):
 	visible = true
-		
+	menu = get_tree().get_first_node_in_group(GroupsName.MENU)
 	current_game = get_minigames(_game_type)
 	if current_game:
 		var game = current_game
@@ -41,9 +44,12 @@ func get_minigames(_game_type):
 func turn_off_game(game):
 	game.visible = false
 	game.process_mode = Node.PROCESS_MODE_DISABLED
+	menu.process_mode = temp_menu_process_mode
 
-func turn_on_game(game):
+func turn_on_game(game): 
 	game.process_mode = Node.PROCESS_MODE_ALWAYS
+	temp_menu_process_mode = menu.process_mode
+	menu.process_mode = Node.PROCESS_MODE_DISABLED
 	game.visible = true
 
 func clear_all_connects(game):

@@ -12,6 +12,8 @@ func _ready():
 	video_player.stream = StartLoading.assets["test_vid"]
 	show_skip_key()
 	add_to_group(GroupsName.CUTSCENE)
+	video_player.add_to_group(GroupsName.VIDEO)
+	AudioUtill.set_video_volume_scale()
 	video_player.finished.connect(on_finished)
 	skip_bar.value_changed.connect(on_skip_bar_changed)
 	process_mode = Node.PROCESS_MODE_ALWAYS

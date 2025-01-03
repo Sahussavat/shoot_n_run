@@ -3,6 +3,7 @@ extends Node
 var master_volume = 1
 var bgm_volume = 1
 var se_volume = 1
+var video_volume = 1
 var save_file_path = "user://volume.save"
 @onready var bgm_audio
 # Called when the node enters the scene tree for the first time.
@@ -26,6 +27,7 @@ func load_volume():
 			master_volume = data["master_volume"]
 			bgm_volume = data["bgm_volume"]
 			se_volume = data["se_volume"]
+			video_volume = data["video_volume"]
 			set_master_volume_scale(master_volume)
 
 func save_volume_data():
@@ -34,6 +36,7 @@ func save_volume_data():
 		"master_volume": master_volume,
 		"bgm_volume": bgm_volume,
 		"se_volume": se_volume,
+		"video_volume": video_volume,
 	}))
 
 func play_se_sound(sound_name, target = get_tree().current_scene):
@@ -81,6 +84,7 @@ func set_master_volume_scale(scale):
 	master_volume = scale
 	set_bgm_volume_scale()
 	set_se_volume_scale()
+	set_video_volume_scale()
 
 func set_bgm_volume_scale(scale = bgm_volume):
 	bgm_volume = scale
@@ -91,5 +95,10 @@ func set_se_volume_scale(scale = se_volume):
 	se_volume = scale
 	save_volume_data()
 	get_tree().call_group(GroupsName.SE, "set_volume_db", linear_to_db(scale * master_volume))
+
+func set_video_volume_scale(scale = video_volume):
+	video_volume = scale
+	save_volume_data()
+	get_tree().call_group(GroupsName.VIDEO, "set_volume_db", linear_to_db(scale * master_volume))
 
 

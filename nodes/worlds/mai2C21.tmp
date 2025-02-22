@@ -6,9 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bfbb7rwrm7dpr" path="res://img/Parallax Clouds Pack by Captainskeleto/Parallax10.png" id="5_2ngkv"]
 [ext_resource type="Script" path="res://script/system_control/choose_map_btn.gd" id="5_7p5y3"]
 [ext_resource type="Texture2D" uid="uid://d14o3lmutqryb" path="res://img/enemies/32bit-gastropod-general1.png" id="7_mj77c"]
+[ext_resource type="Script" path="res://script/perks/perks_control.gd" id="7_wjmj7"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="8_wqevp"]
-
-[sub_resource type="GDScript" id="GDScript_dg5ka"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -133,14 +132,13 @@ layout_mode = 2
 show_percentage = false
 
 [node name="shop_menu" type="TabContainer" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 296.0
 offset_top = 128.0
 offset_right = 872.0
 offset_bottom = 512.0
 tab_focus_mode = 0
-script = SubResource("GDScript_dg5ka")
+script = ExtResource("7_wjmj7")
 
 [node name="Stats" type="TabBar" parent="shop_menu"]
 layout_mode = 2

@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://m1r8b2hjuhbd" path="res://img/Parallax Clouds Pack by Captainskeleto/test_custom_bg.png" id="15_knx2q"]
 [ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="17_ydq3y"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="20_5kdm1"]
-[ext_resource type="Script" path="res://script/enemies/charger.gd" id="23_mt042"]
+[ext_resource type="Script" path="res://script/enemies/flyer.gd" id="23_1ihlb"]
 [ext_resource type="Texture2D" uid="uid://blitb7p6bv2ny" path="res://img/enemies/16bit-seal-elephant1.png" id="24_c4dpt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dln0u"]
@@ -513,7 +513,7 @@ texture = ExtResource("15_knx2q")
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 collision_layer = 0
 collision_mask = 0
-script = ExtResource("23_mt042")
+script = ExtResource("23_1ihlb")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
 texture_filter = 1

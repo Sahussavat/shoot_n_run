@@ -17,6 +17,7 @@ func _ready():
 	add_child(destory_timer)
 	hitbox.body_entered.connect(destroy_on_wall)
 	
+	raycast.set_collision_mask_value(1, false)
 	raycast.set_collision_mask_value(3, true)
 	add_child(raycast)
 
@@ -38,13 +39,13 @@ func _process(_delta):
 		position = pos_move
 
 func destroy_on_wall(body):
-	if body.get_collision_layer() == 4:
+	if body.get_collision_layer() == 3:
 		destroy()
 
 func destroy_on_wall_raycast_at(pos):
 	raycast.target_position = to_local(pos)
 	if raycast.get_collider():
-			destroy()
+		destroy()
 
 func rotate_by_target():
 	var degrees = global_position.direction_to(target_pos).angle()

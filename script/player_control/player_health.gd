@@ -29,7 +29,7 @@ func enable_collision(enable = true):
 		collision.set_deferred("monitorable", enable)
 
 func do_damage(damage):
-	if can_do_damage:
+	if can_do_damage and false:
 		can_do_damage = false
 		enable_collision(can_do_damage)
 		health.do_damage(damage)

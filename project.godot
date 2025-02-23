@@ -27,6 +27,7 @@ KeyUtill="*res://key_utill.gd"
 FloorsUtill="*res://floors_utill.gd"
 StartLoading="*res://start_loading.gd"
 PerksControl="*res://perks_control.gd"
+EntitiesGroup="*res://entities_group.gd"
 
 [dialogue_manager]
 

@@ -6,6 +6,8 @@ var spawn_list_temp = []
 var wait_for_next_battle = 3
 var timer = Timer.new()
 var current_spawner
+var is_running = false
+var pause_next_battle = false
 
 func _ready():
 	timer.autostart = false
@@ -18,6 +20,7 @@ func create(run_event):
 	return run_event.new(self)
 
 func start_spawn_list():
+	is_running = true
 	var curret_battle = get_curret_battle()
 	if not curret_battle:
 		return
@@ -31,7 +34,8 @@ func cancel_and_go_next_battle():
 	if timer:
 		timer.stop()
 	timer.wait_time = wait_for_next_battle
-	timer.start()
+	if not pause_next_battle:
+		timer.start()
 
 func get_curret_battle():
 	if spawn_list.size() == 0:
@@ -62,7 +66,9 @@ func force_stop_all_events():
 	if timer:
 		timer.stop()
 	stop_events.emit()
+	pause_next_battle = true
 	remove_all_enemies()
+	pause_next_battle = false
 
 func remove_all_enemies():
 	get_tree().call_group(GroupsName.ENEMIES, "destroy")

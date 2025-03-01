@@ -4,6 +4,7 @@ var ricochet = preload("res://script/enemies/richochet.gd")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	add_to_group(GroupsName.ENEMIES)
 	ricochet = ricochet.new(self, 10)
 
 

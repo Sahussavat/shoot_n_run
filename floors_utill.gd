@@ -18,7 +18,7 @@ func save_floor_position(floors_path):
 
 func load_floor_position(floors_path):
 	if enable_load:
-		for i in range(0, current_floor_path - 1):
+		for i in range(0, current_floor_path):
 			floors_path.pop_front()
 		if floors_path.size() > 0 and current_amount_floor_path > -1:
 			floors_path[0][1] = current_amount_floor_path

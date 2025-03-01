@@ -10,7 +10,7 @@ var current_state = state.RETREAT
 
 var SPEED = 800
 
-var max_health = 100
+var max_health = 25
 
 var timer
 var danger_dash_zone_inst
@@ -25,11 +25,11 @@ var toxic_bullet = preload("res://nodes/hitbox_objs/toxic_bullet.tscn")
 @onready var collision = get_collision(self)
 
 func _ready():
-	print("yoqwwwwwwww")
+	add_to_group(GroupsName.ENEMIES)
 	health = health.new(max_health)
 	health.add_on_death(destroy)
 	health_bar_control.new(self, health)
-	wait_for_attack.wait_time = 5
+	wait_for_attack.wait_time = 1
 	wait_for_attack.one_shot = true
 	wait_for_attack.timeout.connect(reset_atk)
 	add_child(wait_for_attack)

@@ -76,7 +76,7 @@ func get_index_of(obj, direc = attack_from.LEFT):
 	return Vector2(x, y)
 
 func is_all_dead():
-	if total_enemies <= 0 and is_stop():
+	if total_enemies == 0 and is_stop():
 		out_of_enemies.emit()
 
 func check_is_dead(entity):

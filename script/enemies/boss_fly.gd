@@ -40,9 +40,9 @@ enum move_type {
 }
 
 var attacks_seq = [
+	attack_type.RETREAT,
 	attack_type.SPAWN_OBS_FLOOR,
 	attack_type.SPAWN_DASH_ENEMIES,
-	attack_type.RETREAT,
 ]
 
 func _ready():
@@ -58,7 +58,7 @@ func _ready():
 		is_cooldown_in_half_hp = false
 		)
 	add_child(cooldown_in_half_hp)
-	health = health.new(100)
+	health = health.new(1000)
 	health.change_health.connect(set_half_hp_mode)
 	health.add_on_death(on_death)
 	health_bar_control = health_bar_control.new(boss_bar, health)
@@ -70,9 +70,7 @@ func _ready():
 	multi_shot = multi_shot.new(self)
 	circle_shot = circle_shot.new(self)
 	
-	set_move_by_type(move_type.FLY)
-	
-	spawn(global_position)
+	set_move_by_type(move_type.RICOCHET_2_FLY)
 
 func _process(_delta):
 	current_move.call()

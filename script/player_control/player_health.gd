@@ -21,13 +21,15 @@ func _init(_parent, _max_health):
 func get_collision(obj):
 	var children = obj.get_children()
 	for child in children:
-		if child is Area2D:
-			return child
+		var children2 = child.get_children()
+		for child2 in children2:
+			if child2 is CollisionShape2D:
+				return child2
 	return null
 
 func enable_collision(enable = true):
 	if collision:
-		collision.set_deferred("monitorable", enable)
+		collision.set_deferred("disabled", not enable)
 
 func do_damage(damage):
 	if can_do_damage:

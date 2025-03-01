@@ -4,7 +4,7 @@ var MAX_SPEED = 50
 var SEPERATION_RADIUS = 150
 var MAX_SEPRATION = 4
 
-var max_health = 100
+var max_health = 25
 var crowd_group
 var max_velocity = 10
 var health = preload("res://script/system_control/health.gd")
@@ -13,6 +13,7 @@ var health_bar_control = preload("res://script/system_control/enemy_health_bar.g
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	add_to_group(GroupsName.ENEMIES)
 	health = health.new(max_health)
 	health.add_on_death(destroy)
 	health_bar_control.new(self, health)

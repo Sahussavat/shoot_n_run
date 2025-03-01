@@ -18,7 +18,7 @@ func change_to_prev_page():
 		prev_page = null
 
 func is_current_page_show():
-	if current_page:
+	if current_page and is_instance_valid(current_page):
 		return current_page.visible
 	return false
 

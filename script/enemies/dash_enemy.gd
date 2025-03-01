@@ -2,7 +2,7 @@ extends StaticBody2D
 
 const MAX_SPEED = 2
 
-@export var max_health = 50
+@export var max_health = 25
 var destroy_timer = Timer.new()
 var is_lauchable = false
 var danger_dash_zone = preload("res://script/system_control/danger_dash_zone.gd")

@@ -11,7 +11,7 @@ var spawn_enemies_charger = preload("res://script/system_control/spawn_enemies_c
 var spawn_enemies_crowd = preload("res://script/system_control/spawn_enemies_crowd.gd")
 var spawn_enemies_flyer = preload("res://script/system_control/spawn_enemies_flyer.gd")
 
-var boss = preload("res://nodes/enemies/boss.tscn")
+var boss = preload("res://nodes/enemies/boss_fly.tscn")
 
 enum floor_types {
 	RANDOM, ##floor แบบ random เป็นได้ทั้งพื้นปกติไม่มีอะไรหรือพื้นที่มีอุปสรรคกีดขวาง
@@ -24,11 +24,8 @@ var floors_path = [
 	##[ประเภทพื้นที่จะ spawn, จำนวนพื้นที่จะ spawn, function ที่จะทำงานเมื่อเริ่ม spawn พื้น]
 	
 	#[floor_types.RANDOM, 1],
-	[floor_types.RANDOM, 1, func():
+	[floor_types.RANDOM, 30, func():
 		FloorsUtill.save_floor_position(floors_path)
-		spawn_control.start_spawn_list()
-		],
-	[floor_types.RANDOM, 60, func():
 		],
 	#[floor_types.EVENT, 1, func():
 		#get_tree().paused = true
@@ -74,15 +71,15 @@ signal done_reset
 
 func _ready():
 	spawn_control.set_spawn_list([
-		spawn_control.spawn_data(spawn_enemies_flyer, func():
-			return true;
-			, 10),
-		spawn_control.spawn_data(spawn_enemies_charger, func():
-			return true;
-			, 10),
-		spawn_control.spawn_data(spawn_enemies_dash, func():
-			return true;
-			, 10),
+		#spawn_control.spawn_data(spawn_enemies_flyer, func():
+			#return true;
+			#, 10),
+		#spawn_control.spawn_data(spawn_enemies_charger, func():
+			#return true;
+			#, 10),
+		#spawn_control.spawn_data(spawn_enemies_dash, func():
+			#return true;
+			#, 10),
 		spawn_control.spawn_data(spawn_enemies_crowd, func():
 			return true;
 			, 10),
@@ -99,6 +96,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if not spawn_control.is_running and floors_path.size() > 0:
+		spawn_control.start_spawn_list()
 	if not triggered_event and scene_floor_min_count > max_floor_buffer and event:
 		triggered_event = true
 		spawn_control.force_stop_all_events()

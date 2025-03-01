@@ -10,13 +10,10 @@ func create():
 	var original_sprite = get_sprite()
 	if original_sprite:
 		var sprite_ghost = Sprite2D.new()
-		sprite_ghost.texture = original_sprite.texture
-		sprite_ghost.hframes = original_sprite.hframes
-		sprite_ghost.vframes = original_sprite.vframes
-		sprite_ghost.frame = original_sprite.frame
-		sprite_ghost.scale = original_sprite.scale
+		sprite_ghost = original_sprite.duplicate()
+		sprite_ghost.visible = true
+		sprite_ghost.global_position = original_sprite.global_position
 		parent.get_parent().add_child(sprite_ghost)
-		sprite_ghost.global_position = parent.global_position
 		var tween_fade = parent.get_tree().create_tween()
  
 		tween_fade.tween_property(sprite_ghost, "self_modulate",Color(1, 1, 1, 0), 0.25 )

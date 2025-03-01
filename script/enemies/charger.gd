@@ -16,7 +16,7 @@ var timer
 var danger_dash_zone_inst
 var charge_direction = 1
 
-var max_health = 100
+var max_health = 25
 var health = preload("res://script/system_control/health.gd")
 var health_bar_control = preload("res://script/system_control/enemy_health_bar.gd")
 var fly_movement = preload("res://script/enemies/fly_movement.gd")
@@ -26,10 +26,11 @@ var danger_dash_zone = preload("res://script/system_control/danger_dash_zone.gd"
 @onready var collision = get_collision(self)
 
 func _ready():
+	add_to_group(GroupsName.ENEMIES)
 	health = health.new(max_health)
 	health.add_on_death(destroy)
 	health_bar_control.new(self, health)
-	wait_for_attack.wait_time = 5
+	wait_for_attack.wait_time = 1
 	wait_for_attack.one_shot = true
 	wait_for_attack.timeout.connect(reset_atk)
 	add_child(wait_for_attack)

@@ -39,12 +39,15 @@ func _init(_parent, collision):
 	danger_zone.add_child(danger_arrow)
 
 func follow(target):
+	var target_pos = target
+	if not (target_pos is Vector2):
+		target_pos = target.global_position
 	if is_instance_valid(danger_zone):
 		danger_zone_cooldown_bar.size.x = danger_zone.size.x
 		danger_arrow.size.x = danger_zone.size.x
 		danger_zone.global_position = parent.global_position
 		
-		var danger_zone_angle = (target.global_position - parent.global_position).angle()
+		var danger_zone_angle = (target_pos - parent.global_position).angle()
 		danger_zone.rotation = danger_zone_angle
 	
 

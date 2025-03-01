@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7wbd8gkbwu7p"]
+
+[ext_resource type="Script" path="res://script/enemies/flyer.gd" id="1_106qj"]
+[ext_resource type="Texture2D" uid="uid://blitb7p6bv2ny" path="res://img/enemies/16bit-seal-elephant1.png" id="2_tcjq3"]
+[ext_resource type="Script" path="res://script/hitbox_obj/obstacle_damage_obj.gd" id="3_2evay"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cv2d8"]
+size = Vector2(128, 88)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+position = Vector2(168, 128)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_106qj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(8.25, 8.25)
+texture = ExtResource("2_tcjq3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cv2d8")
+
+[node name="hitbox" type="Area2D" parent="."]
+collision_layer = 0
+script = ExtResource("3_2evay")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("RectangleShape2D_cv2d8")
+
+[node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+shape = SubResource("RectangleShape2D_cv2d8")

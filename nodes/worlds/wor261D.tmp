@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://crpl7h5cj0fnh"]
+[gd_scene load_steps=36 format=3 uid="uid://crpl7h5cj0fnh"]
 
 [ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://nodes/player/tako.tscn" id="1_pu0p8"]
 [ext_resource type="Script" path="res://script/system_control/floors.gd" id="2_yt6a4"]
@@ -22,6 +22,11 @@
 [ext_resource type="Texture2D" uid="uid://m1r8b2hjuhbd" path="res://img/Parallax Clouds Pack by Captainskeleto/test_custom_bg.png" id="15_knx2q"]
 [ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="17_ydq3y"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="20_5kdm1"]
+[ext_resource type="Script" path="res://script/enemies/crowd.gd" id="23_hv6wl"]
+[ext_resource type="Texture2D" uid="uid://blitb7p6bv2ny" path="res://img/enemies/16bit-seal-elephant1.png" id="24_c4dpt"]
+[ext_resource type="Script" path="res://script/enemies/flyer.gd" id="25_dnao8"]
+[ext_resource type="PackedScene" uid="uid://d2yt0cpssxeid" path="res://nodes/enemies/boss_fly.tscn" id="25_dx3jx"]
+[ext_resource type="PackedScene" uid="uid://c7wbd8gkbwu7p" path="res://nodes/enemies/flyer.tscn" id="26_wcmue"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dln0u"]
 content_margin_left = 25.0
@@ -47,6 +52,9 @@ size = Vector2(3385, 1472)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_khd6k"]
 size = Vector2(3712.05, 1523.27)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cv2d8"]
+size = Vector2(128, 88)
 
 [node name="World" type="Node2D"]
 process_mode = 1
@@ -504,3 +512,35 @@ script = ExtResource("14_uwrpj")
 texture_filter = 1
 position = Vector2(576, 320)
 texture = ExtResource("15_knx2q")
+
+[node name="CharacterBody2D3" type="CharacterBody2D" parent="."]
+position = Vector2(672, 512)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("23_hv6wl")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D3"]
+texture_filter = 1
+scale = Vector2(8.25, 8.25)
+texture = ExtResource("24_c4dpt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D3"]
+shape = SubResource("RectangleShape2D_cv2d8")
+
+[node name="CharacterBody2D2" type="CharacterBody2D" parent="."]
+position = Vector2(336, 256)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("25_dnao8")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D2"]
+texture_filter = 1
+scale = Vector2(8.25, 8.25)
+texture = ExtResource("24_c4dpt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D2"]
+shape = SubResource("RectangleShape2D_cv2d8")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("26_wcmue")]
+
+[node name="Boss_fly" parent="." instance=ExtResource("25_dx3jx")]

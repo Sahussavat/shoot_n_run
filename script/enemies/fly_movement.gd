@@ -1,14 +1,14 @@
 extends Node2D
 
+var SPEED = 20
 var parent
 var radius
 var dist_from_viewport
 
-
 var angle_direction = 1
 var current_angle = 0
 var change_direction_timer = 0
-var target_lock_pos
+var charge_direction
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -65,3 +65,49 @@ func change_angle():
 		change_direction_timer = 0
 		angle_direction = [1, -1][randi_range(0,1)]
 
+func retret(call_back = null):
+	var center_pos = Vector2(parent.get_viewport_rect().size.x/2, parent.get_viewport_rect().size.y)
+	var left_pos = get_circle_position(center_pos, 0.6)
+	var right_pos = get_circle_position(center_pos, 0.9)
+	if left_pos.distance_to(parent.global_position) <= right_pos.distance_to(parent.global_position):
+		parent.global_position += parent.global_position.direction_to(left_pos) * SPEED / 2
+		if left_pos.distance_to(parent.global_position) <= 10:
+			current_angle = 0.6
+			if call_back:
+				call_back.call()
+	else:
+		parent.global_position += parent.global_position.direction_to(right_pos) * SPEED / 2
+		if right_pos.distance_to(parent.global_position) <= 10:
+			current_angle = 0.9
+			if call_back:
+				call_back.call()
+
+func charge(target_pos, call_back):
+	if not charge_direction:
+		charge_direction = parent.global_position.direction_to(target_pos)
+	var charge_pos = parent.global_position + charge_direction * SPEED
+	
+	var x = charge_pos.x;
+	var y = charge_pos.y;
+	
+	if x > parent.get_viewport_rect().size.x - dist_from_viewport:
+		x = parent.get_viewport_rect().size.x - dist_from_viewport
+		if call_back:
+			call_back.call()
+		charge_direction = null
+	elif x < dist_from_viewport:
+		x = dist_from_viewport
+		if call_back:
+			call_back.call()
+		charge_direction = null
+	if y > parent.get_viewport_rect().size.y + dist_from_viewport:
+		y = parent.get_viewport_rect().size.y + dist_from_viewport
+		if call_back:
+			call_back.call()
+		charge_direction = null
+	elif y < dist_from_viewport:
+		y = dist_from_viewport
+		if call_back:
+			call_back.call()
+		charge_direction = null
+	parent.global_position = Vector2(x, y)

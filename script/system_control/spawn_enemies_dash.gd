@@ -11,6 +11,9 @@ var vertical_n_max = 3
 var time_for_each
 var shark = preload("res://nodes/enemies/dash_enemy.tscn")
 
+var total_enemies = 0
+signal out_of_enemies
+
 var parent
 
 var attack_seq = [
@@ -19,6 +22,7 @@ var attack_seq = [
 			var shark_inst = shark.instantiate()
 			shark_inst.position = get_index_of(shark_inst, i)
 			parent.add_child(shark_inst)
+			check_is_dead(shark_inst)
 		,
 	func():
 		for i in range(0, vertical_n_max):
@@ -26,6 +30,7 @@ var attack_seq = [
 			shark_inst.do_mirror()
 			shark_inst.position = get_index_of(shark_inst, i, attack_from.RIGHT)
 			parent.add_child(shark_inst)
+			check_is_dead(shark_inst)
 		,
 	func():
 		for i in range(0, vertical_n_max):
@@ -33,6 +38,7 @@ var attack_seq = [
 			shark_inst.rotate_by_degrees(90)
 			shark_inst.position = get_index_of(shark_inst, i, attack_from.UP)
 			parent.add_child(shark_inst)
+			check_is_dead(shark_inst)
 		,
 	func():
 		for i in range(0, vertical_n_max):
@@ -40,6 +46,7 @@ var attack_seq = [
 			shark_inst.rotate_by_degrees(-90)
 			shark_inst.position = get_index_of(shark_inst, i, attack_from.DOWN)
 			parent.add_child(shark_inst)
+			check_is_dead(shark_inst)
 		,
 ]
 
@@ -102,4 +109,15 @@ func get_index_of(obj, index, direc = attack_from.LEFT):
 			y = size_of_h_spawn * index + center_len_h
 	
 	return Vector2(x, y)
-	
+
+func is_all_dead():
+	if total_enemies <= 0 and is_stop():
+		out_of_enemies.emit()
+
+func check_is_dead(entity):
+	entity.health.add_on_death(decrease_total_enemies)
+	total_enemies += 1
+
+func decrease_total_enemies():
+	total_enemies -= 1
+	is_all_dead()

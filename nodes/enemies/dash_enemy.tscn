@@ -19,10 +19,12 @@ scale = Vector2(6, 6)
 texture = ExtResource("1_nes8k")
 
 [node name="dash_collision" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(96, 32)
 shape = SubResource("RectangleShape2D_jts1a")
 
 [node name="hitbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 script = ExtResource("3_y56h8")
 damage = 15
@@ -32,6 +34,7 @@ position = Vector2(96, 32)
 shape = SubResource("RectangleShape2D_jts1a")
 
 [node name="hurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 2
 collision_mask = 0
 

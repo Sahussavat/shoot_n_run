@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://p8xwnbwynlgc"]
+[gd_scene load_steps=40 format=3 uid="uid://p8xwnbwynlgc"]
 
 [ext_resource type="Script" path="res://script/player_control/tako.gd" id="1_2bxul"]
 [ext_resource type="Texture2D" uid="uid://b51vk1x1sfi85" path="res://img/character/Character base.png" id="2_3nubt"]
@@ -118,6 +118,36 @@ tracks/2/keys = {
 "args": [],
 "method": &"stop_dash"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_eoyt6"]
+resource_name = "hurt_frame"
+length = 1.8
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"stop_hurt_frame"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5, 1.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_t7tjb"]
@@ -316,6 +346,7 @@ _data = {
 "RESET": SubResource("Animation_q542c"),
 "dash_left": SubResource("Animation_3fimy"),
 "dash_right": SubResource("Animation_1rndx"),
+"hurt_frame": SubResource("Animation_eoyt6"),
 "idle": SubResource("Animation_t7tjb"),
 "jump_down_left": SubResource("Animation_pkb4f"),
 "jump_down_right": SubResource("Animation_wuagm"),

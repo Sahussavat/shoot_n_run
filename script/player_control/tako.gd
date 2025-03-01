@@ -14,6 +14,7 @@ var current_stat = stat.MOVE
 @onready var coin_c_player = preload("res://script/player_control/coin_c_player.gd")
 @onready var health = preload("res://script/player_control/player_health.gd")
 @onready var _animated_tree = $AnimationTree
+@onready var animation_player = $AnimationPlayer
 @onready var _animated_state = _animated_tree.get("parameters/playback")
 
 func _ready():
@@ -76,7 +77,13 @@ func move(delta):
 
 func stop_dash():
 	to_move_stat()
+	dodge_c_player.turn_off_ghosting()
 	health.set_invicible(false)
+
+func stop_hurt_frame():
+	health.reset_can_do_damage()
+	if not dodge_c_player.is_dashing:
+		health.set_invicible(false)
 
 func dash(delta):
 	health.set_invicible(true)

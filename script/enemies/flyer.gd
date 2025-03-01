@@ -2,16 +2,21 @@ extends CharacterBody2D
 
 enum state {
 	MOVE,
-	MOVE_AND_AIM
+	MOVE_AND_AIM,
+	RETREAT
 }
 
-var current_state = state.MOVE
+var current_state = state.RETREAT
 
 var SPEED = 800
+
+var max_health = 100
 
 var timer
 var danger_dash_zone_inst
 
+var health = preload("res://script/system_control/health.gd")
+var health_bar_control = preload("res://script/system_control/enemy_health_bar.gd")
 var fly_movement = preload("res://script/enemies/fly_movement.gd")
 var danger_dash_zone = preload("res://script/system_control/danger_dash_zone.gd")
 var toxic_bullet = preload("res://nodes/hitbox_objs/toxic_bullet.tscn")
@@ -20,6 +25,10 @@ var toxic_bullet = preload("res://nodes/hitbox_objs/toxic_bullet.tscn")
 @onready var collision = get_collision(self)
 
 func _ready():
+	print("yoqwwwwwwww")
+	health = health.new(max_health)
+	health.add_on_death(destroy)
+	health_bar_control.new(self, health)
 	wait_for_attack.wait_time = 5
 	wait_for_attack.one_shot = true
 	wait_for_attack.timeout.connect(reset_atk)
@@ -29,12 +38,13 @@ func _ready():
 var angle = 0.1
 var direction = 1
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	
 	match current_state:
 		state.MOVE:
 			if wait_for_attack.is_stopped():
 				wait_for_attack.start()
+			fly_movement.move_center()
 		state.MOVE_AND_AIM:
 			if not danger_dash_zone_inst:
 				danger_dash_zone_inst = danger_dash_zone.new(self, collision)
@@ -52,7 +62,11 @@ func _process(delta):
 					)
 			else:
 				danger_dash_zone_inst.follow(player)
-	fly_movement.move_center()
+			fly_movement.move_center()
+		state.RETREAT:
+			fly_movement.retret(func():
+				current_state = state.MOVE
+				)
 
 func get_hitbox(parent):
 	var children = parent.get_children()
@@ -71,5 +85,6 @@ func get_collision(parent):
 func reset_atk():
 	current_state = state.MOVE_AND_AIM
 		
-
+func destroy():
+	queue_free()
 

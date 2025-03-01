@@ -3,6 +3,7 @@ extends Node
 var health = preload("res://script/system_control/health.gd")
 var parent
 var can_do_damage = true
+var is_doing_invicible_effect = false
 
 var collision
 var wait_for_damage_timer = Timer.new()
@@ -29,15 +30,29 @@ func enable_collision(enable = true):
 		collision.set_deferred("monitorable", enable)
 
 func do_damage(damage):
-	if can_do_damage and false:
+	if can_do_damage:
 		can_do_damage = false
 		enable_collision(can_do_damage)
 		health.do_damage(damage)
-		wait_for_damage_timer.start()
+		if not is_doing_invicible_effect:
+			is_doing_invicible_effect = true
+			set_invicible(true)
+			parent.animation_player.play("hurt_frame")
 
 func set_invicible(enable):
-	health.set_invicible(enable)
+	if is_doing_invicible_effect:
+		health.set_invicible(true)
+	else:
+		health.set_invicible(enable)
 
 func reset_can_do_damage():
+	is_doing_invicible_effect = false
 	can_do_damage = true
 	enable_collision()
+
+func get_sprite():
+	var children = parent.get_children()
+	for child in children:
+		if child is Sprite2D:
+			return child
+	return null

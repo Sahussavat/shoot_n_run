@@ -17,10 +17,11 @@ func create():
 		var tween_fade = parent.get_tree().create_tween()
  
 		tween_fade.tween_property(sprite_ghost, "self_modulate",Color(1, 1, 1, 0), 0.25 )
-		tween_fade.tween_callback(func():
-			if sprite_ghost:
-				sprite_ghost.queue_free()
-			)
+		tween_fade.tween_callback(delete_sprite.bind(sprite_ghost))
+
+func delete_sprite(sprite):
+	if is_instance_valid(sprite):
+		sprite.queue_free()
 
 func get_sprite():
 	var children = parent.get_children()

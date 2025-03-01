@@ -30,6 +30,8 @@ func get_collision(obj):
 func enable_collision(enable = true):
 	if collision:
 		collision.set_deferred("disabled", not enable)
+func heal(delta):
+	health.set_health(delta)
 
 func do_damage(damage):
 	if can_do_damage:
@@ -51,6 +53,9 @@ func reset_can_do_damage():
 	is_doing_invicible_effect = false
 	can_do_damage = true
 	enable_collision()
+
+func is_dead():
+	return health.is_dead()
 
 func get_sprite():
 	var children = parent.get_children()

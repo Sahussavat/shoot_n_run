@@ -71,15 +71,15 @@ signal done_reset
 
 func _ready():
 	spawn_control.set_spawn_list([
-		#spawn_control.spawn_data(spawn_enemies_flyer, func():
-			#return true;
-			#, 10),
-		#spawn_control.spawn_data(spawn_enemies_charger, func():
-			#return true;
-			#, 10),
-		#spawn_control.spawn_data(spawn_enemies_dash, func():
-			#return true;
-			#, 10),
+		spawn_control.spawn_data(spawn_enemies_flyer, func():
+			return true;
+			, 10),
+		spawn_control.spawn_data(spawn_enemies_charger, func():
+			return true;
+			, 10),
+		spawn_control.spawn_data(spawn_enemies_dash, func():
+			return true;
+			, 10),
 		spawn_control.spawn_data(spawn_enemies_crowd, func():
 			return true;
 			, 10),

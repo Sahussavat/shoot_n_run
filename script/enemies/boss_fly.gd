@@ -1,8 +1,10 @@
 extends CharacterBody2D
 
+var boss_name = "arlin"
 var cooldown_next_timer = Timer.new()
 var cooldown_in_half_hp = Timer.new()
 var health = preload("res://script/system_control/health.gd")
+var hit_flash = preload("res://script/system_control/hit_flash.gd")
 var health_bar_control = preload("res://script/system_control/health_bar.gd")
 var fly_movement = preload("res://script/enemies/fly_movement.gd")
 var multi_shot = preload("res://script/enemies/multi_shot.gd")
@@ -58,7 +60,9 @@ func _ready():
 		is_cooldown_in_half_hp = false
 		)
 	add_child(cooldown_in_half_hp)
-	health = health.new(1000)
+	health = health.new(100)
+	hit_flash = hit_flash.new(self)
+	health.change_health.connect(hit_flash.do_hit_flash)
 	health.change_health.connect(set_half_hp_mode)
 	health.add_on_death(on_death)
 	health_bar_control = health_bar_control.new(boss_bar, health)

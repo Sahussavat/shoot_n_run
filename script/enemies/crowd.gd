@@ -7,6 +7,7 @@ var MAX_SEPRATION = 4
 var max_health = 25
 var crowd_group
 var max_velocity = 10
+var hit_flash = preload("res://script/system_control/hit_flash.gd")
 var health = preload("res://script/system_control/health.gd")
 var health_bar_control = preload("res://script/system_control/enemy_health_bar.gd")
 @onready var player = get_tree().get_first_node_in_group(GroupsName.PLAYER)
@@ -15,6 +16,8 @@ var health_bar_control = preload("res://script/system_control/enemy_health_bar.g
 func _ready():
 	add_to_group(GroupsName.ENEMIES)
 	health = health.new(max_health)
+	hit_flash = hit_flash.new(self)
+	health.change_health.connect(hit_flash.do_hit_flash)
 	health.add_on_death(destroy)
 	health_bar_control.new(self, health)
 	add_to_group(GroupsName.CROWD)

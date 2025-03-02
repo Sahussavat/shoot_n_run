@@ -9,11 +9,30 @@ enum game_type {
 var menu
 var temp_menu_process_mode = PROCESS_MODE_INHERIT
 
+var character_left
+var character_right
+
 var current_game
 
 # Called when the node enters the scene tree for the first time.
 func run_the_game(_game_type, win_fn, lose_fn):
 	visible = true
+	var char_pics = get_tree().get_nodes_in_group(GroupsName.CHAR_PIC)
+	for c in char_pics:
+		if not character_left:
+			character_left = c
+			continue
+		else:
+			character_right = c
+		if character_right.global_position.x < character_left.global_position.x:
+			var temp = character_left
+			character_left = character_right
+			character_right = temp
+	
+	character_left.character_name = "tako"
+	var boss = get_tree().get_first_node_in_group(GroupsName.BOSS)
+	if boss:
+		character_right.character_name = boss.boss_name
 	menu = get_tree().get_first_node_in_group(GroupsName.MENU)
 	current_game = get_minigames(_game_type)
 	if current_game:
@@ -45,12 +64,14 @@ func turn_off_game(game):
 	game.visible = false
 	game.process_mode = Node.PROCESS_MODE_DISABLED
 	menu.process_mode = temp_menu_process_mode
+	enable_visible_character(false)
 
 func turn_on_game(game): 
 	game.process_mode = Node.PROCESS_MODE_ALWAYS
 	temp_menu_process_mode = menu.process_mode
 	menu.process_mode = Node.PROCESS_MODE_DISABLED
 	game.visible = true
+	show_default_character()
 
 func clear_all_connects(game):
 	clear_connects(game.player_has_win)
@@ -82,3 +103,12 @@ func switch_to_other_game(_game_type):
 			)
 		turn_on_game(game)
 		game.run()
+
+func show_default_character():
+	enable_visible_character(true)
+	character_left.load_default_char_face()
+	character_right.load_default_char_face()
+
+func enable_visible_character(enable):
+	character_left.visible = enable
+	character_right.visible = enable

@@ -18,6 +18,7 @@ var choices_default_color
 var choices_correct_color = Color(0,1,0,1)
 var choices_incorrect_color = Color(1,0,0,1)
 var show_boxes
+var minigame_control
 @onready var choice_type_utill = preload("res://script/minigames/choice_type_utill.gd")
 @onready var question_text = $question_text
 @onready var show_text = $show_text
@@ -31,6 +32,7 @@ func _ready():
 	choice_type_utill = choice_type_utill.new(self, 3, 10)
 	choice_boxes = choices.get_children()
 	show_boxes = show_text.get_children()
+	minigame_control = get_tree().get_first_node_in_group(GroupsName.MINIGAMES)
 
 func run():
 	choice_type_utill.set_choice_key()
@@ -54,6 +56,7 @@ func insert_word(word):
 		return choices_correct_color
 	currect_i_checker = 0
 	reset_show_answer()
+	minigame_control.character_left.hurt()
 	return choices_incorrect_color
 
 func checker():

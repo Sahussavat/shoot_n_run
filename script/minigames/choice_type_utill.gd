@@ -14,11 +14,13 @@ var choices
 var win_count
 var choice_boxes
 var minigame
+var minigame_control
 var timer_show
 var timer_show_tween
 
 func _init(_minigame, _win_max = 3, _time_to_play = 3):
 	self.minigame = _minigame
+	minigame_control = minigame.get_tree().get_first_node_in_group(GroupsName.MINIGAMES)
 	self.win_max = _win_max
 	self.time_to_play = _time_to_play
 	choices = minigame.get_node("choices")
@@ -90,11 +92,13 @@ func set_show_win_count():
 	win_count.get_node("max").text = str(win_max)
 
 func increase_current_win():
+	minigame_control.character_right.hurt()
 	current_win = current_win + 1
 	set_show_win_count()
 	set_respond_color(win_count.get_node("counter"), choices_correct_color)
 
 func decrease_current_win():
+	minigame_control.character_left.hurt()
 	if current_win > 0:
 		current_win = current_win - 1
 	set_show_win_count()

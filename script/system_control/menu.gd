@@ -26,7 +26,10 @@ func _input(event):
 				do_resume()
 
 func do_resume():
-	get_tree().paused = not get_tree().paused
+	if ChangePage.is_current_page_show() and ChangePage.current_page == self:
+		get_tree().paused = false
+	else:
+		get_tree().paused = true
 	if ChangePage.is_current_page_show():
 		ChangePage.change_to_target_page()
 	elif not visible:

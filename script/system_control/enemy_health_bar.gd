@@ -1,12 +1,15 @@
 extends Node
 
 var health_bar_control = preload("res://script/system_control/health_bar.gd")
+var sprite
+var parent
 var hide_bar_timer = Timer.new()
 var health_bar = ProgressBar.new()
+var is_hit_flashing = false
 
 # Called when the node enters the scene tree for the first time.
-func _init(parent, health):
-	
+func _init(_parent, health):
+	parent = _parent 
 	health_bar.show_percentage = false
 	health_bar.value = health_bar.max_value
 	health_bar.size.x = get_collision(parent).shape.size.x
@@ -23,7 +26,6 @@ func _init(parent, health):
 	parent.add_child(hide_bar_timer)
 	health.change_health.connect(func():
 		health_bar.set_visible(true)
-		
 		hide_bar_timer.start()
 	)
 
@@ -42,4 +44,5 @@ func get_collision(obj):
 
 func enable_health_bar(enable = true):
 	health_bar.set_visible(enable)
+
 

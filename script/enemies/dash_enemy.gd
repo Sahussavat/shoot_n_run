@@ -7,6 +7,7 @@ var destroy_timer = Timer.new()
 var is_lauchable = false
 var danger_dash_zone = preload("res://script/system_control/danger_dash_zone.gd")
 var health = preload("res://script/system_control/health.gd")
+var hit_flash = preload("res://script/system_control/hit_flash.gd")
 var health_bar_control = preload("res://script/system_control/enemy_health_bar.gd")
 @onready var dash_collision = get_node("dash_collision")
 @onready var collision_height = dash_collision.shape.size.y
@@ -16,6 +17,8 @@ var health_bar_control = preload("res://script/system_control/enemy_health_bar.g
 func _ready():
 	add_to_group(GroupsName.ENEMIES)
 	health = health.new(max_health)
+	hit_flash = hit_flash.new(self)
+	health.change_health.connect(hit_flash.do_hit_flash)
 	health.add_on_death(destroy)
 	health_bar_control.new(self, health)
 	destroy_timer.wait_time = 10

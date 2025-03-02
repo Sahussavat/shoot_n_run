@@ -34,7 +34,7 @@ func heal(delta):
 	health.set_health(delta)
 
 func do_damage(damage):
-	if can_do_damage:
+	if can_do_damage and not health.is_invicible:
 		can_do_damage = false
 		enable_collision(can_do_damage)
 		health.do_damage(damage)

@@ -16,6 +16,7 @@ var timer
 var danger_dash_zone_inst
 
 var health = preload("res://script/system_control/health.gd")
+var hit_flash = preload("res://script/system_control/hit_flash.gd")
 var health_bar_control = preload("res://script/system_control/enemy_health_bar.gd")
 var fly_movement = preload("res://script/enemies/fly_movement.gd")
 var danger_dash_zone = preload("res://script/system_control/danger_dash_zone.gd")
@@ -27,6 +28,8 @@ var toxic_bullet = preload("res://nodes/hitbox_objs/toxic_bullet.tscn")
 func _ready():
 	add_to_group(GroupsName.ENEMIES)
 	health = health.new(max_health)
+	hit_flash = hit_flash.new(self)
+	health.change_health.connect(hit_flash.do_hit_flash)
 	health.add_on_death(destroy)
 	health_bar_control.new(self, health)
 	wait_for_attack.wait_time = 1

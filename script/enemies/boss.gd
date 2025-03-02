@@ -1,8 +1,10 @@
 extends StaticBody2D
 
+var boss_name = "arlin"
 var cooldown_next_timer = Timer.new()
 var cooldown_in_half_hp = Timer.new()
 var health = preload("res://script/system_control/health.gd")
+var hit_flash = preload("res://script/system_control/hit_flash.gd")
 var health_bar_control = preload("res://script/system_control/health_bar.gd")
 @onready var floors_control = get_tree().get_first_node_in_group(GroupsName.FLOOR_CONTROL)
 @onready var spawn_control = floors_control.spawn_control
@@ -45,6 +47,8 @@ func _ready():
 		)
 	add_child(cooldown_in_half_hp)
 	health = health.new(100)
+	hit_flash = hit_flash.new(self)
+	health.change_health.connect(hit_flash.do_hit_flash)
 	health.change_health.connect(set_half_hp_mode)
 	health.add_on_death(on_death)
 	health_bar_control = health_bar_control.new(boss_bar, health)

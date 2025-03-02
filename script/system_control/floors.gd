@@ -24,9 +24,9 @@ var floors_path = [
 	##[ประเภทพื้นที่จะ spawn, จำนวนพื้นที่จะ spawn, function ที่จะทำงานเมื่อเริ่ม spawn พื้น]
 	
 	#[floor_types.RANDOM, 1],
-	[floor_types.RANDOM, 30, func():
-		FloorsUtill.save_floor_position(floors_path)
-		],
+	#[floor_types.RANDOM, 30, func():
+		#FloorsUtill.save_floor_position(floors_path)
+		#],
 	#[floor_types.EVENT, 1, func():
 		#get_tree().paused = true
 		#BalloonControl.set_on_finish_balloon(func():

@@ -1,7 +1,7 @@
 extends Node
 
 var danger_arrow_img = preload("res://img/hitbox_obj_img/triangle.png")
-var to_red = preload("res://shader/to_red.gdshader")
+var to_color = preload("res://shader/to_color.gdshader")
 var danger_zone
 var danger_arrow
 var danger_zone_cooldown_bar
@@ -35,7 +35,8 @@ func _init(_parent, collision):
 	danger_arrow.scale.y = danger_zone_height/danger_arrow_img.get_size().y
 	danger_arrow.stretch_mode = TextureRect.STRETCH_TILE
 	danger_arrow.material = ShaderMaterial.new()
-	danger_arrow.material.shader = to_red
+	danger_arrow.material.shader = to_color
+	danger_arrow.material.set_shader_parameter("color", Vector4(1, 0, 0, 0.7))
 	danger_zone.add_child(danger_arrow)
 
 func follow(target):

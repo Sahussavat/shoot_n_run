@@ -24,6 +24,7 @@ var quest_text
 var choices_default_color = Color(1,1,1)
 var choices_correct_color = Color(0,1,0,1)
 var choices_incorrect_color = Color(1,0,0,1)
+var minigame_control
 
 var random_text_list = [
 	"ตะเกียบคีบเนื้อ",
@@ -82,6 +83,7 @@ func start():
 	set_question_text()
 
 func _ready():
+	minigame_control = get_tree().get_first_node_in_group(GroupsName.MINIGAMES)
 	if window:
 		speechRecognition = choose_obj("SpeechRecognition", "webkitSpeechRecognition")
 		speechRecognition.continuous = false; 
@@ -106,11 +108,13 @@ func checker(text):
 		show_win_count()
 		reset_mistake_bar()
 		var w_c = win_show.get_node("win_count")
+		minigame_control.character_right.hurt()
 		set_obj_font_color(w_c, choices_correct_color)
 		if is_inside_tree():
 			get_timer_to_default_color(w_c).start()
 	else:
 		mistake_bar.value = mistake_bar.value - (mistake_bar.max_value / 4.0)
+		minigame_control.character_left.hurt()
 		set_obj_font_color(show_answer, choices_incorrect_color)
 		if is_inside_tree():
 			get_timer_to_default_color(show_answer).start()

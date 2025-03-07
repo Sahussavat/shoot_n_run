@@ -24,9 +24,9 @@ var floors_path = [
 	##[ประเภทพื้นที่จะ spawn, จำนวนพื้นที่จะ spawn, function ที่จะทำงานเมื่อเริ่ม spawn พื้น]
 	
 	#[floor_types.RANDOM, 1],
-	#[floor_types.RANDOM, 30, func():
-		#FloorsUtill.save_floor_position(floors_path)
-		#],
+	[floor_types.RANDOM, 5, func():
+		FloorsUtill.save_floor_position(floors_path)
+		],
 	#[floor_types.EVENT, 1, func():
 		#get_tree().paused = true
 		#BalloonControl.set_on_finish_balloon(func():
@@ -124,7 +124,7 @@ func _process(_delta):
 		var _normal_floor = normal_floor.instantiate()
 		_normal_floor.position = first_floor_pos
 		add_child(_normal_floor)
-		floors.push_back(_normal_floor)
+		floors.push_front(_normal_floor)
 		var pos_prev_floor_x = _normal_floor.position.x
 		for _floor in floors:
 			_floor.position.x = pos_prev_floor_x

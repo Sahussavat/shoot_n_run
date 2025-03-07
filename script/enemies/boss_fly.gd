@@ -60,7 +60,7 @@ func _ready():
 		is_cooldown_in_half_hp = false
 		)
 	add_child(cooldown_in_half_hp)
-	health = health.new(100)
+	health = health.new(1000)
 	hit_flash = hit_flash.new(self)
 	health.change_health.connect(hit_flash.do_hit_flash)
 	health.change_health.connect(set_half_hp_mode)

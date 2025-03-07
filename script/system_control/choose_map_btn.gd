@@ -42,6 +42,9 @@ func _ready():
 	show_choose_map()
 
 func start_map():
+	get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_in(start)
+
+func start():
 	ChangePage.change_to_target_scene(get_node_path(maps[map_index][m_index.MAP_NODE_NAME]))
 
 func show_choose_map():

@@ -24,5 +24,8 @@ func retry():
 	FloorsUtill.enable_load_floor()
 	get_tree().reload_current_scene()
 
+func to_world():
+	get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_in(to_main_menu)
+
 func to_main_menu():
 	ChangePage.change_to_target_scene("res://nodes/worlds/main_menu.tscn")

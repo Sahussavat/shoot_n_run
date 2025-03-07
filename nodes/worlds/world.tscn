@@ -1,10 +1,11 @@
-[gd_scene load_steps=32 format=3 uid="uid://crpl7h5cj0fnh"]
+[gd_scene load_steps=36 format=3 uid="uid://crpl7h5cj0fnh"]
 
 [ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://nodes/player/tako.tscn" id="1_pu0p8"]
 [ext_resource type="Script" path="res://script/system_control/floors.gd" id="2_yt6a4"]
 [ext_resource type="PackedScene" uid="uid://by8c6yag6c626" path="res://nodes/floors/normal_floor.tscn" id="3_70o3o"]
-[ext_resource type="Script" path="res://script/system_control/control_canvas.gd" id="4_uher4"]
+[ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="4_uher4"]
 [ext_resource type="Script" path="res://script/player_control/player_health_bar.gd" id="5_l2xnd"]
+[ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="5_mpbbg"]
 [ext_resource type="Script" path="res://script/hitbox_obj/coin_show.gd" id="6_75mmy"]
 [ext_resource type="Script" path="res://script/system_control/boss_health.gd" id="7_7hcmg"]
 [ext_resource type="Script" path="res://script/minigames/mini_games.gd" id="8_owgix"]
@@ -31,6 +32,32 @@ content_margin_top = 25.0
 content_margin_right = 25.0
 content_margin_bottom = 25.0
 bg_color = Color(0, 0, 0, 0.662745)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sfkll"]
+shader = ExtResource("5_mpbbg")
+shader_parameter/circle_size = 0.0
+
+[sub_resource type="Animation" id="Animation_a0n24"]
+resource_name = "auto_circle_out"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [null],
+"method": &"circle_out"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7bhms"]
+_data = {
+"auto_circle_out": SubResource("Animation_a0n24")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6fq1x"]
 size = Vector2(128, 1564)
@@ -63,16 +90,6 @@ script = ExtResource("2_yt6a4")
 position = Vector2(0, 576)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-script = ExtResource("4_uher4")
-
-[node name="black_fade" type="ColorRect" parent="CanvasLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 16.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0)
 
 [node name="player_health" type="ProgressBar" parent="CanvasLayer"]
 offset_left = 24.0
@@ -492,6 +509,32 @@ text = "[ ESC ]"
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 show_percentage = false
+
+[node name="Control3" type="Control" parent="CanvasLayer"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_uher4")
+
+[node name="black_fade" type="ColorRect" parent="CanvasLayer/Control3"]
+material = SubResource("ShaderMaterial_sfkll")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1112.0
+offset_bottom = 608.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Control3"]
+libraries = {
+"": SubResource("AnimationLibrary_7bhms")
+}
+autoplay = "auto_circle_out"
 
 [node name="wall" type="StaticBody2D" parent="."]
 collision_layer = 4

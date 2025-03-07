@@ -39,7 +39,7 @@ func _on_area_entered(area):
 	obstacle_damage_obj._on_area_entered(area)
 
 func do_respawn_with_fade():
-	canvas.fade_in(func():
+	get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).fade_in(func():
 			floors.is_reset = true
 			)
 

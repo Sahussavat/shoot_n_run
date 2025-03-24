@@ -11,6 +11,7 @@ func hit_player(body):
 	if body.is_in_group(GroupsName.PLAYER):
 		var player = body
 		player.coin_c_player.delta_value(value)
+		ScoreControl.score_delta(50)
 		destroy()
 
 func get_area2d():

@@ -31,12 +31,12 @@ func get_hitbox():
 	return null
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _physics_process(_delta):
 	if target_pos and not paused:
 		if not direction:
 			rotate_by_target()
 			direction = (target_pos - position).normalized()
-		var pos_move = position + (direction * MAX_SPEED)
+		var pos_move = position + (direction * pow(MAX_SPEED, 2) * _delta)
 		destroy_on_wall_raycast_at(pos_move)
 		position = pos_move
 

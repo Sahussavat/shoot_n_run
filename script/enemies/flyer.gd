@@ -47,7 +47,7 @@ func _process(_delta):
 		state.MOVE:
 			if wait_for_attack.is_stopped():
 				wait_for_attack.start()
-			fly_movement.move_center()
+			fly_movement.move_center(_delta)
 		state.MOVE_AND_AIM:
 			if not danger_dash_zone_inst:
 				danger_dash_zone_inst = danger_dash_zone.new(self, collision)
@@ -65,9 +65,9 @@ func _process(_delta):
 					)
 			else:
 				danger_dash_zone_inst.follow(player)
-			fly_movement.move_center()
+			fly_movement.move_center(_delta)
 		state.RETREAT:
-			fly_movement.retret(func():
+			fly_movement.retret(_delta, func():
 				current_state = state.MOVE
 				)
 
@@ -89,5 +89,7 @@ func reset_atk():
 	current_state = state.MOVE_AND_AIM
 		
 func destroy():
+	ExplodeEffect.explode(self)
+	ScoreControl.score_delta(50)
 	queue_free()
 

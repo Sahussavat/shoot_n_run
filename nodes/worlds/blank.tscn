@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://gsg4p5h7ec0d"]
+
+[ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="2_gg45w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0bm8e"]
+shader = ExtResource("2_gg45w")
+shader_parameter/circle_size = 0.0
+
+[node name="Blank" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control3" type="Control" parent="CanvasLayer"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="black_fade" type="ColorRect" parent="CanvasLayer/Control3"]
+material = SubResource("ShaderMaterial_0bm8e")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1112.0
+offset_bottom = 608.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

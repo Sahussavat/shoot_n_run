@@ -76,8 +76,8 @@ func _ready():
 	
 	set_move_by_type(move_type.RICOCHET_2_FLY)
 
-func _process(_delta):
-	current_move.call()
+func _physics_process(_delta):
+	current_move.call(_delta)
 	if is_wait_end() and not is_cooldown_next and not is_cooldown_in_half_hp and enable_to_attack:
 		is_cooldown_next = true
 		get_next_attack().call()
@@ -93,37 +93,51 @@ func set_half_hp_mode():
 		$Sprite2D.material = ShaderMaterial.new()
 		$Sprite2D.material.shader = preload("res://shader/anger_boss_color.gdshader")
 	elif health.health <= health.max_health/1.5 and not pass_question1:
+		slow_motion(0.05)
 		get_tree().paused = true
 		minigames.run_the_game(minigames.game_type.QUICK_TYPE, 
 		func():
 			pass_question1 = true
 			get_tree().paused = false
+			slow_motion()
 			, 
 		func():
 			health.set_health(health.max_health)
 			get_tree().paused = false
+			slow_motion()
 			)
 	elif health.health <= health.max_health/2.5 and not pass_question2:
+		slow_motion(0.05)
 		get_tree().paused = true
 		minigames.run_the_game(minigames.game_type.SPEECH_TYPE, 
 		func():
 			pass_question2 = true
 			get_tree().paused = false
+			slow_motion()
 			, 
 		func():
 			health.set_health(health.max_health * 0.5)
 			get_tree().paused = false
+			slow_motion()
 			)
+func change_scene():
+	get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_in(func():
+		ScoreControl.score_delta(150)
+		ChangePage.change_to_target_scene("res://nodes/worlds/credit.tscn")
+	)
+
 
 func on_death():
+	slow_motion(0.05)
 	minigames.run_the_game(minigames.game_type.CALCULATE_TYPE, 
 	func():
-		queue_free()
-		ChangePage.change_to_target_scene("res://nodes/worlds/shop.tscn")
-		, 
+		slow_motion()
+		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(change_scene)
+		,
 	func():
 		health.set_health(health.max_health * 0.5)
 		get_tree().paused = false
+		slow_motion()
 		)
 	get_tree().paused = true
 
@@ -184,14 +198,14 @@ func get_attack_by_type(type):
 func set_move_by_type(type_name, callback = null):
 	match type_name:
 		move_type.RICOCHET:
-			current_move = func():
-				ricochet.move()
+			current_move = func(delta):
+				ricochet.move(delta)
 		move_type.FLY:
-			current_move = func():
-				fly_movement.move_center()
+			current_move = func(delta):
+				fly_movement.move_center(delta)
 		move_type.RICOCHET_2_FLY:
-			current_move = func():
-				fly_movement.retret(func():
+			current_move = func(delta):
+				fly_movement.retret(delta, func():
 					set_move_by_type(move_type.FLY)
 					callback.call()
 					wait_to_attack_end_fn = null
@@ -210,3 +224,8 @@ func do_clock_durarion(wait_time):
 		attack_duration = 0
 		return true
 	return false
+
+func slow_motion(t = 0.1):
+	Engine.time_scale = 0.1
+	await get_tree().create_timer(t).timeout
+	Engine.time_scale = 1

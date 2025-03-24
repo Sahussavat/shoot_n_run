@@ -24,7 +24,23 @@ var floors_path = [
 	##[ประเภทพื้นที่จะ spawn, จำนวนพื้นที่จะ spawn, function ที่จะทำงานเมื่อเริ่ม spawn พื้น]
 	
 	#[floor_types.RANDOM, 1],
-	[floor_types.RANDOM, 5, func():
+	[floor_types.RANDOM, 1, func():
+		FloorsUtill.save_floor_position(floors_path)
+		],
+	[floor_types.EVENT, 1, func():
+		spawn_control.is_running = false
+		get_tree().paused = true
+		BalloonControl.set_on_finish_balloon(func():
+			get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(func():
+				end_event()
+				get_tree().paused = false
+				)
+			)
+		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_in(func():
+			balloon.start(load("res://dialogues/test1_dialog.dialogue"),"this_is_a_node_title")
+			)
+		],
+	[floor_types.RANDOM, 14, func():
 		FloorsUtill.save_floor_position(floors_path)
 		],
 	#[floor_types.EVENT, 1, func():
@@ -53,6 +69,7 @@ var floors_path = [
 var max_floor_buffer = 3
 var scene_floor_min_count = 0
 var is_event_end = false
+var is_force_run_event = true
 var triggered_event = false
 var is_reset = false
 var floors = []
@@ -96,7 +113,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if not spawn_control.is_running and floors_path.size() > 0:
+	if not spawn_control.is_running and floors_path.size() > 0 and not is_force_run_event:
 		spawn_control.start_spawn_list()
 	if not triggered_event and scene_floor_min_count > max_floor_buffer and event:
 		triggered_event = true
@@ -159,7 +176,7 @@ func get_next_floor():
 			else:
 				floors_path.pop_front()
 			
-		if floor_type != null and floor_type != floor_types.EVENT:
+		if floor_type != null and floor_type != floor_types.EVENT and not is_force_run_event:
 			if floor_event:
 				floor_event.call()
 			var fl = get_floor_by_type(floor_type)
@@ -210,8 +227,12 @@ func is_event_running():
 
 func end_event():
 	is_event_end = true
+	is_force_run_event = false
 
 func trigger_boss_event():
 	FloorsUtill.save_floor_position(floors_path)
 	if boss_event:
 		boss_event.call()
+
+func run_event():
+	is_force_run_event = true

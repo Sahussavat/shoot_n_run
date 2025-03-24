@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-const MAX_SPEED = 2
+const MAX_SPEED = 10
 
 @export var max_health = 25
 var destroy_timer = Timer.new()
@@ -34,10 +34,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if is_lauchable:
-		lauch()
+		lauch(_delta)
 
-func lauch():
-	position = position + transform.x * MAX_SPEED
+func lauch(_delta):
+	position = position + transform.x * pow(MAX_SPEED, 2) * _delta
 
 func rotate_by_target(target):
 	var target_pos
@@ -56,4 +56,7 @@ func do_mirror():
 	scale.x = scale.x * -1
 
 func destroy():
+	ExplodeEffect.explode(self)
+	ScoreControl.score_delta(50)
 	queue_free()
+

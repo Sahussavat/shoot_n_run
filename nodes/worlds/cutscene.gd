@@ -23,7 +23,7 @@ func _ready():
 		play_video()
 
 func _process(_delta):
-	if Input.is_physical_key_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.MENU]):
+	if Input.is_physical_key_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.MENU]) and video_player and video_player.is_playing():
 		skip_bar.value = skip_bar.value + 2
 	else:
 		skip_bar.value = skip_bar.value - 2

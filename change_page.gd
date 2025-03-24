@@ -1,5 +1,6 @@
 extends Node
 
+var default_world_path = "res://nodes/worlds/%s.tscn"
 var current_page : Node
 var prev_page : Node
 
@@ -30,4 +31,18 @@ func change_to_target_scene(scene_path):
 		spawn_control.force_stop_all_events()
 		floors_control.stop_loop()
 	current_page = null
-	get_tree().change_scene_to_file(scene_path)
+	var world
+	if scene_path is Node:
+		world = load((default_world_path % scene_path.name).to_lower()).instantiate()
+	else:
+		world = load(scene_path).instantiate()
+	var current_sc = get_tree().current_scene
+	get_tree().root.add_child(world)
+	get_tree().current_scene = world
+	get_tree().root.remove_child(current_sc)
+	current_sc.queue_free()
+
+func reload_current_scene():
+	var cur = (default_world_path % get_tree().current_scene.name).to_lower()
+	change_to_target_scene(default_world_path % "blank")
+	change_to_target_scene(cur)

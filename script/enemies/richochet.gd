@@ -12,7 +12,7 @@ func _init(_parent, _dist_from_viewport):
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func move():
+func move(delta):
 	var x = parent.global_position.x
 	var y = parent.global_position.y
 	if x > parent.get_viewport_rect().size.x - dist_from_viewport:
@@ -29,5 +29,5 @@ func move():
 		y = dist_from_viewport - 1
 		vel.y = abs(vel.y)
 	
-	parent.global_position = Vector2(x, y) + vel * 5
+	parent.global_position = Vector2(x, y) + vel * pow(5, 2) * delta
 

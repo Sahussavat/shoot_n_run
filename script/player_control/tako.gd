@@ -29,15 +29,16 @@ func _ready():
 	health = health.new(self, 100)
 
 func _physics_process(delta):
-	_animated_tree.update()
-	
-	match current_stat:
-		stat.MOVE:
-			move(delta)
-		stat.DASH:
-			dash(delta)
-	
-	move_and_slide()
+	if not health.is_dead():
+		_animated_tree.update()
+		
+		match current_stat:
+			stat.MOVE:
+				move(delta)
+			stat.DASH:
+				dash(delta)
+		
+		move_and_slide()
 
 func get_mouse_direction():
 	return (get_global_mouse_position() - position).normalized().x

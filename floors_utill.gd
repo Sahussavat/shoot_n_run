@@ -28,3 +28,9 @@ func load_floor_position(floors_path):
 
 func enable_load_floor():
 	enable_load = true
+
+func reset():
+	floors_path_len = 0
+	current_floor_path = 0
+	current_amount_floor_path = -1
+	enable_load = false

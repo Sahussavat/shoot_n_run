@@ -13,7 +13,7 @@ func _init(_parent):
 	mat.set_shader_parameter("color", Vector4(1, 1, 1, 1))
 
 func do_hit_flash():
-	if not is_hit_flashing:
+	if not is_hit_flashing and not parent.health.is_died:
 		is_hit_flashing = true
 		parent.get_tree().create_timer(0, false).timeout.connect(hit_flash)
 

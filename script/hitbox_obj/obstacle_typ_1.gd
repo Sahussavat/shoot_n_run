@@ -14,4 +14,5 @@ func _ready():
 		, position.y - get_node("CollisionShape2D").shape.size.y + 10)
 
 func destroy():
+	ScoreControl.score_delta(50)
 	queue_free()

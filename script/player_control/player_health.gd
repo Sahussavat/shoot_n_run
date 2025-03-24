@@ -13,6 +13,7 @@ func _init(_parent, _max_health):
 	self.parent = _parent
 	health = health.new(_max_health)
 	wait_for_damage_timer.wait_time = 0.5
+	#wait_for_damage_timer.ignore_time_scale = true
 	wait_for_damage_timer.one_shot = true
 	wait_for_damage_timer.timeout.connect(reset_can_do_damage)
 	parent.add_child(wait_for_damage_timer)

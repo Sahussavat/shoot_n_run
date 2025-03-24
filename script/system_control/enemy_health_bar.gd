@@ -25,8 +25,12 @@ func _init(_parent, health):
 		)
 	parent.add_child(hide_bar_timer)
 	health.change_health.connect(func():
-		health_bar.set_visible(true)
-		hide_bar_timer.start()
+		if not health.is_died:
+			health_bar.set_visible(true)
+			hide_bar_timer.start()
+		else:
+			hide_bar_timer.stop()
+			health_bar.set_visible(false)
 	)
 
 func set_position_bar(x,y):

@@ -28,8 +28,10 @@ func _input(event):
 func do_resume():
 	if ChangePage.is_current_page_show() and ChangePage.current_page == self:
 		get_tree().paused = false
+		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out()
 	else:
 		get_tree().paused = true
+		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_in()
 	if ChangePage.is_current_page_show():
 		ChangePage.change_to_target_page()
 	elif not visible:

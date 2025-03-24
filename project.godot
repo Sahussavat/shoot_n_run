@@ -28,6 +28,9 @@ FloorsUtill="*res://floors_utill.gd"
 StartLoading="*res://start_loading.gd"
 PerksControl="*res://perks_control.gd"
 EntitiesGroup="*res://entities_group.gd"
+ExplodeEffect="*res://explode_effect.gd"
+PlayerDeathEffect="*res://player_death_effect.gd"
+ScoreControl="*res://score_control.gd"
 
 [dialogue_manager]
 

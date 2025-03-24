@@ -12,7 +12,7 @@ func _init(_parent):
 func create_shots(n, wait_between, target):
 	if n > 0 and is_instance_valid(parent):
 		is_shot_empty = false
-		parent.get_tree().create_timer(wait_between, false).timeout.connect(spawn_bullet.bind(n, wait_between, target));
+		parent.get_tree().create_timer(wait_between, false, false, true).timeout.connect(spawn_bullet.bind(n, wait_between, target));
 	else:
 		is_shot_empty = true
 

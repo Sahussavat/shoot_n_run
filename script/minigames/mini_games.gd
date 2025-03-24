@@ -14,9 +14,10 @@ var character_right
 
 var current_game
 
+var switching_game = false
+
 # Called when the node enters the scene tree for the first time.
 func run_the_game(_game_type, win_fn, lose_fn):
-	visible = true
 	var char_pics = get_tree().get_nodes_in_group(GroupsName.CHAR_PIC)
 	for c in char_pics:
 		if not character_left:
@@ -48,8 +49,12 @@ func run_the_game(_game_type, win_fn, lose_fn):
 			visible = false
 			turn_off_game(game)
 			)
-		turn_on_game(game)
-		game.run()
+		if is_inside_tree() and not switching_game:
+			get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_in(func():
+				visible = true
+				turn_on_game(game)
+				game.run()
+				)
 
 func get_minigames(_game_type):
 	match _game_type:
@@ -64,6 +69,8 @@ func turn_off_game(game):
 	game.visible = false
 	game.process_mode = Node.PROCESS_MODE_DISABLED
 	menu.process_mode = temp_menu_process_mode
+	if is_inside_tree() and not switching_game:
+		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out()
 	enable_visible_character(false)
 
 func turn_on_game(game): 
@@ -88,6 +95,7 @@ func switch_to_other_connect(old_sig, new_sig):
 		
 func switch_to_other_game(_game_type):
 	if current_game:
+		switching_game = true
 		turn_off_game(current_game)
 		var game = get_minigames(_game_type)
 		clear_all_connects(game)
@@ -103,6 +111,7 @@ func switch_to_other_game(_game_type):
 			)
 		turn_on_game(game)
 		game.run()
+		switching_game = false
 
 func show_default_character():
 	enable_visible_character(true)

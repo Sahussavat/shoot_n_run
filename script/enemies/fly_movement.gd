@@ -17,15 +17,15 @@ func _init(_parent, _radius = 600, _dist_from_viewport = 5):
 	self.radius = _radius
 	self.dist_from_viewport = _dist_from_viewport
 
-func move(target):
+func move(target, delta):
 	var target_pos = target
 	if not (target is Vector2):
 		target_pos = target.global_position
 	parent.global_position = target_pos
-	change_angle()
+	change_angle(delta)
 
-func move_center():
-	move(get_circle_position(Vector2(parent.get_viewport_rect().size.x/2, parent.get_viewport_rect().size.y), current_angle ))
+func move_center(delta):
+	move(get_circle_position(Vector2(parent.get_viewport_rect().size.x/2, parent.get_viewport_rect().size.y), current_angle), delta)
 	
 func get_circle_position(target, angle):
 	var kill_circle_centre = target
@@ -48,8 +48,8 @@ func get_circle_position(target, angle):
 		
 	return Vector2(x, y)
 
-func change_angle():
-	var inc = 0.0025 * angle_direction
+func change_angle(delta):
+	var inc = 0.0025 * angle_direction * delta * SPEED
 	if current_angle >= 0.9 + inc:
 		angle_direction = angle_direction * -1
 		current_angle = 0.89
@@ -65,27 +65,27 @@ func change_angle():
 		change_direction_timer = 0
 		angle_direction = [1, -1][randi_range(0,1)]
 
-func retret(call_back = null):
+func retret(delta, call_back = null):
 	var center_pos = Vector2(parent.get_viewport_rect().size.x/2, parent.get_viewport_rect().size.y)
-	var left_pos = get_circle_position(center_pos, 0.6)
-	var right_pos = get_circle_position(center_pos, 0.9)
+	var left_pos = get_circle_position(center_pos, 0.61)
+	var right_pos = get_circle_position(center_pos, 0.89)
 	if left_pos.distance_to(parent.global_position) <= right_pos.distance_to(parent.global_position):
-		parent.global_position += parent.global_position.direction_to(left_pos) * SPEED / 2
-		if left_pos.distance_to(parent.global_position) <= 10:
-			current_angle = 0.6
+		parent.global_position += parent.global_position.direction_to(left_pos) * SPEED * SPEED * delta  / 2
+		if left_pos.distance_to(parent.global_position) <= SPEED * SPEED * delta  / 2:
+			current_angle = 0.61
 			if call_back:
 				call_back.call()
 	else:
-		parent.global_position += parent.global_position.direction_to(right_pos) * SPEED / 2
-		if right_pos.distance_to(parent.global_position) <= 10:
-			current_angle = 0.9
+		parent.global_position += parent.global_position.direction_to(right_pos) * SPEED * SPEED * delta / 2
+		if right_pos.distance_to(parent.global_position) <= SPEED * SPEED * delta  / 2:
+			current_angle = 0.89
 			if call_back:
 				call_back.call()
 
-func charge(target_pos, call_back):
+func charge(delta, target_pos, call_back):
 	if not charge_direction:
 		charge_direction = parent.global_position.direction_to(target_pos)
-	var charge_pos = parent.global_position + charge_direction * SPEED
+	var charge_pos = parent.global_position + charge_direction * SPEED * SPEED * delta
 	
 	var x = charge_pos.x;
 	var y = charge_pos.y;

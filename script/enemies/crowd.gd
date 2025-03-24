@@ -28,7 +28,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if global_position.distance_to(player.global_position) > 10:
-		global_position += seek(player.global_position) + seperation() * 0.5 + velocity
+		global_position += seek(player.global_position) + seperation() * 0.5 + velocity * pow(MAX_SPEED, 2) * _delta
 
 func seek(target_pos):
 	var desired_velocity = (target_pos - global_position).normalized() * max_velocity
@@ -56,4 +56,6 @@ func seperation():
 
 func destroy():
 	EntitiesGroup.remove_entity_from_group(GroupsName.CROWD, self)
+	ExplodeEffect.explode(self)
+	ScoreControl.score_delta(50)
 	queue_free()

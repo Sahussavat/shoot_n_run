@@ -18,7 +18,7 @@ func _init(_player_body):
 	player_body.add_child(shoot_cooldown)
 
 func update():
-	if enable_shoot and not is_cooldown_shoot:
+	if enable_shoot and not is_cooldown_shoot and not player_body.health.is_dead():
 		is_cooldown_shoot = true
 		spawn_toxic_bullet()
 		shoot_cooldown.start()

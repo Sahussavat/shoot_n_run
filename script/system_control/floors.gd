@@ -29,18 +29,22 @@ var floors_path = [
 		],
 	[floor_types.EVENT, 1, func():
 		spawn_control.is_running = false
+		var menu = get_tree().get_first_node_in_group(GroupsName.MENU)
+		var temp_menu = menu.process_mode
+		menu.process_mode = Node.PROCESS_MODE_DISABLED
 		get_tree().paused = true
 		BalloonControl.set_on_finish_balloon(func():
 			get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(func():
 				end_event()
 				get_tree().paused = false
+				menu.process_mode = temp_menu
 				)
 			)
 		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_in(func():
 			balloon.start(load("res://dialogues/test1_dialog.dialogue"),"this_is_a_node_title")
 			)
 		],
-	[floor_types.RANDOM, 14, func():
+	[floor_types.RANDOM, 0, func():
 		FloorsUtill.save_floor_position(floors_path)
 		],
 	#[floor_types.EVENT, 1, func():

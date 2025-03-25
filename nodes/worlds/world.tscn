@@ -142,10 +142,11 @@ offset_right = 1152.0
 offset_bottom = 760.0
 script = ExtResource("4_pkegi")
 
-[node name="blur" type="TextureRect" parent="CanvasLayer/blur_screen"]
+[node name="blur" type="ColorRect" parent="CanvasLayer/blur_screen"]
 layout_mode = 0
 offset_right = 1152.0
-offset_bottom = 744.0
+offset_bottom = 920.0
+color = Color(1, 1, 1, 0)
 
 [node name="map_title" type="Control" parent="CanvasLayer"]
 layout_mode = 3

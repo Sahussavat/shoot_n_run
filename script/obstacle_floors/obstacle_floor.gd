@@ -15,7 +15,7 @@ var blank_max = 4
 var is_spawnable_coin = true
 
 @onready var colorRect = $floor
-@onready var floor_control = get_tree().get_first_node_in_group(GroupsName.FLOOR_CONTROL)
+@onready var floor_control = get_tree().get_first_node_in_group(GroupsName.FLOOR_CONTROL).floor_control
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	is_spawnable_coin = floor_control.is_spawnable_coin

@@ -11,7 +11,7 @@ var multi_shot = preload("res://script/enemies/multi_shot.gd")
 var circle_shot = preload("res://script/enemies/circle_shots.gd")
 var ricochet = preload("res://script/enemies/richochet.gd")
 @onready var player = get_tree().get_first_node_in_group(GroupsName.PLAYER)
-@onready var floors_control = get_tree().get_first_node_in_group(GroupsName.FLOOR_CONTROL)
+@onready var floors_control = get_tree().get_first_node_in_group(GroupsName.FLOOR_CONTROL).floor_control
 @onready var spawn_control = floors_control.spawn_control
 @onready var boss_bar = get_tree().get_first_node_in_group(GroupsName.BOSS_BAR)
 @onready var minigames = get_tree().get_first_node_in_group(GroupsName.MINIGAMES)
@@ -27,6 +27,8 @@ var attack_duration = 0
 
 var pass_question1 = false
 var pass_question2 = false
+
+var disable_minigame = false
 
 enum attack_type {
 	RANDOM,
@@ -60,7 +62,7 @@ func _ready():
 		is_cooldown_in_half_hp = false
 		)
 	add_child(cooldown_in_half_hp)
-	health = health.new(1000)
+	health = health.new(100)
 	hit_flash = hit_flash.new(self)
 	health.change_health.connect(hit_flash.do_hit_flash)
 	health.change_health.connect(set_half_hp_mode)
@@ -92,7 +94,7 @@ func set_half_hp_mode():
 		cooldown_in_half_hp.start()
 		$Sprite2D.material = ShaderMaterial.new()
 		$Sprite2D.material.shader = preload("res://shader/anger_boss_color.gdshader")
-	elif health.health <= health.max_health/1.5 and not pass_question1:
+	elif health.health <= health.max_health/1.5 and not pass_question1 and not disable_minigame:
 		slow_motion(0.05)
 		get_tree().paused = true
 		minigames.run_the_game(minigames.game_type.QUICK_TYPE, 
@@ -106,7 +108,7 @@ func set_half_hp_mode():
 			get_tree().paused = false
 			slow_motion()
 			)
-	elif health.health <= health.max_health/2.5 and not pass_question2:
+	elif health.health <= health.max_health/2.5 and not pass_question2 and not disable_minigame:
 		slow_motion(0.05)
 		get_tree().paused = true
 		minigames.run_the_game(minigames.game_type.SPEECH_TYPE, 
@@ -128,18 +130,24 @@ func change_scene():
 
 
 func on_death():
-	slow_motion(0.05)
-	minigames.run_the_game(minigames.game_type.CALCULATE_TYPE, 
-	func():
-		slow_motion()
-		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(change_scene)
-		,
-	func():
-		health.set_health(health.max_health * 0.5)
-		get_tree().paused = false
-		slow_motion()
-		)
-	get_tree().paused = true
+	boss_bar.set_visible(false)
+	if not disable_minigame:
+		slow_motion(0.05)
+		minigames.run_the_game(minigames.game_type.CALCULATE_TYPE, 
+		func():
+			slow_motion()
+			get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(change_scene)
+			,
+		func():
+			health.set_health(health.max_health * 0.5)
+			get_tree().paused = false
+			slow_motion()
+			)
+		get_tree().paused = true
+	else:
+		ExplodeEffect.explode(self)
+		ScoreControl.score_delta(50)
+		queue_free()
 
 func get_next_attack():
 	current_i_atk = current_i_atk + 1

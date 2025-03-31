@@ -1,7 +1,7 @@
 [gd_scene load_steps=39 format=3 uid="uid://crpl7h5cj0fnh"]
 
 [ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://nodes/player/tako.tscn" id="1_pu0p8"]
-[ext_resource type="Script" path="res://script/system_control/floors.gd" id="2_yt6a4"]
+[ext_resource type="Script" path="res://script/system_control/floor_map3.gd" id="2_ghqbb"]
 [ext_resource type="PackedScene" uid="uid://by8c6yag6c626" path="res://nodes/floors/normal_floor.tscn" id="3_70o3o"]
 [ext_resource type="Script" path="res://nodes/worlds/blur_screen.gd" id="4_pkegi"]
 [ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="4_uher4"]
@@ -120,7 +120,7 @@ process_mode = 1
 position = Vector2(136, 512)
 
 [node name="floors" type="Node2D" parent="." groups=["floor_control"]]
-script = ExtResource("2_yt6a4")
+script = ExtResource("2_ghqbb")
 
 [node name="normal_floor" parent="floors" groups=["floor"] instance=ExtResource("3_70o3o")]
 position = Vector2(0, 576)

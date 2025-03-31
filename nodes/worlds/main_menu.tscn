@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://de2d5cu5ia6pl"]
+[gd_scene load_steps=15 format=3 uid="uid://de2d5cu5ia6pl"]
 
 [ext_resource type="Script" path="res://script/system_control/menu.gd" id="1_brglx"]
 [ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="2_wuw02"]
 [ext_resource type="PackedScene" uid="uid://bd6i2usn56jyb" path="res://nodes/menu/setting.tscn" id="3_5fcf5"]
+[ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="3_80e50"]
 [ext_resource type="Texture2D" uid="uid://bfbb7rwrm7dpr" path="res://img/Parallax Clouds Pack by Captainskeleto/Parallax10.png" id="5_2ngkv"]
 [ext_resource type="Script" path="res://script/system_control/choose_map_btn.gd" id="5_7p5y3"]
 [ext_resource type="Texture2D" uid="uid://d14o3lmutqryb" path="res://img/enemies/32bit-gastropod-general1.png" id="7_mj77c"]
@@ -38,7 +39,7 @@ _data = {
 "auto_circle_in": SubResource("Animation_c1syc")
 }
 
-[node name="MainMenu" type="Control"]
+[node name="main_menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,6 +62,12 @@ layout_mode = 2
 text = "Start"
 script = ExtResource("2_wuw02")
 page_target = NodePath("../../choose_map")
+
+[node name="endless" type="Button" parent="main_menu"]
+layout_mode = 2
+text = "Endless Mode"
+script = ExtResource("3_80e50")
+world_target = "res://nodes/worlds/world_endless.tscn"
 
 [node name="setting" type="Button" parent="main_menu" node_paths=PackedStringArray("page_target")]
 layout_mode = 2

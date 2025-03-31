@@ -6,8 +6,10 @@ var key
 
 var highest_score = 0
 var score = 0
-var save_file_path = "user://score.save"
+var save_file_path = "user://score_%s.save"
 var key_path = "user://generated.key"
+
+var current_scene_name = ""
 
 func _ready():
 	if not FileAccess.file_exists(key_path):
@@ -16,8 +18,8 @@ func _ready():
 		key.load(key_path)
 
 func load_highest_score():
-	if FileAccess.file_exists(save_file_path):
-		var volume_save_file = FileAccess.open(save_file_path, FileAccess.READ)
+	if FileAccess.file_exists(save_file_path % current_scene_name):
+		var volume_save_file = FileAccess.open(save_file_path % current_scene_name, FileAccess.READ)
 		while volume_save_file.get_position() < volume_save_file.get_length():
 			var json_string = volume_save_file.get_line()
 
@@ -37,11 +39,15 @@ func load_highest_score():
 
 func score_delta(delta):
 	score += delta
+	set_current_scene_name()
+
+func set_current_scene_name():
+	current_scene_name = get_tree().current_scene.name
 
 func save_highest_score():
 	if score > highest_score:
 		highest_score = score
-		var highest_score_file = FileAccess.open(save_file_path, FileAccess.WRITE)
+		var highest_score_file = FileAccess.open(save_file_path % current_scene_name, FileAccess.WRITE)
 		highest_score_file.store_line(JSON.stringify({
 			"highest_score": highest_score
 		}))

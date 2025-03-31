@@ -1,7 +1,7 @@
 extends Node2D
 
-@onready var spawn_control = get_parent().get_node("spawn_control")
-@onready var balloon = get_tree().get_first_node_in_group(GroupsName.BALLOON)
+var spawn_control
+var balloon
 
 var fall_floor = preload("res://nodes/floors/fall_floor.tscn")
 var obs_floor = preload("res://nodes/floors/obstacle_floor.tscn")
@@ -10,8 +10,9 @@ var spawn_enemies_dash = preload("res://script/system_control/spawn_enemies_dash
 var spawn_enemies_charger = preload("res://script/system_control/spawn_enemies_charger.gd")
 var spawn_enemies_crowd = preload("res://script/system_control/spawn_enemies_crowd.gd")
 var spawn_enemies_flyer = preload("res://script/system_control/spawn_enemies_flyer.gd")
+var spawn_boss = preload("res://script/system_control/spawn_boss.gd")
 
-var boss = preload("res://nodes/enemies/boss_fly.tscn")
+var boss_fly = preload("res://nodes/enemies/boss_fly.tscn")
 
 enum floor_types {
 	RANDOM, ##floor แบบ random เป็นได้ทั้งพื้นปกติไม่มีอะไรหรือพื้นที่มีอุปสรรคกีดขวาง
@@ -20,56 +21,7 @@ enum floor_types {
 	EVENT, ##floor สำหรับ trigger event อะไรบางอย่าง โดยพื้นที่ player วิ่งจะเป็นพื้นปกติจนกว่าจะจบ event
 }
 
-var floors_path = [
-	##[ประเภทพื้นที่จะ spawn, จำนวนพื้นที่จะ spawn, function ที่จะทำงานเมื่อเริ่ม spawn พื้น]
-	
-	#[floor_types.RANDOM, 1],
-	[floor_types.RANDOM, 1, func():
-		FloorsUtill.save_floor_position(floors_path)
-		],
-	[floor_types.EVENT, 1, func():
-		spawn_control.is_running = false
-		var menu = get_tree().get_first_node_in_group(GroupsName.MENU)
-		var temp_menu = menu.process_mode
-		menu.process_mode = Node.PROCESS_MODE_DISABLED
-		get_tree().paused = true
-		BalloonControl.set_on_finish_balloon(func():
-			get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(func():
-				end_event()
-				get_tree().paused = false
-				menu.process_mode = temp_menu
-				)
-			)
-		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_in(func():
-			balloon.start(load("res://dialogues/test1_dialog.dialogue"),"this_is_a_node_title")
-			)
-		],
-	[floor_types.RANDOM, 0, func():
-		FloorsUtill.save_floor_position(floors_path)
-		],
-	#[floor_types.EVENT, 1, func():
-		#get_tree().paused = true
-		#BalloonControl.set_on_finish_balloon(func():
-			##เมื่อจะจบ event ให้ใช้ end_event() เพื่อทำการดำเนินการ spawn floor อันถัดไป
-			#end_event()
-			#get_tree().paused = false
-			#)
-		#balloon.start(load("res://dialogues/test1_dialog.dialogue"),"this_is_a_node_title")
-		#],
-	##[floor_types.EVENT, 1, func():
-		##ตย. บังคับ spawn floor
-		##run_force_floor(floor_types.OBSTACLE, true)
-		##],
-	#[floor_types.RANDOM, 5],
-	#[floor_types.RANDOM, 1, func():
-		#spawn_control.create(spawn_enemies_dash).start()
-		#],
-	#[floor_types.RANDOM, 10],
-	#[floor_types.RANDOM, 1, func():
-		#spawn_control.create(spawn_enemies_dash).start()
-		#],
-	##Floor สุดท้ายจะบังคับเป็น floor ที่เจอกับบอสอัตโนมัติ
-]
+var floors_path
 var max_floor_buffer = 3
 var scene_floor_min_count = 0
 var is_event_end = false
@@ -84,50 +36,50 @@ var force_floor = null
 var is_force_floor_loop = false
 var is_spawnable_coin = true
 
+var stop_all_event_once = false
+
 signal done_reset
 
-@onready var current_child = self.get_child(0)
-@onready var first_floor_pos = current_child.position
-@onready var center_pos = current_child.position
+var current_child
+var first_floor_pos
+var center_pos
 
-func _ready():
-	spawn_control.set_spawn_list([
-		spawn_control.spawn_data(spawn_enemies_flyer, func():
-			return true;
-			, 10),
-		spawn_control.spawn_data(spawn_enemies_charger, func():
-			return true;
-			, 10),
-		spawn_control.spawn_data(spawn_enemies_dash, func():
-			return true;
-			, 10),
-		spawn_control.spawn_data(spawn_enemies_crowd, func():
-			return true;
-			, 10),
-	])
+var parent
+
+func _init(_parent):
+	parent = _parent
+	spawn_control = parent.get_tree().get_first_node_in_group(GroupsName.SPAWN_CONTROL)
+	balloon = parent.get_tree().get_first_node_in_group(GroupsName.BALLOON)
+
+func setting(floors_data, spawn_data, boss_fn = func():
+		pass):
+	floors_path = floors_data
+	current_child = parent.get_child(0)
+	first_floor_pos = current_child.position
+	center_pos = current_child.position
+	spawn_control.set_spawn_list(spawn_data)
 	FloorsUtill.load_floor_position(floors_path)
-	if not is_in_group(GroupsName.FLOOR_CONTROL):
-		add_to_group(GroupsName.FLOOR_CONTROL)
+	if not parent.is_in_group(GroupsName.FLOOR_CONTROL):
+		parent.add_to_group(GroupsName.FLOOR_CONTROL)
 	randomize()
 	floors.append(current_child)
-	boss_event = func():
-		var boss_inst = boss.instantiate()
-		get_parent().add_child(boss_inst)
-		boss_inst.spawn(Vector2(get_viewport_rect().size.x, first_floor_pos.y))
+	boss_event = boss_fn
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if not spawn_control.is_running and floors_path.size() > 0 and not is_force_run_event:
+	if is_instance_valid(spawn_control) and not spawn_control.is_running and floors_path.size() > 0 and not is_force_run_event:
 		spawn_control.start_spawn_list()
 	if not triggered_event and scene_floor_min_count > max_floor_buffer and event:
 		triggered_event = true
-		spawn_control.force_stop_all_events()
+		if not stop_all_event_once:
+			spawn_control.force_stop_all_events()
+		stop_all_event_once = false
 		event.call()
 	var new_floor
 	if not is_reset:
 		if floors.size() <= max_floor_buffer:
 			new_floor = get_next_floor().instantiate()
-			add_child(new_floor)
+			parent.add_child(new_floor)
 			new_floor.position = current_child.position
 			new_floor.position.x = new_floor.position.x + get_floor_size(new_floor)
 			floors.push_front(new_floor)
@@ -135,7 +87,7 @@ func _process(_delta):
 
 		for _floor in floors:
 			if is_instance_valid(_floor):
-				_floor.position.x = _floor.position.x - 10
+				_floor.position.x = _floor.position.x - 500 * _delta
 				if _floor.position.x < center_pos.x - get_floor_size(_floor):
 					_floor.queue_free()
 					floors.remove_at(floors.find(_floor))
@@ -144,7 +96,7 @@ func _process(_delta):
 			floors.pop_back().queue_free()
 		var _normal_floor = normal_floor.instantiate()
 		_normal_floor.position = first_floor_pos
-		add_child(_normal_floor)
+		parent.add_child(_normal_floor)
 		floors.push_front(_normal_floor)
 		var pos_prev_floor_x = _normal_floor.position.x
 		for _floor in floors:

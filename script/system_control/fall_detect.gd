@@ -5,7 +5,7 @@ var obstacle_damage_obj = preload("res://script/hitbox_obj/obstacle_damage_obj.g
 @onready var canvas = get_parent().get_parent().get_node("CanvasLayer")
 @onready var player = get_parent().get_parent().get_node("tako")
 @onready var spawn_pos = player.position
-@onready var floors = get_parent().get_parent().get_node("floors")
+@onready var floors = get_parent().get_parent().get_node("floors").floor_control
 var lowest_collision_y
 
 func _ready():

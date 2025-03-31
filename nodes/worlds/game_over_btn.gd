@@ -1,6 +1,6 @@
 extends PanelContainer
 
-@onready var floors_control = get_tree().get_first_node_in_group(GroupsName.FLOOR_CONTROL)
+@onready var floors_control = get_tree().get_first_node_in_group(GroupsName.FLOOR_CONTROL).floor_control
 @onready var spawn_control = floors_control.spawn_control
 @onready var retry_btn = $VBoxContainer/HBoxContainer/retry
 @onready var main_menu_btn = $VBoxContainer/HBoxContainer/main_menu

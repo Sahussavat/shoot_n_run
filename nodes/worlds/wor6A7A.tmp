@@ -1,0 +1,673 @@
+[gd_scene load_steps=39 format=3 uid="uid://crpl7h5cj0fnh"]
+
+[ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://nodes/player/tako.tscn" id="1_pu0p8"]
+[ext_resource type="Script" path="res://script/system_control/floor_map3.gd" id="2_ghqbb"]
+[ext_resource type="PackedScene" uid="uid://by8c6yag6c626" path="res://nodes/floors/normal_floor.tscn" id="3_70o3o"]
+[ext_resource type="Script" path="res://nodes/worlds/blur_screen.gd" id="4_pkegi"]
+[ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="4_uher4"]
+[ext_resource type="Script" path="res://script/player_control/player_health_bar.gd" id="5_l2xnd"]
+[ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="5_mpbbg"]
+[ext_resource type="Script" path="res://script/hitbox_obj/coin_show.gd" id="6_75mmy"]
+[ext_resource type="Script" path="res://script/system_control/boss_health.gd" id="7_7hcmg"]
+[ext_resource type="Script" path="res://script/minigames/mini_games.gd" id="8_owgix"]
+[ext_resource type="Script" path="res://script/minigames/quick_type_game.gd" id="9_eo0g7"]
+[ext_resource type="FontFile" uid="uid://crv230mibegw5" path="res://fonts/upceb.ttf" id="10_7nsvo"]
+[ext_resource type="Script" path="res://script/minigames/speech_game.gd" id="11_spk0v"]
+[ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://nodes/dialogue/balloon.tscn" id="12_0tg23"]
+[ext_resource type="Script" path="res://script/minigames/cal_game.gd" id="12_22m34"]
+[ext_resource type="Script" path="res://script/system_control/menu.gd" id="13_4m1i4"]
+[ext_resource type="Texture2D" uid="uid://dmvxkf2gbxg3d" path="res://img/visual_characters/sprite1 angry small.png" id="13_55vxg"]
+[ext_resource type="Script" path="res://script/system_control/character_pic_control.gd" id="13_a1fmy"]
+[ext_resource type="Script" path="res://nodes/worlds/game_over_btn.gd" id="13_pa7p0"]
+[ext_resource type="Script" path="res://script/system_control/fall_detect.gd" id="13_qkxb4"]
+[ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="14_8fln6"]
+[ext_resource type="Script" path="res://script/system_control/spawn_control.gd" id="14_uwrpj"]
+[ext_resource type="PackedScene" uid="uid://bd6i2usn56jyb" path="res://nodes/menu/setting.tscn" id="14_yg7mh"]
+[ext_resource type="Texture2D" uid="uid://m1r8b2hjuhbd" path="res://img/Parallax Clouds Pack by Captainskeleto/test_custom_bg.png" id="15_knx2q"]
+[ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="17_ydq3y"]
+[ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="20_5kdm1"]
+
+[sub_resource type="Animation" id="Animation_mt32g"]
+resource_name = "intro"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CanvasLayer/map_title/RichTextLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.4, 1.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../floors")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"end_event"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4kb0a"]
+_data = {
+"intro": SubResource("Animation_mt32g")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dln0u"]
+content_margin_left = 25.0
+content_margin_top = 25.0
+content_margin_right = 25.0
+content_margin_bottom = 25.0
+bg_color = Color(0, 0, 0, 0.662745)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sfkll"]
+shader = ExtResource("5_mpbbg")
+shader_parameter/circle_size = 0.0
+
+[sub_resource type="Animation" id="Animation_a0n24"]
+resource_name = "auto_circle_out"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [null],
+"method": &"circle_out"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7bhms"]
+_data = {
+"auto_circle_out": SubResource("Animation_a0n24")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fq1x"]
+size = Vector2(128, 1564)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j6lnw"]
+size = Vector2(1472, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3dcyf"]
+size = Vector2(8368, 1932)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kq3gn"]
+size = Vector2(3569, 1440)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x6dqw"]
+size = Vector2(3385, 1472)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_khd6k"]
+size = Vector2(3712.05, 1523.27)
+
+[node name="World" type="Node2D"]
+process_mode = 1
+
+[node name="tako" parent="." groups=["player"] instance=ExtResource("1_pu0p8")]
+position = Vector2(136, 512)
+
+[node name="floors" type="Node2D" parent="." groups=["floor_control"]]
+script = ExtResource("2_ghqbb")
+
+[node name="normal_floor" parent="floors" groups=["floor"] instance=ExtResource("3_70o3o")]
+position = Vector2(0, 576)
+
+[node name="player_intro" type="AnimationPlayer" parent="floors"]
+root_node = NodePath("../../tako")
+libraries = {
+"": SubResource("AnimationLibrary_4kb0a")
+}
+autoplay = "intro"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="blur_screen" type="Control" parent="CanvasLayer"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 760.0
+script = ExtResource("4_pkegi")
+
+[node name="blur" type="ColorRect" parent="CanvasLayer/blur_screen"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 920.0
+color = Color(1, 1, 1, 0)
+
+[node name="map_title" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/map_title"]
+layout_mode = 0
+offset_left = -556.0
+offset_right = 596.0
+offset_bottom = 120.0
+theme_override_fonts/normal_font = ExtResource("10_7nsvo")
+theme_override_font_sizes/normal_font_size = 200
+bbcode_enabled = true
+text = "[center]By The Sea[/center]"
+scroll_active = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="player_health" type="ProgressBar" parent="CanvasLayer"]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 360.0
+offset_bottom = 51.0
+value = 100.0
+show_percentage = false
+script = ExtResource("5_l2xnd")
+
+[node name="coin_show" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = 472.0
+offset_top = 24.0
+offset_right = 512.0
+offset_bottom = 64.0
+script = ExtResource("6_75mmy")
+
+[node name="Label" type="Label" parent="CanvasLayer/coin_show"]
+layout_mode = 2
+text = "Coin: "
+
+[node name="coin_value" type="Label" parent="CanvasLayer/coin_show"]
+layout_mode = 2
+
+[node name="boss_health" type="ProgressBar" parent="CanvasLayer" groups=["boss_bar"]]
+visible = false
+offset_left = 264.0
+offset_top = 608.0
+offset_right = 960.0
+offset_bottom = 635.0
+value = 100.0
+show_percentage = false
+script = ExtResource("7_7hcmg")
+
+[node name="Label" type="Label" parent="CanvasLayer/boss_health"]
+layout_mode = 0
+offset_right = 696.0
+offset_bottom = 23.0
+text = "King"
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="mini_games" type="PanelContainer" parent="CanvasLayer/Control2" groups=["minigames"]]
+visible = false
+layout_mode = 0
+offset_left = 192.0
+offset_top = 75.0
+offset_right = 960.0
+offset_bottom = 581.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dln0u")
+script = ExtResource("8_owgix")
+
+[node name="quick_type_game" type="VBoxContainer" parent="CanvasLayer/Control2/mini_games"]
+process_mode = 4
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 50
+script = ExtResource("9_eo0g7")
+
+[node name="question_text" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 60
+text = "ตะเกียบคีบเนื้อ"
+horizontal_alignment = 1
+
+[node name="show_text" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/show_text"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/show_text"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Label3" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/show_text"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="choices" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
+layout_mode = 2
+theme_override_constants/separation = 102
+alignment = 1
+
+[node name="win_count" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
+layout_mode = 2
+alignment = 1
+
+[node name="counter" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/win_count"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/win_count"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "/"
+
+[node name="max" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/win_count"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "4"
+
+[node name="timer_show" type="ProgressBar" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="speech_game" type="VBoxContainer" parent="CanvasLayer/Control2/mini_games"]
+process_mode = 4
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 30
+script = ExtResource("11_spk0v")
+
+[node name="question_text" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 50
+text = "ตะเกียบคีบเนื้อ"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="show_answer" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 35
+text = "ตะเกียบคีบเนื้อ"
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="win_show" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/speech_game"]
+layout_mode = 2
+alignment = 1
+
+[node name="win_count" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/win_show"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="label" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/win_show"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "/"
+
+[node name="win_max" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/win_show"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "3"
+
+[node name="show_buttton" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/speech_game"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/show_buttton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 40
+text = "กด"
+
+[node name="button_to_start" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/show_buttton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 40
+text = "P"
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/show_buttton"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 40
+text = "เพื่อเริ่ม"
+
+[node name="mistake_bar" type="ProgressBar" parent="CanvasLayer/Control2/mini_games/speech_game"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="cal_game" type="VBoxContainer" parent="CanvasLayer/Control2/mini_games"]
+process_mode = 4
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 50
+script = ExtResource("12_22m34")
+
+[node name="question" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/cal_game"]
+layout_mode = 2
+alignment = 1
+
+[node name="num1" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/question"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 75
+text = "2"
+
+[node name="arth_sign" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/question"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 75
+text = "+"
+
+[node name="num2" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/question"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 75
+text = "3"
+
+[node name="key4" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/question"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_7nsvo")
+theme_override_font_sizes/font_size = 75
+text = "= ?"
+
+[node name="choices" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/cal_game"]
+layout_mode = 2
+theme_override_constants/separation = 102
+alignment = 1
+
+[node name="win_count" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/cal_game"]
+layout_mode = 2
+alignment = 1
+
+[node name="counter" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/win_count"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/win_count"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "/"
+
+[node name="max" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/win_count"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "4"
+
+[node name="timer_show" type="ProgressBar" parent="CanvasLayer/Control2/mini_games/cal_game"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="character_left" type="HBoxContainer" parent="CanvasLayer/Control2"]
+visible = false
+layout_direction = 1
+layout_mode = 0
+offset_left = -10.0
+offset_top = 222.0
+offset_right = 201.0
+offset_bottom = 645.0
+alignment = 2
+script = ExtResource("13_a1fmy")
+
+[node name="character_pic" type="TextureRect" parent="CanvasLayer/Control2/character_left"]
+layout_mode = 2
+texture = ExtResource("13_55vxg")
+expand_mode = 3
+
+[node name="character_right" type="HBoxContainer" parent="CanvasLayer/Control2"]
+visible = false
+layout_direction = 1
+layout_mode = 0
+offset_left = 945.0
+offset_top = 222.0
+offset_right = 1156.0
+offset_bottom = 645.0
+alignment = 2
+script = ExtResource("13_a1fmy")
+
+[node name="character_pic" type="TextureRect" parent="CanvasLayer/Control2/character_right"]
+layout_mode = 2
+texture = ExtResource("13_55vxg")
+expand_mode = 3
+
+[node name="game_over" type="PanelContainer" parent="CanvasLayer"]
+visible = false
+offset_left = 192.0
+offset_top = 128.0
+offset_right = 960.0
+offset_bottom = 512.0
+script = ExtResource("13_pa7p0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/game_over"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/game_over/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/game_over/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="retry" type="Button" parent="CanvasLayer/game_over/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Retry"
+
+[node name="main_menu" type="Button" parent="CanvasLayer/game_over/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Main Menu"
+
+[node name="setting" parent="CanvasLayer" instance=ExtResource("14_yg7mh")]
+visible = false
+offset_left = 192.0
+offset_top = 96.0
+offset_right = 960.0
+offset_bottom = 512.0
+
+[node name="menu" type="PanelContainer" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+offset_left = 448.0
+offset_top = 128.0
+offset_right = 704.0
+offset_bottom = 512.0
+script = ExtResource("13_4m1i4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/menu"]
+process_mode = 2
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="resume" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="setting" type="Button" parent="CanvasLayer/menu/VBoxContainer" node_paths=PackedStringArray("page_target")]
+process_mode = 2
+layout_mode = 2
+text = "Setting"
+script = ExtResource("14_8fln6")
+page_target = NodePath("../../../setting")
+
+[node name="to_main_menu" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
+layout_mode = 2
+text = "Quit to Main Menu"
+script = ExtResource("17_ydq3y")
+world_target = "res://nodes/worlds/main_menu.tscn"
+
+[node name="quit_game" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
+layout_mode = 2
+text = "Quit Game"
+
+[node name="Balloon" parent="CanvasLayer" instance=ExtResource("12_0tg23")]
+process_mode = 2
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("20_5kdm1")
+
+[node name="cutscene" type="VideoStreamPlayer" parent="CanvasLayer/Control"]
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+expand = true
+
+[node name="skip_container" type="VBoxContainer" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 0
+offset_left = 960.0
+offset_top = 64.0
+offset_right = 1088.0
+offset_bottom = 128.0
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/skip_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "Skip: Hold "
+
+[node name="skip_key" type="Label" parent="CanvasLayer/Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "[ ESC ]"
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control/skip_container"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+show_percentage = false
+
+[node name="Control3" type="Control" parent="CanvasLayer"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_uher4")
+
+[node name="black_fade" type="ColorRect" parent="CanvasLayer/Control3"]
+material = SubResource("ShaderMaterial_sfkll")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1112.0
+offset_bottom = 608.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Control3"]
+libraries = {
+"": SubResource("AnimationLibrary_7bhms")
+}
+autoplay = "auto_circle_out"
+
+[node name="wall" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="wall"]
+position = Vector2(1216, 384)
+shape = SubResource("RectangleShape2D_6fq1x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall"]
+position = Vector2(-64, 370)
+shape = SubResource("RectangleShape2D_6fq1x")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="wall"]
+position = Vector2(608, 1216)
+shape = SubResource("RectangleShape2D_j6lnw")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="wall"]
+position = Vector2(608, -448)
+shape = SubResource("RectangleShape2D_j6lnw")
+
+[node name="fall_detect" type="Area2D" parent="wall"]
+collision_layer = 0
+script = ExtResource("13_qkxb4")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="wall/fall_detect"]
+position = Vector2(480, 1890)
+shape = SubResource("RectangleShape2D_3dcyf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall/fall_detect"]
+position = Vector2(-1911.5, 200)
+shape = SubResource("RectangleShape2D_kq3gn")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="wall/fall_detect"]
+position = Vector2(2971.5, 224)
+shape = SubResource("RectangleShape2D_x6dqw")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="wall/fall_detect"]
+position = Vector2(472, -1396.8)
+scale = Vector2(2.26721, -1.15961)
+shape = SubResource("RectangleShape2D_khd6k")
+
+[node name="spawn_control" type="Node2D" parent="." groups=["spawn_control"]]
+script = ExtResource("14_uwrpj")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_filter = 1
+position = Vector2(576, 320)
+texture = ExtResource("15_knx2q")

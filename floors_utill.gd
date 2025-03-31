@@ -6,8 +6,8 @@ var current_floor_path = 0
 var current_amount_floor_path = -1
 var enable_load = false
 
-func _ready():
-	var f = get_tree().get_first_node_in_group(GroupsName.FLOOR_CONTROL)
+func set_floor_control(floor_control):
+	var f = floor_control
 	if f:
 		floors_path_len = f.floors_path.size()
 

@@ -27,6 +27,7 @@ func change_to_target_scene(scene_path):
 	get_tree().paused = false
 	var floors_control = get_tree().get_first_node_in_group(GroupsName.FLOOR_CONTROL)
 	if floors_control:
+		floors_control = floors_control.floor_control
 		var spawn_control = floors_control.spawn_control
 		spawn_control.force_stop_all_events()
 		floors_control.stop_loop()

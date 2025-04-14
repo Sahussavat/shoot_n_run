@@ -143,9 +143,8 @@ offset_bottom = 760.0
 script = ExtResource("4_0gvne")
 
 [node name="blur" type="TextureRect" parent="CanvasLayer/blur_screen"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1152.0
+offset_bottom = 768.0
 
 [node name="map_title" type="Control" parent="CanvasLayer"]
 layout_mode = 3

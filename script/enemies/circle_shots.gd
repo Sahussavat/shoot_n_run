@@ -13,15 +13,17 @@ func _init(_parent):
 func create_shots(n, wait_between = 0):
 	if n > 0 and i < n and is_instance_valid(parent):
 		is_shot_empty = false
-		var toxic_bullet_inst = toxic_bullet.instantiate()
+		var toxic_bullet_inst = ReuseInitialize.initialize(GroupsName.ENEMIES_BULLET, toxic_bullet)
+		toxic_bullet_inst.group_name = GroupsName.ENEMIES_BULLET
 		toxic_bullet_inst.global_position = parent.global_position
 		var centre = toxic_bullet_inst.global_position
 		var x = centre.x + cos(float(i)/n * PI * 2) * 5;
 		var y = centre.y + sin(float(i)/n * PI * 2) * 5;
 		toxic_bullet_inst.target_pos = Vector2(x, y)
-		toxic_bullet_inst.MAX_SPEED = 15
+		toxic_bullet_inst.MAX_SPEED = 35
 		toxic_bullet_inst.destroy_wait_time = 50
-		parent.get_parent().add_child(toxic_bullet_inst)
+		if not toxic_bullet_inst.get_parent():
+			parent.get_parent().add_child(toxic_bullet_inst)
 		var hitbox = get_hitbox(toxic_bullet_inst)
 		hitbox.set_collision_mask_value(1, true)
 		hitbox.set_collision_mask_value(2, false)

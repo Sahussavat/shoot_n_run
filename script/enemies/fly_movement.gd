@@ -49,7 +49,7 @@ func get_circle_position(target, angle):
 	return Vector2(x, y)
 
 func change_angle(delta):
-	var inc = 0.0025 * angle_direction * delta * SPEED
+	var inc = 0.0025 * angle_direction * delta * SPEED  * SlowMotionVal.slow_motion_val
 	if current_angle >= 0.9 + inc:
 		angle_direction = angle_direction * -1
 		current_angle = 0.89
@@ -70,14 +70,14 @@ func retret(delta, call_back = null):
 	var left_pos = get_circle_position(center_pos, 0.61)
 	var right_pos = get_circle_position(center_pos, 0.89)
 	if left_pos.distance_to(parent.global_position) <= right_pos.distance_to(parent.global_position):
-		parent.global_position += parent.global_position.direction_to(left_pos) * SPEED * SPEED * delta  / 2
-		if left_pos.distance_to(parent.global_position) <= SPEED * SPEED * delta  / 2:
+		parent.global_position += parent.global_position.direction_to(left_pos) * SPEED * SPEED * delta  * SlowMotionVal.slow_motion_val  / 2
+		if left_pos.distance_to(parent.global_position) <= SPEED * SPEED * delta  * SlowMotionVal.slow_motion_val  / 2:
 			current_angle = 0.61
 			if call_back:
 				call_back.call()
 	else:
-		parent.global_position += parent.global_position.direction_to(right_pos) * SPEED * SPEED * delta / 2
-		if right_pos.distance_to(parent.global_position) <= SPEED * SPEED * delta  / 2:
+		parent.global_position += parent.global_position.direction_to(right_pos) * SPEED * SPEED * delta  * SlowMotionVal.slow_motion_val / 2
+		if right_pos.distance_to(parent.global_position) <= SPEED * SPEED * delta * SlowMotionVal.slow_motion_val  / 2:
 			current_angle = 0.89
 			if call_back:
 				call_back.call()
@@ -85,7 +85,7 @@ func retret(delta, call_back = null):
 func charge(delta, target_pos, call_back):
 	if not charge_direction:
 		charge_direction = parent.global_position.direction_to(target_pos)
-	var charge_pos = parent.global_position + charge_direction * SPEED * SPEED * delta
+	var charge_pos = parent.global_position + charge_direction * SPEED * SPEED * delta  * SlowMotionVal.slow_motion_val
 	
 	var x = charge_pos.x;
 	var y = charge_pos.y;

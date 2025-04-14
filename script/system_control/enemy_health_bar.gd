@@ -49,4 +49,9 @@ func get_collision(obj):
 func enable_health_bar(enable = true):
 	health_bar.set_visible(enable)
 
+func reset_bar():
+	health_bar_control.update_bar()
+	hide_bar_timer.stop()
+	health_bar.set_visible(false)
+
 

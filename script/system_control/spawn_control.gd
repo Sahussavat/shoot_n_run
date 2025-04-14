@@ -8,8 +8,11 @@ var timer = Timer.new()
 var current_spawner
 var is_running = false
 var pause_next_battle = false
+var is_first_time_count = true
+var max_enemies = 0
 
 func _ready():
+	ReuseInitialize.reset_used_entities()
 	timer.autostart = false
 	timer.timeout.connect(start_spawn_list)
 	add_child(timer)
@@ -27,6 +30,8 @@ func start_spawn_list():
 	current_spawner = create(curret_battle["spawner"])
 	current_spawner.out_of_enemies.connect(cancel_and_go_next_battle)
 	current_spawner.start()
+	if is_first_time_count:
+		max_enemies += current_spawner.max_enemies
 	timer.wait_time = curret_battle["fight_duration"]
 	timer.start()
 
@@ -41,6 +46,7 @@ func get_curret_battle():
 	if spawn_list.size() == 0:
 		return
 	if spawn_list_temp.size() == 0:
+		is_first_time_count = false
 		spawn_list_temp = spawn_list.duplicate()
 		spawn_list_temp.shuffle()
 	var curret_battle
@@ -71,5 +77,7 @@ func force_stop_all_events():
 	pause_next_battle = false
 
 func remove_all_enemies():
+	ScoreControl.is_turn_off_score_delta = true
 	get_tree().call_group(GroupsName.ENEMIES, "destroy")
+	ScoreControl.is_turn_off_score_delta = false
 	

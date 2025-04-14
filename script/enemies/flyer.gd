@@ -14,6 +14,7 @@ var max_health = 25
 
 var timer
 var danger_dash_zone_inst
+var aiming = false
 
 var health = preload("res://script/system_control/health.gd")
 var hit_flash = preload("res://script/system_control/hit_flash.gd")
@@ -31,12 +32,25 @@ func _ready():
 	hit_flash = hit_flash.new(self)
 	health.change_health.connect(hit_flash.do_hit_flash)
 	health.add_on_death(destroy)
-	health_bar_control.new(self, health)
+	health_bar_control = health_bar_control.new(self, health)
 	wait_for_attack.wait_time = 1
 	wait_for_attack.one_shot = true
 	wait_for_attack.timeout.connect(reset_atk)
 	add_child(wait_for_attack)
 	fly_movement = fly_movement.new(self)
+
+func _re_ready():
+	health.revive()
+	health_bar_control.reset_bar()
+	
+	current_state = state.RETREAT
+	
+	wait_for_attack.free()
+	wait_for_attack = Timer.new()
+	wait_for_attack.wait_time = 1
+	wait_for_attack.one_shot = true
+	wait_for_attack.timeout.connect(reset_atk)
+	add_child(wait_for_attack)
 
 var angle = 0.1
 var direction = 1
@@ -49,19 +63,26 @@ func _process(_delta):
 				wait_for_attack.start()
 			fly_movement.move_center(_delta)
 		state.MOVE_AND_AIM:
-			if not danger_dash_zone_inst:
-				danger_dash_zone_inst = danger_dash_zone.new(self, collision)
+			if not aiming:
+				aiming = true
+				if not danger_dash_zone_inst:
+					danger_dash_zone_inst = danger_dash_zone.new(self, collision)
+					if not danger_dash_zone_inst.get_parent():
+						add_child(danger_dash_zone_inst)
 				danger_dash_zone_inst.start_cooldown(func():
-					var toxic_bullet_inst = toxic_bullet.instantiate()
+					var toxic_bullet_inst = ReuseInitialize.initialize(GroupsName.ENEMIES_BULLET, toxic_bullet)
+					toxic_bullet_inst.group_name = GroupsName.ENEMIES_BULLET
 					toxic_bullet_inst.position = global_position
 					toxic_bullet_inst.target_pos = player.global_position
-					get_parent().add_child(toxic_bullet_inst)
+					if not toxic_bullet_inst.get_parent():
+						get_parent().add_child(toxic_bullet_inst)
 					var hitbox = get_hitbox(toxic_bullet_inst)
 					hitbox.set_collision_mask_value(1, true)
 					hitbox.set_collision_mask_value(2, false)
 					hitbox.set_collision_mask_value(3, false)
 					
 					current_state = state.MOVE
+					aiming = false
 					)
 			else:
 				danger_dash_zone_inst.follow(player)
@@ -89,7 +110,11 @@ func reset_atk():
 	current_state = state.MOVE_AND_AIM
 		
 func destroy():
-	ExplodeEffect.explode(self)
+	if visible:
+		ExplodeEffect.explode(self)
 	ScoreControl.score_delta(50)
-	queue_free()
-
+	ReuseInitialize.to_reuse(GroupsName.FLYER ,self)
+	if is_instance_valid(danger_dash_zone_inst) and danger_dash_zone_inst:
+		danger_dash_zone_inst.destroy()
+	current_state = state.MOVE
+	aiming = false

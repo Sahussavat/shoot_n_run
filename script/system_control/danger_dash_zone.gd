@@ -9,20 +9,24 @@ var danger_zone_height
 var danger_zone_width = 2000
 var old_pos
 var parent
+
+var tween
 # Called when the node enters the scene tree for the first time.
 func _init(_parent, collision):
 	self.parent = _parent
 	danger_zone = ColorRect.new()
+	danger_zone.visible = false
 	danger_zone_height = collision.shape.size.y
 	danger_zone.size = Vector2(danger_zone_width, danger_zone_height)
 	var _color = Color.RED
 	_color.a = 0.5
 	danger_zone.color = _color
 	danger_zone_cooldown_bar = danger_zone.duplicate()
+	danger_zone_cooldown_bar.visible = true
 	danger_zone_cooldown_bar.size.y = 0.1
 	old_pos = danger_zone_cooldown_bar.position
 	danger_zone_cooldown_bar.position.y = danger_zone_cooldown_bar.position.y + danger_zone_height / 2.0
-	parent.add_child(danger_zone)
+	add_child(danger_zone)
 	danger_zone.add_child(danger_zone_cooldown_bar)
 	danger_zone.z_index = -1
 	danger_zone_cooldown_bar.z_index = -1
@@ -40,6 +44,7 @@ func _init(_parent, collision):
 	danger_zone.add_child(danger_arrow)
 
 func follow(target):
+	danger_zone.visible = true
 	var target_pos = target
 	if not (target_pos is Vector2):
 		target_pos = target.global_position
@@ -53,13 +58,19 @@ func follow(target):
 	
 
 func start_cooldown(call_back):
-	var tween = parent.create_tween()
+	tween = parent.create_tween()
 	var duration = 1
-	tween.tween_property(danger_zone_cooldown_bar, "size", Vector2(danger_zone_cooldown_bar.size.x, danger_zone_height), duration)
+	danger_zone_cooldown_bar.size.y = 0.1
+	danger_zone_cooldown_bar.global_position = danger_zone.global_position
+	danger_zone_cooldown_bar.position.y = danger_zone_cooldown_bar.position.y + danger_zone_height / 2.0
+	tween.tween_property(danger_zone_cooldown_bar, "size:y", danger_zone_height, duration)
 	tween.parallel().tween_property(danger_zone_cooldown_bar, "position", old_pos, duration)
 	tween.tween_callback(func():
 		call_back.call()
-		danger_zone.queue_free()
-		danger_zone_cooldown_bar.queue_free()
-		queue_free()
+		danger_zone.visible = false
 	)
+
+func destroy():
+	if tween:
+		tween.kill()
+	danger_zone.visible = false

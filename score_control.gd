@@ -6,6 +6,7 @@ var key
 
 var highest_score = 0
 var score = 0
+var is_turn_off_score_delta = false
 var save_file_path = "user://score_%s.save"
 var key_path = "user://generated.key"
 
@@ -38,7 +39,8 @@ func load_highest_score():
 	return highest_score
 
 func score_delta(delta):
-	score += delta
+	if not is_turn_off_score_delta:
+		score += delta
 	set_current_scene_name()
 
 func set_current_scene_name():

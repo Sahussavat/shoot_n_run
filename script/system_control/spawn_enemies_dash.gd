@@ -12,6 +12,8 @@ var time_for_each
 var shark = preload("res://nodes/enemies/dash_enemy.tscn")
 
 var total_enemies = 0
+var is_first_count = true
+var max_enemies = 0
 signal out_of_enemies
 
 var parent
@@ -19,34 +21,42 @@ var parent
 var attack_seq = [
 	func():
 		for i in range(0, vertical_n_max):
-			var shark_inst = shark.instantiate()
-			shark_inst.position = get_index_of(shark_inst, i)
-			parent.add_child(shark_inst)
-			check_is_dead(shark_inst)
+			if not is_first_count and total_enemies < max_enemies * 2 or is_first_count:
+				var shark_inst = ReuseInitialize.initialize(GroupsName.DASHER, shark)
+				shark_inst.position = get_index_of(shark_inst, i)
+				if not shark_inst.get_parent():
+					parent.add_child(shark_inst)
+				check_is_dead(shark_inst)
 		,
 	func():
 		for i in range(0, vertical_n_max):
-			var shark_inst = shark.instantiate()
-			shark_inst.do_mirror()
-			shark_inst.position = get_index_of(shark_inst, i, attack_from.RIGHT)
-			parent.add_child(shark_inst)
-			check_is_dead(shark_inst)
+			if not is_first_count and total_enemies < max_enemies * 2 or is_first_count:
+				var shark_inst = ReuseInitialize.initialize(GroupsName.DASHER, shark)
+				shark_inst.do_mirror()
+				shark_inst.position = get_index_of(shark_inst, i, attack_from.RIGHT)
+				if not shark_inst.get_parent():
+					parent.add_child(shark_inst)
+				check_is_dead(shark_inst)
 		,
 	func():
 		for i in range(0, vertical_n_max):
-			var shark_inst = shark.instantiate()
-			shark_inst.rotate_by_degrees(90)
-			shark_inst.position = get_index_of(shark_inst, i, attack_from.UP)
-			parent.add_child(shark_inst)
-			check_is_dead(shark_inst)
+			if not is_first_count and total_enemies < max_enemies * 2 or is_first_count:
+				var shark_inst = ReuseInitialize.initialize(GroupsName.DASHER, shark)
+				shark_inst.rotate_by_degrees(90)
+				shark_inst.position = get_index_of(shark_inst, i, attack_from.UP)
+				if not shark_inst.get_parent():
+					parent.add_child(shark_inst)
+				check_is_dead(shark_inst)
 		,
 	func():
 		for i in range(0, vertical_n_max):
-			var shark_inst = shark.instantiate()
-			shark_inst.rotate_by_degrees(-90)
-			shark_inst.position = get_index_of(shark_inst, i, attack_from.DOWN)
-			parent.add_child(shark_inst)
-			check_is_dead(shark_inst)
+			if not is_first_count and total_enemies < max_enemies * 2 or is_first_count:
+				var shark_inst = ReuseInitialize.initialize(GroupsName.DASHER, shark)
+				shark_inst.rotate_by_degrees(-90)
+				shark_inst.position = get_index_of(shark_inst, i, attack_from.DOWN)
+				if not shark_inst.get_parent():
+					parent.add_child(shark_inst)
+				check_is_dead(shark_inst)
 		,
 ]
 
@@ -58,6 +68,9 @@ func start():
 	if attack_seq.size() > 0:
 		var first_attack = attack_seq.pop_front()
 		first_attack.call()
+		if is_first_count:
+			is_first_count = false
+			max_enemies = total_enemies
 		do_wait()
 
 func is_stop():
@@ -115,7 +128,8 @@ func is_all_dead():
 		out_of_enemies.emit()
 
 func check_is_dead(entity):
-	entity.health.add_on_death(decrease_total_enemies)
+	if not entity.health.has_died.is_connected(decrease_total_enemies):
+		entity.health.add_on_death(decrease_total_enemies)
 	total_enemies += 1
 
 func decrease_total_enemies():

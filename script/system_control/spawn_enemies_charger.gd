@@ -12,6 +12,8 @@ var flyer = preload("res://nodes/enemies/charger.tscn")
 signal out_of_enemies
 
 var total_enemies = 0
+var is_first_count = true
+var max_enemies = 0
 var parent
 
 var attack_seq = []
@@ -22,20 +24,26 @@ func _init(_parent):
 	
 	for i in range(0, left_n_max):
 		attack_seq.append(func():
-			var flyer_inst = flyer.instantiate()
-			flyer_inst.position = get_index_of(flyer_inst)
-			parent.add_child(flyer_inst)
-			check_is_dead(flyer_inst)
-			flyer_inst = flyer.instantiate()
-			flyer_inst.position = get_index_of(flyer_inst, attack_from.RIGHT)
-			parent.add_child(flyer_inst)
-			check_is_dead(flyer_inst)
+			if not is_first_count and total_enemies < max_enemies * 2 or is_first_count:
+				var flyer_inst = ReuseInitialize.initialize(GroupsName.CHARGER ,flyer)
+				flyer_inst.position = get_index_of(flyer_inst)
+				if not flyer_inst.get_parent():
+					parent.add_child(flyer_inst)
+				check_is_dead(flyer_inst)
+				flyer_inst = ReuseInitialize.initialize(GroupsName.CHARGER ,flyer)
+				flyer_inst.position = get_index_of(flyer_inst, attack_from.RIGHT)
+				if not flyer_inst.get_parent():
+					parent.add_child(flyer_inst)
+				check_is_dead(flyer_inst)
 			)
 
 func start():
 	if attack_seq.size() > 0:
 		var first_attack = attack_seq.pop_front()
 		first_attack.call()
+		if is_first_count:
+			is_first_count = false
+			max_enemies = total_enemies
 		do_wait()
 
 func is_stop():
@@ -80,7 +88,8 @@ func is_all_dead():
 		out_of_enemies.emit()
 
 func check_is_dead(entity):
-	entity.health.add_on_death(decrease_total_enemies)
+	if not entity.health.has_died.is_connected(decrease_total_enemies):
+		entity.health.add_on_death(decrease_total_enemies)
 	total_enemies += 1
 
 func decrease_total_enemies():

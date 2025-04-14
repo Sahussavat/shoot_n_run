@@ -10,8 +10,8 @@ func _ready():
 	var player = get_tree().get_first_node_in_group(GroupsName.PLAYER)
 	if player:
 		player.health.health.add_on_death(func():
-			if is_reset_control:
-				ScoreControl.reset()
+			#if is_reset_control:
+				#ScoreControl.reset()
 			player.visible = false
 			PlayerDeathEffect.do_game_over_effect(player, player.global_position, func():
 				process_mode = Node.PROCESS_MODE_ALWAYS

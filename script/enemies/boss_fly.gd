@@ -86,7 +86,7 @@ func _physics_process(_delta):
 		cooldown_next_timer.start()
 
 func set_half_hp_mode():
-	if health.health <= health.max_health/2.0 and not is_in_half_hp_mode:
+	if health.health <= health.max_health/2.0 and not is_in_half_hp_mode and not disable_minigame:
 		is_in_half_hp_mode = true
 		is_cooldown_in_half_hp = true
 		cooldown_next_timer.wait_time = 0.5

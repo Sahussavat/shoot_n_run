@@ -19,16 +19,19 @@ func _ready():
 	hit_flash = hit_flash.new(self)
 	health.change_health.connect(hit_flash.do_hit_flash)
 	health.add_on_death(destroy)
-	health_bar_control.new(self, health)
+	health_bar_control = health_bar_control.new(self, health)
 	add_to_group(GroupsName.CROWD)
 	EntitiesGroup.add_entity_to_group(GroupsName.CROWD, self)
 	crowd_group = EntitiesGroup.groups[GroupsName.CROWD]
 
+func _re_ready():
+	health.revive()
+	health_bar_control.reset_bar()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if global_position.distance_to(player.global_position) > 10:
-		global_position += seek(player.global_position) + seperation() * 0.5 + velocity * pow(MAX_SPEED, 2) * _delta
+		global_position += seek(player.global_position) + seperation() * 0.5 + velocity * pow(MAX_SPEED, 2) * _delta  * SlowMotionVal.slow_motion_val
 
 func seek(target_pos):
 	var desired_velocity = (target_pos - global_position).normalized() * max_velocity
@@ -55,7 +58,7 @@ func seperation():
 	return force
 
 func destroy():
-	EntitiesGroup.remove_entity_from_group(GroupsName.CROWD, self)
-	ExplodeEffect.explode(self)
+	if visible:
+		ExplodeEffect.explode(self)
 	ScoreControl.score_delta(50)
-	queue_free()
+	ReuseInitialize.to_reuse(GroupsName.CROWD, self)

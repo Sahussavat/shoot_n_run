@@ -12,6 +12,8 @@ var current_state = state.RETRET
 var SPEED = 800
 var CHARGE_SPEED = 20
 
+var aiming = false
+
 var timer
 var danger_dash_zone_inst
 var charge_direction = 1
@@ -32,12 +34,24 @@ func _ready():
 	hit_flash = hit_flash.new(self)
 	health.change_health.connect(hit_flash.do_hit_flash)
 	health.add_on_death(destroy)
-	health_bar_control.new(self, health)
+	health_bar_control = health_bar_control.new(self, health)
 	wait_for_attack.wait_time = 1
 	wait_for_attack.one_shot = true
 	wait_for_attack.timeout.connect(reset_atk)
 	add_child(wait_for_attack)
 	fly_movement = fly_movement.new(self)
+
+func _re_ready():
+	health.revive()
+	health_bar_control.reset_bar()
+	current_state = state.RETRET
+	
+	wait_for_attack.free()
+	wait_for_attack = Timer.new()
+	wait_for_attack.wait_time = 1
+	wait_for_attack.one_shot = true
+	wait_for_attack.timeout.connect(reset_atk)
+	add_child(wait_for_attack)
 
 var angle = 0.1
 var direction = 1
@@ -50,10 +64,15 @@ func _process(_delta):
 				wait_for_attack.start()
 			fly_movement.move_center(_delta)
 		state.MOVE_AND_AIM:
-			if not danger_dash_zone_inst:
-				danger_dash_zone_inst = danger_dash_zone.new(self, collision)
+			if not aiming:
+				aiming = true
+				if not danger_dash_zone_inst:
+					danger_dash_zone_inst = danger_dash_zone.new(self, collision)
+					if not danger_dash_zone_inst.get_parent():
+						add_child(danger_dash_zone_inst)
 				danger_dash_zone_inst.start_cooldown(func():
 					current_state = state.CHARGE
+					aiming = false
 					)
 			else:
 				danger_dash_zone_inst.follow(player)
@@ -86,7 +105,12 @@ func reset_atk():
 	current_state = state.MOVE_AND_AIM
 		
 func destroy():
-	ExplodeEffect.explode(self)
+	if visible:
+		ExplodeEffect.explode(self)
 	ScoreControl.score_delta(50)
-	queue_free()
+	ReuseInitialize.to_reuse(GroupsName.CHARGER ,self)
+	if is_instance_valid(danger_dash_zone_inst) and danger_dash_zone_inst:
+		danger_dash_zone_inst.destroy()
+	fly_movement.charge_direction = null
+	aiming = false
 

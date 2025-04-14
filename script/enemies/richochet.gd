@@ -29,5 +29,5 @@ func move(delta):
 		y = dist_from_viewport - 1
 		vel.y = abs(vel.y)
 	
-	parent.global_position = Vector2(x, y) + vel * pow(5, 2) * delta
+	parent.global_position = Vector2(x, y) + vel * pow(5, 2) * delta * 10
 

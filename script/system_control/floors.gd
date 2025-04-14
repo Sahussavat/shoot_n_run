@@ -16,10 +16,15 @@ var boss_fly = preload("res://nodes/enemies/boss_fly.tscn")
 
 enum floor_types {
 	RANDOM, ##floor แบบ random เป็นได้ทั้งพื้นปกติไม่มีอะไรหรือพื้นที่มีอุปสรรคกีดขวาง
+	RANDOM_LOOP,
 	OBSTACLE, ##floor แบบที่มีสิ่งกีดขวางบังทางตัวละคร
 	FALL, ##floor แบบที่มีสิ่งกีดขวางแบบหลุม
 	EVENT, ##floor สำหรับ trigger event อะไรบางอย่าง โดยพื้นที่ player วิ่งจะเป็นพื้นปกติจนกว่าจะจบ event
 }
+
+var floor_count = 0
+var max_floor_count = 20
+var is_speedup_enable = false
 
 var floors_path
 var max_floor_buffer = 3
@@ -50,6 +55,7 @@ func _init(_parent):
 	parent = _parent
 	spawn_control = parent.get_tree().get_first_node_in_group(GroupsName.SPAWN_CONTROL)
 	balloon = parent.get_tree().get_first_node_in_group(GroupsName.BALLOON)
+	SlowMotionVal.reset_slow_motion_val()
 
 func setting(floors_data, spawn_data, boss_fn = func():
 		pass):
@@ -84,10 +90,13 @@ func _process(_delta):
 			new_floor.position.x = new_floor.position.x + get_floor_size(new_floor)
 			floors.push_front(new_floor)
 			current_child = new_floor
-
+			if floor_count <= max_floor_count and is_speedup_enable:
+				floor_count += 1;
+				if floor_count > 5:
+					SlowMotionVal.set_slow_motion_val(1.0 + float(floor_count)/max_floor_count * 0.5)
 		for _floor in floors:
 			if is_instance_valid(_floor):
-				_floor.position.x = _floor.position.x - 500 * _delta
+				_floor.position.x = _floor.position.x - 500 * _delta * SlowMotionVal.slow_motion_val
 				if _floor.position.x < center_pos.x - get_floor_size(_floor):
 					_floor.queue_free()
 					floors.remove_at(floors.find(_floor))
@@ -112,6 +121,8 @@ func get_next_floor():
 	var floor_event = null
 	if force_floor:
 		var fl = force_floor
+		if force_floor == floor_types.RANDOM_LOOP:
+			fl = get_floor_by_type(floor_types.RANDOM)
 		if not is_force_floor_loop:
 			force_floor = null
 		return fl
@@ -165,6 +176,8 @@ func get_floor_by_type(floor_type):
 			]
 			var rand_floor_i = randi_range(0, floor_arr.size() - 1)
 			return floor_arr[rand_floor_i]
+		floor_types.RANDOM_LOOP:
+			return floor_types.RANDOM_LOOP
 		floor_types.OBSTACLE:
 			return obs_floor
 		floor_types.FALL:

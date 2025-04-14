@@ -25,7 +25,7 @@ func add_on_death(call_back):
 		)
 
 func is_dead():
-	return health <= 0 and not is_invicible
+	return health <= 0
 
 func set_invicible(enable):
 	is_invicible = enable
@@ -41,3 +41,7 @@ func check_death():
 		has_died.emit()
 	elif not is_dead():
 		is_died = false
+
+func revive():
+	is_died = false 
+	health = max_health

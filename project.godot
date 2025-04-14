@@ -31,6 +31,8 @@ EntitiesGroup="*res://entities_group.gd"
 ExplodeEffect="*res://explode_effect.gd"
 PlayerDeathEffect="*res://player_death_effect.gd"
 ScoreControl="*res://score_control.gd"
+SlowMotionVal="*res://slow_motion_val.gd"
+ReuseInitialize="*res://reuse_initialize.gd"
 
 [dialogue_manager]
 

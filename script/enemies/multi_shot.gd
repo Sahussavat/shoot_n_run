@@ -17,13 +17,17 @@ func create_shots(n, wait_between, target):
 		is_shot_empty = true
 
 func spawn_bullet(n, wait_between, target):
-	var toxic_bullet_inst = toxic_bullet.instantiate()
+	var toxic_bullet_inst = ReuseInitialize.initialize(GroupsName.ENEMIES_BULLET, toxic_bullet)
+	toxic_bullet_inst.group_name = GroupsName.ENEMIES_BULLET
 	if is_instance_valid(parent):
 		toxic_bullet_inst.global_position = parent.global_position
 		toxic_bullet_inst.target_pos = target.global_position
-		var danger_dash_zone_inst = danger_dash_zone.new(toxic_bullet_inst, get_collision(toxic_bullet_inst))
-		parent.get_parent().add_child(toxic_bullet_inst)
-		toxic_bullet_inst.add_child(danger_dash_zone_inst)
+		if not toxic_bullet_inst.get_parent():
+			parent.get_parent().add_child(toxic_bullet_inst)
+		if not toxic_bullet_inst.danger_dash_zone_inst:
+			toxic_bullet_inst.danger_dash_zone_inst = danger_dash_zone.new(toxic_bullet_inst, get_collision(toxic_bullet_inst))
+			toxic_bullet_inst.add_child(toxic_bullet_inst.danger_dash_zone_inst)
+		var danger_dash_zone_inst = toxic_bullet_inst.danger_dash_zone_inst
 		danger_dash_zone_inst.follow(target)
 		danger_dash_zone_inst.start_cooldown(func():
 			toxic_bullet_inst.resume()

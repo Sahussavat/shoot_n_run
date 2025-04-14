@@ -10,7 +10,6 @@ func _ready():
 	main_menu_btn.pressed.connect(to_main_menu)
 	var player = get_tree().get_first_node_in_group(GroupsName.PLAYER)
 	player.health.health.add_on_death(func():
-		ScoreControl.reset()
 		player.visible = false
 		PlayerDeathEffect.do_game_over_effect(player, player.global_position, func():
 			process_mode = Node.PROCESS_MODE_ALWAYS

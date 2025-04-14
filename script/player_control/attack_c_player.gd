@@ -30,15 +30,17 @@ func stop_attack():
 	enable_shoot = false
 
 func spawn_toxic_bullet():
-	var toxic_bullet_inst = toxic_bullet.instantiate()
+	var toxic_bullet_inst = ReuseInitialize.initialize(GroupsName.BULLET, toxic_bullet)
 	toxic_bullet_inst.position = player_body.position
 	toxic_bullet_inst.target_pos = player_body.get_global_mouse_position()
 	var area2d = get_area2d(toxic_bullet_inst)
-	area2d.entity_death.connect(heal_on_kill)
-	player_body.get_parent().add_child(toxic_bullet_inst)
+	if not area2d.entity_death.is_connected(heal_on_kill):
+		area2d.entity_death.connect(heal_on_kill)
+	if not toxic_bullet_inst.get_parent():
+		player_body.get_parent().add_child(toxic_bullet_inst)
 
 func heal_on_kill(enemy):
-	if enemy.is_in_group(GroupsName.ENEMIES):
+	if enemy.is_in_group(GroupsName.ENEMIES) and not player_body.health.is_dead():
 		player_body.health.heal(player_body.health.health.max_health * 0.01)
 
 func reset_is_cooldown_shoot():

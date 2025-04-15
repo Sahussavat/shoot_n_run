@@ -111,3 +111,29 @@ func charge(delta, target_pos, call_back):
 			call_back.call()
 		charge_direction = null
 	parent.global_position = Vector2(x, y)
+
+func full_charge(delta, target_pos, call_back):
+	if not charge_direction:
+		charge_direction = parent.global_position.direction_to(target_pos)
+	var charge_pos = parent.global_position + charge_direction * SPEED * SPEED * delta  * SlowMotionVal.slow_motion_val * 5
+	
+	var x = charge_pos.x;
+	var y = charge_pos.y;
+	
+	if x > parent.get_viewport_rect().size.x + dist_from_viewport:
+		if call_back:
+			call_back.call()
+		charge_direction = null
+	elif x < dist_from_viewport:
+		if call_back:
+			call_back.call()
+		charge_direction = null
+	if y > parent.get_viewport_rect().size.y - dist_from_viewport:
+		if call_back:
+			call_back.call()
+		charge_direction = null
+	elif y < dist_from_viewport:
+		if call_back:
+			call_back.call()
+		charge_direction = null
+	parent.global_position = Vector2(x, y)

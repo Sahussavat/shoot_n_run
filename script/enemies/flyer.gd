@@ -3,6 +3,8 @@ extends CharacterBody2D
 enum state {
 	MOVE,
 	MOVE_AND_AIM,
+	AIM,
+	FULL_CHARGE,
 	RETREAT
 }
 
@@ -24,6 +26,7 @@ var danger_dash_zone = preload("res://script/system_control/danger_dash_zone.gd"
 var toxic_bullet = preload("res://nodes/hitbox_objs/toxic_bullet.tscn")
 @onready var player = get_tree().get_first_node_in_group(GroupsName.PLAYER)
 @onready var wait_for_attack = Timer.new()
+@onready var wait_for_self_bullet = Timer.new()
 @onready var collision = get_collision(self)
 
 func _ready():
@@ -37,6 +40,10 @@ func _ready():
 	wait_for_attack.one_shot = true
 	wait_for_attack.timeout.connect(reset_atk)
 	add_child(wait_for_attack)
+	wait_for_self_bullet.wait_time = 10
+	wait_for_self_bullet.one_shot = true
+	wait_for_self_bullet.timeout.connect(to_full_charge)
+	add_child(wait_for_self_bullet)
 	fly_movement = fly_movement.new(self)
 
 func _re_ready():
@@ -51,6 +58,13 @@ func _re_ready():
 	wait_for_attack.one_shot = true
 	wait_for_attack.timeout.connect(reset_atk)
 	add_child(wait_for_attack)
+	
+	wait_for_self_bullet.free()
+	wait_for_self_bullet = Timer.new()
+	wait_for_self_bullet.wait_time = 10
+	wait_for_self_bullet.one_shot = true
+	wait_for_self_bullet.timeout.connect(to_full_charge)
+	add_child(wait_for_self_bullet)
 
 var angle = 0.1
 var direction = 1
@@ -61,15 +75,13 @@ func _process(_delta):
 		state.MOVE:
 			if wait_for_attack.is_stopped():
 				wait_for_attack.start()
+			if wait_for_self_bullet.is_stopped():
+				wait_for_self_bullet.start()
 			fly_movement.move_center(_delta)
 		state.MOVE_AND_AIM:
 			if not aiming:
 				aiming = true
-				if not danger_dash_zone_inst:
-					danger_dash_zone_inst = danger_dash_zone.new(self, collision)
-					if not danger_dash_zone_inst.get_parent():
-						add_child(danger_dash_zone_inst)
-				danger_dash_zone_inst.start_cooldown(func():
+				danger_dash_zone_init(func():
 					var toxic_bullet_inst = ReuseInitialize.initialize(GroupsName.ENEMIES_BULLET, toxic_bullet)
 					toxic_bullet_inst.group_name = GroupsName.ENEMIES_BULLET
 					toxic_bullet_inst.position = global_position
@@ -83,10 +95,24 @@ func _process(_delta):
 					
 					current_state = state.MOVE
 					aiming = false
-					)
+				)
 			else:
 				danger_dash_zone_inst.follow(player)
 			fly_movement.move_center(_delta)
+			
+		state.AIM:
+			if not aiming:
+				aiming = true
+				danger_dash_zone_init(func():
+					current_state = state.FULL_CHARGE
+					aiming = false
+				)
+			else:
+				danger_dash_zone_inst.follow(player)
+		state.FULL_CHARGE:
+			fly_movement.full_charge(_delta, player.global_position, func():
+				destroy(true)
+				)
 		state.RETREAT:
 			fly_movement.retret(_delta, func():
 				current_state = state.MOVE
@@ -106,15 +132,34 @@ func get_collision(parent):
 			return child
 	return null
 
+func to_full_charge():
+	stop_countdown()
+	current_state = state.AIM
+	aiming = false
+
 func reset_atk():
 	current_state = state.MOVE_AND_AIM
-		
-func destroy():
-	if visible:
-		ExplodeEffect.explode(self)
-	ScoreControl.score_delta(50)
-	ReuseInitialize.to_reuse(GroupsName.FLYER ,self)
+
+func danger_dash_zone_init(call_back):
+	if not danger_dash_zone_inst:
+		danger_dash_zone_inst = danger_dash_zone.new(self, collision)
+		if not danger_dash_zone_inst.get_parent():
+			add_child(danger_dash_zone_inst)
+	danger_dash_zone_inst.start_cooldown(call_back)
+
+func stop_countdown():
+	wait_for_self_bullet.stop()
+	wait_for_attack.stop()
 	if is_instance_valid(danger_dash_zone_inst) and danger_dash_zone_inst:
 		danger_dash_zone_inst.destroy()
+
+func destroy(without_point = false):
+	if visible:
+		ExplodeEffect.explode(self)
+	if not without_point:
+		ScoreControl.score_delta(50)
+	ReuseInitialize.to_reuse(GroupsName.FLYER ,self)
+	stop_countdown()
 	current_state = state.MOVE
+	fly_movement.charge_direction = null
 	aiming = false

@@ -34,7 +34,7 @@ func _ready():
 				return true;
 				, 10),
 			floor_control.spawn_control.spawn_data(floor_control.spawn_boss, func():
-				if (turn == 0 or turn >= boss_per_turn and turn > 0):
+				if (turn >= boss_per_turn and turn > 0):
 					turn = 0
 					if not is_boss_spawned:
 						is_boss_spawned = true

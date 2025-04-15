@@ -9,7 +9,6 @@ var current_spawner
 var is_running = false
 var pause_next_battle = false
 var is_first_time_count = true
-var max_enemies = 0
 
 func _ready():
 	ReuseInitialize.reset_used_entities()
@@ -30,8 +29,6 @@ func start_spawn_list():
 	current_spawner = create(curret_battle["spawner"])
 	current_spawner.out_of_enemies.connect(cancel_and_go_next_battle)
 	current_spawner.start()
-	if is_first_time_count:
-		max_enemies += current_spawner.max_enemies
 	timer.wait_time = curret_battle["fight_duration"]
 	timer.start()
 

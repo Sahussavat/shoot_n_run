@@ -8,8 +8,6 @@ var time_for_each
 var boss_fly = preload("res://nodes/enemies/boss_fly.tscn")
 
 var total_enemies = 0
-var is_first_count = true
-var max_enemies = 0
 signal out_of_enemies
 
 var parent
@@ -31,11 +29,7 @@ func _init(_parent):
 func start():
 	if attack_seq.size() > 0:
 		var first_attack = attack_seq.pop_front()
-		if not is_first_count and total_enemies < max_enemies * 2:
-			first_attack.call()
-		if is_first_count:
-			is_first_count = false
-			max_enemies = total_enemies
+		first_attack.call()
 		do_wait()
 
 func is_stop():

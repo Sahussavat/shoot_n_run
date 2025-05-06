@@ -40,17 +40,20 @@ func change_to_target_scene(scene_path):
 		world = load((default_world_path % scene_path.name).to_lower()).instantiate()
 	else:
 		world = load(scene_path).instantiate()
+	var blank_world = load(default_world_path % "blank").instantiate()
 	var current_sc = get_tree().current_scene
 	is_changing_page = true
+	get_tree().root.add_child(blank_world)
+	get_tree().current_scene = blank_world
+	get_tree().root.remove_child(current_sc)
 	get_tree().root.add_child(world)
 	get_tree().current_scene = world
-	get_tree().root.remove_child(current_sc)
+	get_tree().root.remove_child(blank_world)
 	is_changing_page = false
 	current_sc.queue_free()
 
 func reload_current_scene():
 	var cur = (default_world_path % get_tree().current_scene.name).to_lower()
-	change_to_target_scene(default_world_path % "blank")
 	change_to_target_scene(cur)
 
 func store_next_world(world_name):

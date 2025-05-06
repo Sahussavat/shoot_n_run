@@ -36,3 +36,9 @@ func do_resume():
 		ChangePage.change_to_target_page()
 	elif not visible:
 		ChangePage.change_to_target_page(self)
+
+func pause():
+	get_tree().paused = true
+
+func un_pause():
+	get_tree().paused = false

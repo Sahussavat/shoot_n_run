@@ -16,7 +16,7 @@ func _ready():
 		temp_menu_process_mode = get_tree().get_first_node_in_group(GroupsName.MENU).process_mode
 	if video_player.autoplay:
 		play_video()
-	
+		
 	skip_container.on_finished_skip.connect(func():
 		video_player.finished.emit()
 		)

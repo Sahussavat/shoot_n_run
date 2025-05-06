@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://d2wxr15523jpe"]
+[gd_scene load_steps=40 format=3 uid="uid://d2wxr15523jpe"]
 
 [ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://nodes/player/tako.tscn" id="1_0akri"]
 [ext_resource type="Script" path="res://script/system_control/floor_endless.gd" id="2_yme1f"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://nodes/dialogue/balloon.tscn" id="20_e5xr4"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="21_jpyoh"]
 [ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="22_3hl12"]
+[ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="22_v860l"]
 [ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="23_ircjt"]
 [ext_resource type="Script" path="res://script/system_control/fall_detect.gd" id="24_sd5fe"]
 [ext_resource type="Script" path="res://script/system_control/spawn_control.gd" id="25_nvdsx"]
@@ -620,6 +621,7 @@ offset_right = 1088.0
 offset_bottom = 128.0
 theme_override_constants/separation = 15
 alignment = 1
+script = ExtResource("22_v860l")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/skip_container"]
 layout_mode = 2

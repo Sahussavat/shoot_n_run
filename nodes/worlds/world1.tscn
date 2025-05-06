@@ -230,7 +230,7 @@ process_mode = 2
 visible = false
 offset_left = 512.0
 offset_top = 272.0
-offset_right = 704.0
+offset_right = 728.0
 offset_bottom = 472.0
 script = ExtResource("9_dlqh1")
 
@@ -287,6 +287,8 @@ text = "A"
 
 [node name="pressAnyKeyTxt" type="Label" parent="CanvasLayer/tutorial_popup/move_list"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_te3uy")
+theme_override_font_sizes/font_size = 25
 text = "
 กดปุ่มอะไรก็ได้เพื่อออก
 "

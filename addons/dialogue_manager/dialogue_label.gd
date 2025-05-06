@@ -47,7 +47,7 @@ var dialogue_line:
 	set(next_dialogue_line):
 		dialogue_line = next_dialogue_line
 		custom_minimum_size = Vector2.ZERO
-		text = dialogue_line.text
+		text = "\n" + dialogue_line.text
 	get:
 		return dialogue_line
 
@@ -94,7 +94,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 ## Start typing out the text
 func type_out() -> void:
-	text = dialogue_line.text
+	text = "\n" + dialogue_line.text
 	visible_characters = 0
 	visible_ratio = 0
 	_waiting_seconds = 0

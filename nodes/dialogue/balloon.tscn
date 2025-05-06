@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://73jm5qjy52vq"]
+[gd_scene load_steps=15 format=3 uid="uid://73jm5qjy52vq"]
 
 [ext_resource type="Script" path="res://script/dialogues/balloon.gd" id="1_hfej4"]
 [ext_resource type="Texture2D" uid="uid://dmvxkf2gbxg3d" path="res://img/visual_characters/sprite1 angry small.png" id="2_bk8fy"]
 [ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="3_aygt5"]
 [ext_resource type="Script" path="res://addons/dialogue_manager/dialogue_reponses_menu.gd" id="4_ko4gn"]
+[ext_resource type="FontFile" uid="uid://crv230mibegw5" path="res://fonts/upceb.ttf" id="4_nikci"]
 [ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="5_kccbi"]
 [ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="6_jkcku"]
 [ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="7_g858o"]
@@ -158,7 +159,8 @@ layout_mode = 2
 mouse_filter = 1
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/normal_font_size = 25
+theme_override_fonts/normal_font = ExtResource("4_nikci")
+theme_override_font_sizes/normal_font_size = 35
 bbcode_enabled = true
 text = "Character"
 fit_content = true
@@ -170,6 +172,8 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("4_nikci")
+theme_override_font_sizes/normal_font_size = 30
 text = "Dialogue..."
 
 [node name="Responses" type="MarginContainer" parent="Balloon"]

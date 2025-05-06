@@ -45,9 +45,7 @@ func do_damage(damage):
 			parent.animation_player.play("hurt_frame")
 
 func set_invicible(enable):
-	if is_doing_invicible_effect:
-		health.set_invicible(true)
-	else:
+	if not is_doing_invicible_effect:
 		health.set_invicible(enable)
 
 func reset_can_do_damage():

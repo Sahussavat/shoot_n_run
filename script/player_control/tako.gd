@@ -36,6 +36,7 @@ func _physics_process(delta):
 			stat.MOVE:
 				move(delta)
 			stat.DASH:
+				health.is_
 				dash(delta)
 		
 		move_and_slide()
@@ -77,6 +78,7 @@ func move(delta):
 	
 
 func stop_dash():
+	dodge_c_player.is_dashing = false
 	to_move_stat()
 	dodge_c_player.turn_off_ghosting()
 	health.set_invicible(false)

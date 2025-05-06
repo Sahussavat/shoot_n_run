@@ -1,0 +1,34 @@
+~ intro3
+กาลครั้งหนึ่ง ณ ชายหาดแห่งเดิมนั่นแหละ
+do DialogueUtill.set_background("town.jpg")
+เปโร่[feel]angry1[a]center: เริ่มเหนื่อยแล้วล่ะซี่! ใช่ ฉันก็เหนื่อยเหมือนกัน..
+กีกี้[feel]happy1[a]center: ฮี่ ฮี่ ถึงเหนื่อยก็ตามมาให้ทันซี่ ฮี่ ฮี่ กาจอก!
+เปโร่[feel]angry1[a]center: หน๊อย! ไอ้หมอเจ้าหมอนี่!
+=> END
+
+~ meet_boss_3
+do DialogueUtill.set_background("green.png")
+เปโร่[feel]angry1[a]center: ไม่มีทางหนีแล้ว มันไม่มีด่านต่อไปแล้วกีกี้ เอาเขาคืนมาเลยนะ!
+กีกี้[feel]happy1[a]center: หึ แย่จังเลยนะ... แต่ว่าฉันไม่ได้มาคนเดียวหรอกนะ!
+เปโร่[feel]angry1[a]center: นานิ!!
+เปโร่[feel]angry1[a]center: นี่ไม่คิดจะคิดบทใหม่เลยรึไงกันฮะ
+อาลิน[feel]happy1[a]center: ฮี่ ฮี่ แกไม่มีทางแย่งเขาคืนไปได้หรอกนะ เป้!
+เปโร่[feel]angry1[a]center: เอาอีกแล้วอ่อพี่ รับ job เพิ่มอีกแล้วอ่อ
+อาลิน[feel]happy1[a]center: เอ้าก็นี่มันด่านของพี่!
+เปโร่[feel]angry1[a]center: เอ้าจริงด้วย งั้นมาสู้กันเถอะ!
+=> END
+
+~ end_boss_3
+do DialogueUtill.set_background("town.jpg")
+เปโร่[feel]happy1[a]center: เอาล่ะ มันจบแล้วล่ะ ไม่มีด่านให่เล่นต่อแล้ว
+เปโร่[feel]happy1[a]center: คืนเขามาได้แล้ว!
+อาลิน[feel]angry1[a]center: ชิ ไอ้เด็กนี่มันเก่งจริงๆ ขอโทษนะ กีกี้..
+กีกี้[feel]happy1[a]center: หึ มาสุดได้แค่นี้เองสินะ แต่ว่า..
+เปโร่[feel]angry1[a]center: แต่ว่า?
+กีกี้[feel]happy1[a]center: สุขสันต์วันเกิดน้าาาา!
+อาลิน[feel]happy1[a]center: สุขสันต์วันเกิด
+เปโร่[feel]happy1[a]center: เอ๊ะ เอ้า วันนี้วันเกิดหนูเหรอ ลืมซะสนิทเลย
+อาลิน[feel]happy1[a]center: ก็ใช่น่ะซี่ อุตส่าห์ถ่วงเวลาให้พวกกีกี้ทำเค้กให้เสร็จแน่ะ
+อาลิน[feel]happy1[a]center: เอ้า อย่ารอช้า มากินเค้กกันเถอะ หิวจนไส้จะร้องละเนี้ย
+เปโร่[feel]happy1[a]center: เย้ๆ
+=> END

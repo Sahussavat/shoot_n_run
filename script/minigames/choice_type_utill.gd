@@ -67,6 +67,7 @@ func get_timer_to_default_color(obj):
 		if child is Timer:
 			return child
 	var to_default_color_timer = Timer.new()
+	to_default_color_timer.process_mode = Node.PROCESS_MODE_ALWAYS
 	to_default_color_timer.wait_time = 0.25
 	to_default_color_timer.one_shot = true
 	to_default_color_timer.timeout.connect(func():

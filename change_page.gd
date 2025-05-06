@@ -4,6 +4,9 @@ var default_world_path = "res://nodes/worlds/%s.tscn"
 var current_page : Node
 var prev_page : Node
 
+var stored_next_world
+var is_changing_page = false
+
 func change_to_target_page(target_page : Node = null):
 	
 	if current_page:
@@ -38,12 +41,20 @@ func change_to_target_scene(scene_path):
 	else:
 		world = load(scene_path).instantiate()
 	var current_sc = get_tree().current_scene
+	is_changing_page = true
 	get_tree().root.add_child(world)
 	get_tree().current_scene = world
 	get_tree().root.remove_child(current_sc)
+	is_changing_page = false
 	current_sc.queue_free()
 
 func reload_current_scene():
 	var cur = (default_world_path % get_tree().current_scene.name).to_lower()
 	change_to_target_scene(default_world_path % "blank")
 	change_to_target_scene(cur)
+
+func store_next_world(world_name):
+	stored_next_world = default_world_path % world_name
+
+func reset_store_next_world():
+	stored_next_world = null

@@ -111,6 +111,8 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 
 	# If our dialogue is nothing then we hit the end
 	if not is_valid(dialogue):
+		DialogueUtill.circle_in()
+		await get_tree().create_timer(1).timeout
 		(func(): dialogue_ended.emit(resource)).call_deferred()
 		return null
 
@@ -126,6 +128,8 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 				pass
 		if actual_next_id in [DialogueConstants.ID_END_CONVERSATION, DialogueConstants.ID_NULL, null]:
 			# End the conversation
+			DialogueUtill.circle_in()
+			await get_tree().create_timer(1).timeout
 			(func(): dialogue_ended.emit(resource)).call_deferred()
 			return null
 		else:

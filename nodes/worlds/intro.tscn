@@ -1,0 +1,163 @@
+[gd_scene load_steps=11 format=3 uid="uid://csh6ar8amd1b4"]
+
+[ext_resource type="Script" path="res://nodes/worlds/short_cutscene.gd" id="1_evoyu"]
+[ext_resource type="FontFile" uid="uid://crv230mibegw5" path="res://fonts/upceb.ttf" id="2_50lxj"]
+[ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="3_miwhu"]
+[ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="4_v28lb"]
+[ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="5_myrqf"]
+
+[sub_resource type="Animation" id="Animation_emx34"]
+resource_name = "credit"
+length = 2.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(2.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"end"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 0.8, 2.2, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_myd72"]
+_data = {
+"credit": SubResource("Animation_emx34")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0t1ax"]
+shader = ExtResource("5_myrqf")
+shader_parameter/circle_size = 0.0
+
+[sub_resource type="Animation" id="Animation_c1syc"]
+resource_name = "auto_circle_in"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [null],
+"method": &"circle_out"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ua1t8"]
+_data = {
+"auto_circle_in": SubResource("Animation_c1syc")
+}
+
+[node name="intro" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_evoyu")
+world_target = "res://nodes/worlds/main_menu.tscn"
+is_instant_transition = true
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control"]
+libraries = {
+"": SubResource("AnimationLibrary_myd72")
+}
+autoplay = "credit"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+theme_override_constants/separation = 310
+alignment = 1
+
+[node name="Label2" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = 10
+theme_override_fonts/font = ExtResource("2_50lxj")
+theme_override_font_sizes/font_size = 100
+text = "Kikii Official
+Proud to Present"
+horizontal_alignment = 1
+
+[node name="skip_container" type="VBoxContainer" parent="Control"]
+process_mode = 3
+visible = false
+layout_mode = 0
+offset_left = 960.0
+offset_top = 64.0
+offset_right = 1088.0
+offset_bottom = 128.0
+theme_override_constants/separation = 15
+alignment = 1
+script = ExtResource("3_miwhu")
+is_instant_skip = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/skip_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "Skip: Hold "
+
+[node name="skip_key" type="Label" parent="Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "[ ESC ]"
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/skip_container"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+show_percentage = false
+
+[node name="black_screen" type="Control" parent="." groups=["black_screen_control"]]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+script = ExtResource("4_v28lb")
+
+[node name="black_fade" type="ColorRect" parent="black_screen"]
+material = SubResource("ShaderMaterial_0t1ax")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="black_screen"]
+libraries = {
+"": SubResource("AnimationLibrary_ua1t8")
+}
+autoplay = "auto_circle_in"

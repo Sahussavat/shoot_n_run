@@ -12,6 +12,7 @@ extends CanvasLayer
 @export var skip_action: StringName = &"ui_cancel"
 @onready var character_pic = $Balloon/character/character_pic
 @onready var character_box = $Balloon/character
+@onready var background = $Balloon/background
 ## The dialogue resource
 var resource: DialogueResource
 
@@ -25,6 +26,8 @@ var is_waiting_for_input: bool = false
 var will_hide_balloon: bool = false
 
 var _locale: String = TranslationServer.get_locale()
+
+var can_click_next = false
 
 ## The current line
 var dialogue_line: DialogueLine:
@@ -94,10 +97,16 @@ var dialogue_line: DialogueLine:
 ## The menu of responses
 @onready var responses_menu: DialogueResponsesMenu = %ResponsesMenu
 
+@onready var skip_container = $Balloon/skip_container
 
 func _ready() -> void:
 	balloon.hide()
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
+	skip_container.on_finished_skip.connect(func():
+		DialogueUtill.circle_in(func():
+			self.dialogue_line = await resource.get_next_dialogue_line(&"end")
+			)
+		)
 
 	# If the responses menu doesn't have a next action set, use this one
 	if responses_menu.next_action.is_empty():
@@ -125,6 +134,10 @@ func start(dialogue_resource: DialogueResource, title: String, extra_game_states
 	is_waiting_for_input = false
 	resource = dialogue_resource
 	self.dialogue_line = await resource.get_next_dialogue_line(title, temporary_game_states)
+	skip_container.enable_skip = true
+	DialogueUtill.circle_out(func():
+		can_click_next = true
+		)
 
 
 ## Go to the next line
@@ -147,7 +160,7 @@ func _on_mutated(_mutation: Dictionary) -> void:
 
 func _on_balloon_gui_input(event: InputEvent) -> void:
 	# See if we need to skip typing of the dialogue
-	if dialogue_label.is_typing:
+	if dialogue_label.is_typing and can_click_next:
 		var mouse_was_clicked: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed()
 		var skip_button_was_pressed: bool = event.is_action_pressed(skip_action)
 		if mouse_was_clicked or skip_button_was_pressed:
@@ -161,10 +174,11 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 	# When there are no response options the balloon itself is the clickable thing
 	get_viewport().set_input_as_handled()
 
-	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
-		next(dialogue_line.next_id)
-	elif event.is_action_pressed(next_action) and get_viewport().gui_get_focus_owner() == balloon:
-		next(dialogue_line.next_id)
+	if can_click_next:
+		if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+			next(dialogue_line.next_id)
+		elif event.is_action_pressed(next_action) and get_viewport().gui_get_focus_owner() == balloon:
+			next(dialogue_line.next_id)
 
 
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:

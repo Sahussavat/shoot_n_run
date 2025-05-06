@@ -1,6 +1,6 @@
 extends Node
 
-@onready var balloon = get_tree().get_first_node_in_group(GroupsName.BALLOON)
+@onready var balloon = DialogueUtill.get_balloon()
 var on_finish_fn
 
 func _ready():

@@ -11,17 +11,17 @@ enum m_index {
 var maps = [
 	{
 		m_index.MAP_NAME: "Untitiled 1",
-		m_index.MAP_NODE_NAME: "world",
+		m_index.MAP_NODE_NAME: "map1_intro",
 		m_index.MAP_IMG_PATH: "res://img/Parallax Clouds Pack by Captainskeleto/Parallax10.png",
 	},
 	{
 		m_index.MAP_NAME: "Untitiled 2",
-		m_index.MAP_NODE_NAME: "shop",
+		m_index.MAP_NODE_NAME: "map2_intro",
 		m_index.MAP_IMG_PATH: "res://img/Parallax Clouds Pack by Captainskeleto/Parallax10.png",
 	},
 	{
 		m_index.MAP_NAME: "Untitiled 3",
-		m_index.MAP_NODE_NAME: "world",
+		m_index.MAP_NODE_NAME: "map3_intro",
 		m_index.MAP_IMG_PATH: "res://img/Parallax Clouds Pack by Captainskeleto/Parallax10.png",
 	},
 ]

@@ -10,7 +10,7 @@ shader_parameter/circle_size = 0.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Control3" type="Control" parent="CanvasLayer"]
+[node name="Control3" type="Control" parent="CanvasLayer" groups=["black_screen_control"]]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0

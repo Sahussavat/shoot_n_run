@@ -3,7 +3,7 @@ extends Node2D
 var floor_control = preload("res://script/system_control/floors.gd")
 
 var is_boss_spawned = false
-var boss_per_turn = 1
+var boss_per_turn = 5
 var turn = 0
 
 var boss

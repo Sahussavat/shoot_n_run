@@ -27,3 +27,7 @@ const FLYER = "flyer"
 const DASHER = "dasher"
 const CHARGER = "charger"
 const BOSS_FLY = "bossfly"
+
+const TUTORIAL = "tutorial"
+const BALLOON_BOX = "balloon_box"
+const DIALOGUE_BOX = "dialogue_box"

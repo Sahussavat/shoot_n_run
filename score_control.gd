@@ -9,6 +9,7 @@ var score = 0
 var is_turn_off_score_delta = false
 var save_file_path = "user://score_%s.save"
 var key_path = "user://generated.key"
+var is_score_page_next = true
 
 var current_scene_name = ""
 

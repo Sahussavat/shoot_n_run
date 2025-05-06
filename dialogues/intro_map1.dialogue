@@ -1,0 +1,27 @@
+~ intro1
+กาลครั้งหนึ่ง ณ ฐานทัพของฮีโร่ท่านหนึ่ง
+do DialogueUtill.set_background("town.jpg")
+เปโร่[feel]happy1[a]center: อ่า~ ตอนเช้าอันแสนอบอุ่น
+เปโร่[feel]angry1[a]center: เดี๋ยวนะ เขาฉันหายไปไหน?!
+กีกี้[feel]happy1[a]center: ฮี่ ฮี่ ขอรับเขาไปล่ะนะ
+เปโร่[feel]angry1[a]center: เฮ้ย! เอากลับมานี่นะ!
+=> END
+
+~ meet_boss_1
+do DialogueUtill.set_background("green.png")
+เปโร่[feel]angry1[a]center: ไม่มีทางหนีแล้ว เอาเขาคืนมาเลยนะ!
+กีกี้[feel]happy1[a]center: หึ แย่จังเลยนะ... แต่ว่าฉันไม่ได้มาคนเดียวหรอกนะ!
+เปโร่[feel]angry1[a]center: นานิ!!
+อาลิน[feel]happy1[a]center: ฮี่ ฮี่ แกไม่มีทางแย่งเขาคืนไปได้หรอกนะ เป้!
+เปโร่[feel]angry1[a]center: เอ้า ไม่ใช่ว่าบอสด่านนี้มันต้องเป็นคนอื่นหรอกเรอะ
+อาลิน[feel]happy1[a]center: ก็ใช่แหละ แต่คน code เกมมันขี้เกียจไปหาภาพอื่นมาใช้น่ะซี่
+เปโร่[feel]angry1[a]center: อ้าว งั้นก็ได้ มาสู้กัน!
+=> END
+
+~ end_boss_1
+do DialogueUtill.set_background("town.jpg")
+เปโร่[feel]happy1[a]center: หึ ก็ไม่เท่าไหร่นินา
+อาลิน[feel]angry1[a]center: ชิ ไว้เจอกันด่านหน้าละกัน
+กีกี้[feel]happy1[a]center: แย่ล่ะ หนีดีกว่า
+เปโร่[feel]angry1[a]center: ไม่ต้องเลย กลับมานี่!
+=> END

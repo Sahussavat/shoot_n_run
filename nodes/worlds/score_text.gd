@@ -8,7 +8,7 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var player = get_tree().get_first_node_in_group(GroupsName.PLAYER)
-	if player:
+	if player and not ChangePage.is_changing_page:
 		player.health.health.add_on_death(func():
 			#if is_reset_control:
 				#ScoreControl.reset()

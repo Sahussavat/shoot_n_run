@@ -1,0 +1,106 @@
+[gd_scene load_steps=8 format=3 uid="uid://btid36nx23wxf"]
+
+[ext_resource type="Script" path="res://nodes/worlds/short_text_cutscene.gd" id="1_hvmxe"]
+[ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="2_qey1p"]
+[ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="3_qk8c7"]
+[ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="4_stq8v"]
+
+[sub_resource type="Animation" id="Animation_tolm3"]
+resource_name = "cutscene"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_scr33"]
+_data = {
+"cutscene": SubResource("Animation_tolm3")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0t1ax"]
+shader = ExtResource("4_stq8v")
+shader_parameter/circle_size = 0.0
+
+[node name="intro" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("1_hvmxe")
+dialogue_target = "intro_map2"
+dialogue_sub_target = "intro2"
+world_target = "res://nodes/worlds/world2.tscn"
+
+[node name="balloon_box" type="Control" parent="Control" groups=["balloon_box"]]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control"]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_scr33")
+}
+autoplay = "cutscene"
+
+[node name="skip_container" type="VBoxContainer" parent="Control"]
+process_mode = 3
+visible = false
+layout_mode = 0
+offset_left = 960.0
+offset_top = 64.0
+offset_right = 1088.0
+offset_bottom = 128.0
+theme_override_constants/separation = 15
+alignment = 1
+script = ExtResource("2_qey1p")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/skip_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "Skip: Hold "
+
+[node name="skip_key" type="Label" parent="Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "[ ESC ]"
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/skip_container"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+show_percentage = false
+
+[node name="black_screen" type="Control" parent="." groups=["black_screen_control"]]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+script = ExtResource("3_qk8c7")
+
+[node name="black_fade" type="ColorRect" parent="black_screen"]
+material = SubResource("ShaderMaterial_0t1ax")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

@@ -94,12 +94,15 @@ script = ExtResource("5_x54bt")
 world_target = "res://nodes/worlds/main_menu.tscn"
 
 [node name="Button2" type="Button" parent="score/score_text/HBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_wigt8")
 theme_override_font_sizes/font_size = 50
 text = "Next Chapter"
+script = ExtResource("5_x54bt")
+next_world = true
 
-[node name="black_screen" type="Control" parent="."]
+[node name="black_screen" type="Control" parent="." groups=["black_screen_control"]]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1152.0

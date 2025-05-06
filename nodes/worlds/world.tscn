@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://crpl7h5cj0fnh"]
+[gd_scene load_steps=40 format=3 uid="uid://crpl7h5cj0fnh"]
 
 [ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://nodes/player/tako.tscn" id="1_pu0p8"]
 [ext_resource type="Script" path="res://script/system_control/floor_map3.gd" id="2_ghqbb"]
@@ -11,9 +11,9 @@
 [ext_resource type="Script" path="res://script/system_control/boss_health.gd" id="7_7hcmg"]
 [ext_resource type="Script" path="res://script/minigames/mini_games.gd" id="8_owgix"]
 [ext_resource type="Script" path="res://script/minigames/quick_type_game.gd" id="9_eo0g7"]
+[ext_resource type="Script" path="res://script/system_control/tutorial_popup.gd" id="9_xujad"]
 [ext_resource type="FontFile" uid="uid://crv230mibegw5" path="res://fonts/upceb.ttf" id="10_7nsvo"]
 [ext_resource type="Script" path="res://script/minigames/speech_game.gd" id="11_spk0v"]
-[ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://nodes/dialogue/balloon.tscn" id="12_0tg23"]
 [ext_resource type="Script" path="res://script/minigames/cal_game.gd" id="12_22m34"]
 [ext_resource type="Script" path="res://script/system_control/menu.gd" id="13_4m1i4"]
 [ext_resource type="Texture2D" uid="uid://dmvxkf2gbxg3d" path="res://img/visual_characters/sprite1 angry small.png" id="13_55vxg"]
@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://m1r8b2hjuhbd" path="res://img/Parallax Clouds Pack by Captainskeleto/test_custom_bg.png" id="15_knx2q"]
 [ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="17_ydq3y"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="20_5kdm1"]
+[ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="22_feu4k"]
 
 [sub_resource type="Animation" id="Animation_mt32g"]
 resource_name = "intro"
@@ -163,14 +164,17 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/map_title"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = -556.0
+offset_top = -120.0
 offset_right = 596.0
 offset_bottom = 120.0
 theme_override_fonts/normal_font = ExtResource("10_7nsvo")
 theme_override_font_sizes/normal_font_size = 200
 bbcode_enabled = true
-text = "[center]By The Sea[/center]"
+text = "
+[center]ก็ด่าน 3 ไง![/center]"
 scroll_active = false
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
@@ -214,6 +218,66 @@ offset_right = 696.0
 offset_bottom = 23.0
 text = "King"
 horizontal_alignment = 1
+
+[node name="tutorial_popup" type="Panel" parent="CanvasLayer" groups=["tutorial"]]
+process_mode = 2
+visible = false
+offset_left = 512.0
+offset_top = 272.0
+offset_right = 704.0
+offset_bottom = 448.0
+script = ExtResource("9_xujad")
+
+[node name="move_list" type="VBoxContainer" parent="CanvasLayer/tutorial_popup"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 488.0
+offset_bottom = 296.0
+
+[node name="move" type="HBoxContainer" parent="CanvasLayer/tutorial_popup/move_list"]
+layout_mode = 2
+
+[node name="name" type="Label" parent="CanvasLayer/tutorial_popup/move_list/move"]
+layout_mode = 2
+text = "Move:"
+
+[node name="key" type="Label" parent="CanvasLayer/tutorial_popup/move_list/move"]
+layout_mode = 2
+text = "A, D"
+
+[node name="attack" type="HBoxContainer" parent="CanvasLayer/tutorial_popup/move_list"]
+layout_mode = 2
+
+[node name="name" type="Label" parent="CanvasLayer/tutorial_popup/move_list/attack"]
+layout_mode = 2
+text = "Attack:"
+
+[node name="key" type="Label" parent="CanvasLayer/tutorial_popup/move_list/attack"]
+layout_mode = 2
+text = "A"
+
+[node name="jump" type="HBoxContainer" parent="CanvasLayer/tutorial_popup/move_list"]
+layout_mode = 2
+
+[node name="name" type="Label" parent="CanvasLayer/tutorial_popup/move_list/jump"]
+layout_mode = 2
+text = "Jump:"
+
+[node name="key" type="Label" parent="CanvasLayer/tutorial_popup/move_list/jump"]
+layout_mode = 2
+text = "A"
+
+[node name="dash" type="HBoxContainer" parent="CanvasLayer/tutorial_popup/move_list"]
+layout_mode = 2
+
+[node name="name" type="Label" parent="CanvasLayer/tutorial_popup/move_list/dash"]
+layout_mode = 2
+text = "Dash:"
+
+[node name="key" type="Label" parent="CanvasLayer/tutorial_popup/move_list/dash"]
+layout_mode = 2
+text = "A"
 
 [node name="Control2" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -514,7 +578,65 @@ offset_top = 96.0
 offset_right = 960.0
 offset_bottom = 512.0
 
-[node name="menu" type="PanelContainer" parent="CanvasLayer"]
+[node name="balloon_box" type="Control" parent="CanvasLayer" groups=["balloon_box"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("20_5kdm1")
+
+[node name="just_black" type="ColorRect" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="cutscene" type="VideoStreamPlayer" parent="CanvasLayer/Control"]
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+expand = true
+
+[node name="skip_container" type="VBoxContainer" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 0
+offset_left = 960.0
+offset_top = 64.0
+offset_right = 1088.0
+offset_bottom = 128.0
+theme_override_constants/separation = 15
+alignment = 1
+script = ExtResource("22_feu4k")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/skip_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "Skip: Hold "
+
+[node name="skip_key" type="Label" parent="CanvasLayer/Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "[ ESC ]"
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control/skip_container"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+show_percentage = false
+
+[node name="menu" type="PanelContainer" parent="CanvasLayer" groups=["menu"]]
 process_mode = 3
 visible = false
 offset_left = 448.0
@@ -549,56 +671,13 @@ world_target = "res://nodes/worlds/main_menu.tscn"
 layout_mode = 2
 text = "Quit Game"
 
-[node name="Balloon" parent="CanvasLayer" instance=ExtResource("12_0tg23")]
-process_mode = 2
-
-[node name="Control" type="Control" parent="CanvasLayer"]
-process_mode = 3
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 1152.0
-offset_bottom = 648.0
-script = ExtResource("20_5kdm1")
-
-[node name="cutscene" type="VideoStreamPlayer" parent="CanvasLayer/Control"]
-layout_mode = 2
-offset_right = 1152.0
-offset_bottom = 648.0
-expand = true
-
-[node name="skip_container" type="VBoxContainer" parent="CanvasLayer/Control"]
-visible = false
-layout_mode = 0
-offset_left = 960.0
-offset_top = 64.0
-offset_right = 1088.0
-offset_bottom = 128.0
-theme_override_constants/separation = 15
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/skip_container"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/skip_container/HBoxContainer"]
-layout_mode = 2
-text = "Skip: Hold "
-
-[node name="skip_key" type="Label" parent="CanvasLayer/Control/skip_container/HBoxContainer"]
-layout_mode = 2
-text = "[ ESC ]"
-
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control/skip_container"]
-custom_minimum_size = Vector2(0, 15)
-layout_mode = 2
-show_percentage = false
-
-[node name="Control3" type="Control" parent="CanvasLayer"]
+[node name="Control3" type="Control" parent="CanvasLayer" groups=["black_screen_control"]]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 script = ExtResource("4_uher4")
 
 [node name="black_fade" type="ColorRect" parent="CanvasLayer/Control3"]

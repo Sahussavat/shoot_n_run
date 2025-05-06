@@ -1,8 +1,8 @@
 extends PanelContainer
 
 enum game_type {
-	QUICK_TYPE, ##minigame ประเภทพิมพ์เร็ว
 	SPEECH_TYPE, ##minigame ประเภทพูดตามคำบอก
+	QUICK_TYPE, ##minigame ประเภทพิมพ์เร็ว
 	CALCULATE_TYPE, ##minigame ประเภทคิดเลขไว
 }
 
@@ -30,7 +30,7 @@ func run_the_game(_game_type, win_fn, lose_fn):
 			character_left = character_right
 			character_right = temp
 	
-	character_left.character_name = "tako"
+	character_left.character_name = "เปโร่"
 	var boss = get_tree().get_first_node_in_group(GroupsName.BOSS)
 	if boss:
 		character_right.character_name = boss.boss_name
@@ -77,6 +77,7 @@ func turn_on_game(game):
 	game.process_mode = Node.PROCESS_MODE_ALWAYS
 	temp_menu_process_mode = menu.process_mode
 	menu.process_mode = Node.PROCESS_MODE_DISABLED
+	get_tree().paused = true
 	game.visible = true
 	show_default_character()
 

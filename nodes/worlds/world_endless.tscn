@@ -585,7 +585,6 @@ layout_mode = 2
 text = "Quit Game"
 
 [node name="Balloon" parent="CanvasLayer" instance=ExtResource("20_e5xr4")]
-process_mode = 2
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 process_mode = 3
@@ -595,6 +594,16 @@ anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 script = ExtResource("21_jpyoh")
+
+[node name="just_black" type="ColorRect" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="cutscene" type="VideoStreamPlayer" parent="CanvasLayer/Control"]
 layout_mode = 2
@@ -628,7 +637,7 @@ custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 show_percentage = false
 
-[node name="Control3" type="Control" parent="CanvasLayer"]
+[node name="Control3" type="Control" parent="CanvasLayer" groups=["black_screen_control"]]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0

@@ -1,6 +1,7 @@
 ~ this_is_a_node_title
 #สามารถดูวิธีใช้ได้จาก https://www.youtube.com/watch?v=UhPFk8FSbd8&list=PLWEX_DQyaQyyquh1NHU2onWyYUsfQCI_3&index=5
 #ได้มีการปรับแต่งตัว add-on เล็กน้อย เพิ่มความสามารถให้สามารถระบุไฟล์ภาพตัวละครที่เจาะจงมากขึ้น และตำแหน่งของภาพ
+do DialogueUtill.set_background("town.jpg")
 This is a line said by nobody.
 #มี pattern คือ ชื่อตัวละคร[feel]ความรู้สึก[a]ตำแหน่งภาพ
 #เมื่อระบบทำการคำนวณหาไฟล์ ไฟล์ที่หาจะต้องชื่อ ชื่อตัวละคร_ความรู้สึก.png เช่น Jack_angry.png, 
@@ -10,7 +11,11 @@ This is a line said by nobody.
 
 #ตัวอย่างการใช้งาน
 Sprite2[feel]angry[a]center: [[Hi|Hello|Howdy]], this is some dialogue.
+do DialogueUtill.set_background("green.png")
+do DialogueUtill.set_dialogue_box_type(DialogueUtill.dialogue_box_type.TRANSPARENT)
 Sprite3[feel]angry[a]center: [[Hi|Hello|Howdy]], this is some dialogue.
+do DialogueUtill.set_background_fade_in()
+do DialogueUtill.set_dialogue_box_type(DialogueUtill.dialogue_box_type.DEFAULT)
 Sprite3[feel]angry: Here are some choices.
 - First one
 	Nathan: You picked the first one.
@@ -18,5 +23,6 @@ Sprite3[feel]angry: Here are some choices.
 	Nathan: You picked the second one.
 - Start again => this_is_a_node_title
 - End the conversation => END
+~ this_is_a_node_title1
 Nathan: For more information see the online documentation.
 => END

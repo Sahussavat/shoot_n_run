@@ -1,0 +1,27 @@
+~ intro2
+กาลครั้งหนึ่ง ณ ชายหาดแห่งหนึ่ง
+do DialogueUtill.set_background("town.jpg")
+เปโร่[feel]angry1[a]center: อย่าให้ฉันจับนายได้เชียวนะ ตูดนายได้สะบัดแน่!
+กีกี้[feel]happy1[a]center: ฮี่ ฮี่ ก็ตามมาให้ทันซี่ ฮี่ ฮี่
+เปโร่[feel]angry1[a]center: หน๊อย!
+=> END
+
+~ meet_boss_2
+do DialogueUtill.set_background("green.png")
+เปโร่[feel]angry1[a]center: ไม่มีทางหนีแล้ว เอาเขาคืนมาเลยนะ!
+กีกี้[feel]happy1[a]center: หึ แย่จังเลยนะ... แต่ว่าฉันไม่ได้มาคนเดียวหรอกนะ!
+เปโร่[feel]angry1[a]center: นานิ!!
+เปโร่[feel]angry1[a]center: ทำไมบทมันซ้ำๆแฮะ
+อาลิน[feel]happy1[a]center: ฮี่ ฮี่ แกไม่มีทางแย่งเขาคืนไปได้หรอกนะ เป้!
+เปโร่[feel]angry1[a]center: พี่อีกแล้วอ่อ! นี่รับ job ปะเนี้ย
+อาลิน[feel]happy1[a]center: ก็คนเขียน code มันขี้เกียจ ก็ต้องเข้าใจ!
+เปโร่[feel]angry1[a]center: เอ้า ก็ได้ๆ งั้นก็ได้ มาสู้กันต่อ!
+=> END
+
+~ end_boss_2
+do DialogueUtill.set_background("town.jpg")
+เปโร่[feel]happy1[a]center: หึ ก็ยังอ่อนเหมือนเดิม ไปฝึกมาใหม่นะพี่สาว
+อาลิน[feel]angry1[a]center: ชิ ไว้เจอกันด่านหน้าละกัน ด่านหน้าแกไม่รอดแน่!
+กีกี้[feel]happy1[a]center: แย่ล่ะ หนีดีกว่า 
+เปโร่[feel]angry1[a]center: ไม่ต้องเลย กลับมานี่!
+=> END

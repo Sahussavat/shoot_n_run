@@ -95,7 +95,9 @@ func set_half_hp_mode():
 		$Sprite2D.material = ShaderMaterial.new()
 		$Sprite2D.material.shader = preload("res://shader/anger_boss_color.gdshader")
 	elif health.health <= health.max_health/1.5 and not pass_question1 and not disable_minigame:
-		slow_motion(0.05)
+		Engine.time_scale = 0.1
+		await get_tree().create_timer(0.05).timeout
+		Engine.time_scale = 1
 		get_tree().paused = true
 		minigames.run_the_game(minigames.game_type.QUICK_TYPE, 
 		func():
@@ -109,7 +111,9 @@ func set_half_hp_mode():
 			slow_motion()
 			)
 	elif health.health <= health.max_health/2.5 and not pass_question2 and not disable_minigame:
-		slow_motion(0.05)
+		Engine.time_scale = 0.1
+		await get_tree().create_timer(0.05).timeout
+		Engine.time_scale = 1
 		get_tree().paused = true
 		minigames.run_the_game(minigames.game_type.SPEECH_TYPE, 
 		func():
@@ -123,19 +127,26 @@ func set_half_hp_mode():
 			slow_motion()
 			)
 func change_scene():
+	Engine.time_scale = 0.1
+	await get_tree().create_timer(0.05).timeout
+	Engine.time_scale = 1
 	get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_in(func():
-		ScoreControl.score_delta(150)
-		ChangePage.change_to_target_scene("res://nodes/worlds/credit.tscn")
+		BalloonControl.set_on_finish_balloon(func():
+			ScoreControl.score_delta(150)
+			ChangePage.change_to_target_scene("res://nodes/worlds/credit.tscn")
+			)
+		DialogueUtill.get_balloon().start(load("res://dialogues/intro_map3.dialogue"),"end_boss_3")
 	)
 
 
 func on_death():
 	boss_bar.set_visible(false)
 	if not disable_minigame:
-		slow_motion(0.05)
+		Engine.time_scale = 0.1
+		await get_tree().create_timer(0.05).timeout
+		Engine.time_scale = 1
 		minigames.run_the_game(minigames.game_type.CALCULATE_TYPE, 
 		func():
-			slow_motion()
 			get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(change_scene)
 			,
 		func():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://de2d5cu5ia6pl"]
+[gd_scene load_steps=16 format=3 uid="uid://de2d5cu5ia6pl"]
 
 [ext_resource type="Script" path="res://script/system_control/menu.gd" id="1_brglx"]
 [ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="2_wuw02"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://script/system_control/choose_map_btn.gd" id="5_7p5y3"]
 [ext_resource type="Texture2D" uid="uid://d14o3lmutqryb" path="res://img/enemies/32bit-gastropod-general1.png" id="7_mj77c"]
 [ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="8_03xpj"]
+[ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="8_7ua08"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="8_wqevp"]
 [ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="9_pe1xd"]
 
@@ -47,7 +48,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="main_menu" type="HBoxContainer" parent="."]
+[node name="main_menu" type="HBoxContainer" parent="." groups=["menu"]]
 layout_mode = 0
 offset_left = 128.0
 offset_top = 417.0
@@ -129,14 +130,24 @@ text = "start"
 
 [node name="Control" type="Control" parent="."]
 process_mode = 3
+visible = false
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 mouse_filter = 2
 script = ExtResource("8_wqevp")
 
+[node name="just_black" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
 [node name="cutscene" type="VideoStreamPlayer" parent="Control"]
-visible = false
 layout_mode = 2
 offset_right = 1152.0
 offset_bottom = 648.0
@@ -151,6 +162,7 @@ offset_right = 1088.0
 offset_bottom = 128.0
 theme_override_constants/separation = 15
 alignment = 1
+script = ExtResource("8_7ua08")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/skip_container"]
 layout_mode = 2
@@ -293,7 +305,8 @@ text = "Purchase"
 visible = false
 layout_mode = 2
 
-[node name="black_screen" type="Control" parent="."]
+[node name="black_screen" type="Control" parent="." groups=["black_screen_control"]]
+process_mode = 3
 layout_mode = 2
 anchors_preset = 0
 offset_right = 1152.0

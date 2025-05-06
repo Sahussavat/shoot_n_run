@@ -1,0 +1,325 @@
+[gd_scene load_steps=17 format=3 uid="uid://de2d5cu5ia6pl"]
+
+[ext_resource type="Script" path="res://script/system_control/menu.gd" id="1_brglx"]
+[ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="2_wuw02"]
+[ext_resource type="PackedScene" uid="uid://bd6i2usn56jyb" path="res://nodes/menu/setting.tscn" id="3_5fcf5"]
+[ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="3_80e50"]
+[ext_resource type="Texture2D" uid="uid://bfbb7rwrm7dpr" path="res://img/Parallax Clouds Pack by Captainskeleto/Parallax10.png" id="5_2ngkv"]
+[ext_resource type="Script" path="res://script/system_control/choose_map_btn.gd" id="5_7p5y3"]
+[ext_resource type="Texture2D" uid="uid://d14o3lmutqryb" path="res://img/enemies/32bit-gastropod-general1.png" id="7_mj77c"]
+[ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="8_03xpj"]
+[ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="8_7ua08"]
+[ext_resource type="VideoStream" path="res://videoes/teaser-takoperos-birthday-hnueng-s-ng-cham-etriiymtaw-aelwmaasnukdwykannakha-1080-publer.ogv" id="8_ar6xi"]
+[ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="8_wqevp"]
+[ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="9_pe1xd"]
+
+[sub_resource type="GDScript" id="GDScript_dg5ka"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p6do2"]
+shader = ExtResource("9_pe1xd")
+shader_parameter/circle_size = 0.0
+
+[sub_resource type="Animation" id="Animation_c1syc"]
+resource_name = "auto_circle_in"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [null],
+"method": &"circle_out"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ua1t8"]
+_data = {
+"auto_circle_in": SubResource("Animation_c1syc")
+}
+
+[node name="main_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="main_menu" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 417.0
+offset_right = 960.0
+offset_bottom = 448.0
+theme_override_constants/separation = 50
+alignment = 1
+script = ExtResource("1_brglx")
+
+[node name="start" type="Button" parent="main_menu" node_paths=PackedStringArray("page_target")]
+layout_mode = 2
+text = "Start"
+script = ExtResource("2_wuw02")
+page_target = NodePath("../../choose_map")
+
+[node name="endless" type="Button" parent="main_menu"]
+layout_mode = 2
+text = "Endless Mode"
+script = ExtResource("3_80e50")
+world_target = "res://nodes/worlds/world_endless.tscn"
+
+[node name="setting" type="Button" parent="main_menu" node_paths=PackedStringArray("page_target")]
+layout_mode = 2
+text = "Setting"
+script = ExtResource("2_wuw02")
+page_target = NodePath("../../setting")
+
+[node name="quit" type="Button" parent="main_menu"]
+layout_mode = 2
+text = "Quit"
+
+[node name="setting" parent="." instance=ExtResource("3_5fcf5")]
+visible = false
+layout_mode = 0
+offset_left = 192.0
+offset_top = 96.0
+offset_right = 960.0
+offset_bottom = 512.0
+
+[node name="choose_map" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 256.0
+offset_top = 128.0
+offset_right = 832.0
+offset_bottom = 512.0
+script = ExtResource("5_7p5y3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="choose_map"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="map_name" type="Label" parent="choose_map/VBoxContainer"]
+layout_mode = 2
+text = "Test"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="choose_map/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="prev" type="Button" parent="choose_map/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "<"
+
+[node name="image" type="TextureRect" parent="choose_map/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_2ngkv")
+
+[node name="next" type="Button" parent="choose_map/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = ">"
+
+[node name="start" type="Button" parent="choose_map/VBoxContainer"]
+layout_mode = 2
+text = "start"
+
+[node name="Control" type="Control" parent="."]
+process_mode = 3
+visible = false
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+script = ExtResource("8_wqevp")
+
+[node name="cutscene" type="VideoStreamPlayer" parent="Control"]
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+stream = ExtResource("8_ar6xi")
+autoplay = true
+expand = true
+
+[node name="skip_container" type="VBoxContainer" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 960.0
+offset_top = 64.0
+offset_right = 1088.0
+offset_bottom = 128.0
+theme_override_constants/separation = 15
+alignment = 1
+script = ExtResource("8_7ua08")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/skip_container"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "Skip: Hold "
+
+[node name="skip_key" type="Label" parent="Control/skip_container/HBoxContainer"]
+layout_mode = 2
+text = "[ ESC ]"
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/skip_container"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+show_percentage = false
+
+[node name="shop_menu" type="TabContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 296.0
+offset_top = 128.0
+offset_right = 872.0
+offset_bottom = 512.0
+tab_focus_mode = 0
+script = SubResource("GDScript_dg5ka")
+
+[node name="Stats" type="TabBar" parent="shop_menu"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="shop_menu/Stats"]
+layout_mode = 2
+offset_left = 64.0
+offset_top = 33.0
+offset_right = 864.0
+offset_bottom = 329.0
+theme_override_constants/separation = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="shop_menu/Stats/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="perk_img" type="TextureRect" parent="shop_menu/Stats/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture = ExtResource("7_mj77c")
+
+[node name="perk_name" type="Label" parent="shop_menu/Stats/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Rocketo Punch!"
+horizontal_alignment = 1
+
+[node name="perk_detail" type="RichTextLabel" parent="shop_menu/Stats/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+text = "ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ ทดสอบ "
+
+[node name="perk_list" type="ScrollContainer" parent="shop_menu/Stats/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="shop_menu/Stats/HBoxContainer/perk_list"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Rocketo Pucnh!"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Lv. 1"
+
+[node name="Button" type="Button" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Upgrade"
+
+[node name="Button" type="Button" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Purchase"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "Rocketo Pucnh!"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer3/HBoxContainer"]
+layout_mode = 2
+text = "Lv. 1"
+
+[node name="Button" type="Button" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer3/HBoxContainer"]
+layout_mode = 2
+text = "Upgrade"
+
+[node name="Button" type="Button" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer3"]
+visible = false
+layout_mode = 2
+text = "Purchase"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Rocketo Pucnh!"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer2"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Lv. 1"
+
+[node name="Button" type="Button" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Upgrade"
+
+[node name="Button" type="Button" parent="shop_menu/Stats/HBoxContainer/perk_list/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Purchase"
+
+[node name="Abilities" type="TabBar" parent="shop_menu"]
+visible = false
+layout_mode = 2
+
+[node name="black_screen" type="Control" parent="." groups=["black_screen_control"]]
+process_mode = 3
+layout_mode = 2
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+script = ExtResource("8_03xpj")
+
+[node name="black_fade" type="ColorRect" parent="black_screen"]
+material = SubResource("ShaderMaterial_p6do2")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="black_screen"]
+libraries = {
+"": SubResource("AnimationLibrary_ua1t8")
+}
+autoplay = "auto_circle_in"

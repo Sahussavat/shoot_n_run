@@ -1,7 +1,6 @@
 extends Node2D
 
 var spawn_control
-var balloon
 
 var fall_floor = preload("res://nodes/floors/fall_floor.tscn")
 var obs_floor = preload("res://nodes/floors/obstacle_floor.tscn")
@@ -12,7 +11,7 @@ var spawn_enemies_crowd = preload("res://script/system_control/spawn_enemies_cro
 var spawn_enemies_flyer = preload("res://script/system_control/spawn_enemies_flyer.gd")
 var spawn_boss = preload("res://script/system_control/spawn_boss.gd")
 
-var boss_fly = preload("res://nodes/enemies/boss_fly.tscn")
+var boss = preload("res://nodes/enemies/boss.tscn")
 
 enum floor_types {
 	RANDOM, ##floor แบบ random เป็นได้ทั้งพื้นปกติไม่มีอะไรหรือพื้นที่มีอุปสรรคกีดขวาง
@@ -54,7 +53,6 @@ var parent
 func _init(_parent):
 	parent = _parent
 	spawn_control = parent.get_tree().get_first_node_in_group(GroupsName.SPAWN_CONTROL)
-	balloon = parent.get_tree().get_first_node_in_group(GroupsName.BALLOON)
 	SlowMotionVal.reset_slow_motion_val()
 
 func setting(floors_data, spawn_data, boss_fn = func():

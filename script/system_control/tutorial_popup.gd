@@ -20,7 +20,9 @@ func _ready():
 		k.text = keys[move_name]
 
 func get_key_name(key):
-	return GameControlKeycode.get_key_string(GameControlKeycode.current_key[key])
+	if JoyStickDetector.is_joy_connected():
+		return GameControlKeycode.get_joy_string(GameControlKeycode.get_current_key()[key])
+	return GameControlKeycode.get_key_string(GameControlKeycode.get_current_key()[key])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

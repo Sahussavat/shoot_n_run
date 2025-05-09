@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://d2wxr15523jpe"]
+[gd_scene load_steps=39 format=3 uid="uid://d2wxr15523jpe"]
 
 [ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://nodes/player/tako.tscn" id="1_0akri"]
 [ext_resource type="Script" path="res://script/system_control/floor_endless.gd" id="2_yme1f"]
@@ -19,7 +19,6 @@
 [ext_resource type="Script" path="res://script/system_control/menu.gd" id="17_0dnnm"]
 [ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="18_0qd1n"]
 [ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="19_nptsc"]
-[ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://nodes/dialogue/balloon.tscn" id="20_e5xr4"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="21_jpyoh"]
 [ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="22_3hl12"]
 [ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="22_v860l"]
@@ -526,7 +525,7 @@ layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/score/score_text/HBoxContainer"]
+[node name="Button" type="Button" parent="CanvasLayer/score/score_text/HBoxContainer" groups=["focus_first"]]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2cig5")
 theme_override_font_sizes/font_size = 50
@@ -564,7 +563,7 @@ process_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 35
 
-[node name="resume" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
+[node name="resume" type="Button" parent="CanvasLayer/menu/VBoxContainer" groups=["focus_first"]]
 layout_mode = 2
 text = "Resume"
 
@@ -584,8 +583,6 @@ world_target = "res://nodes/worlds/main_menu.tscn"
 [node name="quit_game" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
 layout_mode = 2
 text = "Quit Game"
-
-[node name="Balloon" parent="CanvasLayer" instance=ExtResource("20_e5xr4")]
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 process_mode = 3

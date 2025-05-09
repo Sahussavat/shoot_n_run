@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://byy4jvo7iv06"]
+
+[ext_resource type="Texture2D" uid="uid://d14o3lmutqryb" path="res://img/enemies/32bit-gastropod-general1.png" id="1_kt68b"]
+[ext_resource type="Script" path="res://script/enemies/circle_flyer.gd" id="1_rqv5q"]
+[ext_resource type="Script" path="res://script/hitbox_obj/obstacle_damage_obj.gd" id="2_b3t1d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uecfi"]
+size = Vector2(48, 48)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_rqv5q")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("1_kt68b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_uecfi")
+
+[node name="hitbox" type="Area2D" parent="."]
+collision_layer = 0
+script = ExtResource("2_b3t1d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_uecfi")
+
+[node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_uecfi")

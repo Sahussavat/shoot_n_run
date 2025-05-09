@@ -73,6 +73,7 @@ func change_scene():
 	Engine.time_scale = 0.1
 	await get_tree().create_timer(0.05).timeout
 	Engine.time_scale = 1
+	get_tree().get_first_node_in_group(GroupsName.MENU).process_mode = Node.PROCESS_MODE_DISABLED
 	get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_in(func():
 		BalloonControl.set_on_finish_balloon(func():
 			ScoreControl.score_delta(150)

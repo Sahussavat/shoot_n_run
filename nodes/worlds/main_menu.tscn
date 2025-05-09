@@ -65,39 +65,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="main_menu" type="HBoxContainer" parent="." groups=["menu"]]
-process_mode = 1
-layout_mode = 0
-offset_left = 128.0
-offset_top = 417.0
-offset_right = 960.0
-offset_bottom = 448.0
-theme_override_constants/separation = 50
-alignment = 1
-script = ExtResource("1_brglx")
-
-[node name="start" type="Button" parent="main_menu" node_paths=PackedStringArray("page_target")]
-layout_mode = 2
-text = "Start"
-script = ExtResource("2_wuw02")
-page_target = NodePath("../../choose_map")
-
-[node name="endless" type="Button" parent="main_menu"]
-layout_mode = 2
-text = "Endless Mode"
-script = ExtResource("3_80e50")
-world_target = "res://nodes/worlds/world_endless.tscn"
-
-[node name="setting" type="Button" parent="main_menu" node_paths=PackedStringArray("page_target")]
-layout_mode = 2
-text = "Setting"
-script = ExtResource("2_wuw02")
-page_target = NodePath("../../setting")
-
-[node name="quit" type="Button" parent="main_menu"]
-layout_mode = 2
-text = "Quit"
-
 [node name="setting" parent="." instance=ExtResource("3_5fcf5")]
 visible = false
 layout_mode = 0
@@ -132,6 +99,9 @@ alignment = 1
 
 [node name="prev" type="Button" parent="choose_map/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../next")
+focus_neighbor_right = NodePath("../next")
+focus_neighbor_bottom = NodePath("../../start")
 text = "<"
 
 [node name="image" type="TextureRect" parent="choose_map/VBoxContainer/HBoxContainer"]
@@ -140,10 +110,15 @@ texture = ExtResource("5_2ngkv")
 
 [node name="next" type="Button" parent="choose_map/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../prev")
+focus_neighbor_right = NodePath("../prev")
+focus_neighbor_bottom = NodePath("../../start")
 text = ">"
 
-[node name="start" type="Button" parent="choose_map/VBoxContainer"]
+[node name="start" type="Button" parent="choose_map/VBoxContainer" groups=["focus_first"]]
 layout_mode = 2
+focus_neighbor_left = NodePath("../HBoxContainer/prev")
+focus_neighbor_right = NodePath("../HBoxContainer/next")
 text = "start"
 
 [node name="Control" type="Control" parent="."]
@@ -322,6 +297,47 @@ text = "Purchase"
 [node name="Abilities" type="TabBar" parent="shop_menu"]
 visible = false
 layout_mode = 2
+
+[node name="main_menu" type="HBoxContainer" parent="." groups=["menu"]]
+process_mode = 1
+layout_mode = 0
+offset_left = 128.0
+offset_top = 417.0
+offset_right = 960.0
+offset_bottom = 448.0
+theme_override_constants/separation = 50
+alignment = 1
+script = ExtResource("1_brglx")
+
+[node name="start" type="Button" parent="main_menu" node_paths=PackedStringArray("page_target") groups=["focus_first"]]
+layout_mode = 2
+focus_neighbor_left = NodePath("../quit")
+focus_neighbor_right = NodePath("../endless")
+text = "Start"
+script = ExtResource("2_wuw02")
+page_target = NodePath("../../choose_map")
+
+[node name="endless" type="Button" parent="main_menu"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../start")
+focus_neighbor_right = NodePath("../setting")
+text = "Endless Mode"
+script = ExtResource("3_80e50")
+world_target = "res://nodes/worlds/world_endless.tscn"
+
+[node name="setting" type="Button" parent="main_menu" node_paths=PackedStringArray("page_target")]
+layout_mode = 2
+focus_neighbor_left = NodePath("../endless")
+focus_neighbor_right = NodePath("../quit")
+text = "Setting"
+script = ExtResource("2_wuw02")
+page_target = NodePath("../../setting")
+
+[node name="quit" type="Button" parent="main_menu"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../setting")
+focus_neighbor_right = NodePath("../start")
+text = "Quit"
 
 [node name="black_screen" type="Control" parent="." groups=["black_screen_control"]]
 process_mode = 3

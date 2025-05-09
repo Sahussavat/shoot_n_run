@@ -18,6 +18,7 @@ func _ready():
 				var menu = get_tree().get_first_node_in_group(GroupsName.MENU)
 				menu.process_mode = Node.PROCESS_MODE_DISABLED
 				visible = true
+				ChangePage.get_first_focus_child(self).grab_focus()
 				, 0.5)
 		)
 	)

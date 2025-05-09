@@ -30,6 +30,7 @@ func _ready():
 	
 
 func show_score():
+	ChangePage.get_first_focus_child(self).grab_focus()
 	current_score_text.text = str(ScoreControl.score)
 	var h_s = ScoreControl.load_highest_score()
 	if h_s < ScoreControl.score:

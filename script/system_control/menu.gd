@@ -16,9 +16,10 @@ func _ready():
 	
 	if is_main_menu:
 		ChangePage.current_page = self
+	ChangePage.get_first_focus_child(self).grab_focus()
 
 func _input(event):
-	if key_utill.is_just_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.MENU]) and not event.is_echo():
+	if key_utill.is_just_pressed(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.MENU]) and not event.is_echo():
 		if ChangePage.is_current_page_show() and ChangePage.current_page != self:
 			ChangePage.change_to_prev_page()
 		else:

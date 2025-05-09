@@ -60,10 +60,18 @@ func show_choose_map():
 func next_map():
 	map_index = clampi(map_index + 1, 0, maps.size() - 1)
 	show_choose_map()
+	if map_index == maps.size() - 1:
+		prev_btn.grab_focus()
+	else:
+		next_btn.grab_focus()
 
 func prev_map():
 	map_index = clampi(map_index - 1, 0, maps.size() - 1)
 	show_choose_map()
+	if map_index == 0:
+		next_btn.grab_focus()
+	else:
+		prev_btn.grab_focus()
 
 func get_node_path(map_node_name : String):
 	return map_path + map_node_name + ".tscn"

@@ -13,7 +13,7 @@ func _ready():
 	skip_bar.value_changed.connect(on_skip_bar_changed)
 
 func _process(_delta):
-	if Input.is_physical_key_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.MENU]) and enable_skip:
+	if KeyUtill.is_pressing(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.MENU]) and enable_skip:
 		if is_instant_skip:
 			visible = false
 			done_skip = true
@@ -38,4 +38,4 @@ func reset_skip_bar():
 	skip_bar.value = 0
 
 func show_skip_key():
-	skip_label.text = "[ " + OS.get_keycode_string(GameControlKeycode.current_key[GameControlKeycode.KEY.MENU]) + " ]"
+	skip_label.text = "[ " + GameControlKeycode.get_string(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.MENU]) + " ]"

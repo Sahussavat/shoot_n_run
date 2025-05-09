@@ -32,7 +32,13 @@ func stop_attack():
 func spawn_toxic_bullet():
 	var toxic_bullet_inst = ReuseInitialize.initialize(GroupsName.BULLET, toxic_bullet)
 	toxic_bullet_inst.position = player_body.position
-	toxic_bullet_inst.target_pos = player_body.get_global_mouse_position()
+	if JoyStickDetector.is_joy_connected():
+		var target_post = Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
+		if Input.get_joy_axis(0, JOY_AXIS_RIGHT_X) == 0 and Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y) == 0:
+			target_post = Vector2(1, -1)
+		toxic_bullet_inst.target_pos = player_body.global_position + 2 * target_post
+	else:
+		toxic_bullet_inst.target_pos = player_body.get_global_mouse_position()
 	var area2d = get_area2d(toxic_bullet_inst)
 	if not area2d.entity_death.is_connected(heal_on_kill):
 		area2d.entity_death.connect(heal_on_kill)

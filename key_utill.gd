@@ -4,9 +4,18 @@ var just_press_check_arr = {}
 var disabled_input_node_arr = []
 
 func is_just_pressed(key_code):
+	var k = key_code
+	if k < 0:
+		k = abs(key_code) - 1
 	
-	var is_pressed = (Input.is_physical_key_pressed(key_code) or Input.is_mouse_button_pressed(key_code) and key_code <= 3)
-	var string_key_code = OS.get_keycode_string(key_code)
+	var is_pressed
+	var string_key_code
+	if JoyStickDetector.is_joy_connected():
+		is_pressed = (Input.is_joy_button_pressed(0, k) or (Input.get_joy_axis(0, k)) and key_code < 0)
+		string_key_code = GameControlKeycode.get_joy_string(k)
+	else:
+		is_pressed = (Input.is_physical_key_pressed(k) or (Input.is_mouse_button_pressed(k)) and key_code < 0)
+		string_key_code = GameControlKeycode.get_key_string(k)
 	if not just_press_check_arr.has(string_key_code):
 		just_press_check_arr[string_key_code] = false
 
@@ -17,6 +26,12 @@ func is_just_pressed(key_code):
 		just_press_check_arr[string_key_code] = false
 	
 	return false
+
+func is_pressing(keycode):
+	if JoyStickDetector.is_joy_connected():
+		return Input.is_joy_button_pressed(0, keycode)
+	else:
+		return  Input.is_physical_key_pressed(keycode)
 
 func get_pure_keycode(keycode):
 	if keycode < 0:

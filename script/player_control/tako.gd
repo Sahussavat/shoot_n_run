@@ -36,18 +36,21 @@ func _physics_process(delta):
 			stat.MOVE:
 				move(delta)
 			stat.DASH:
-				health.is_
 				dash(delta)
 		
 		move_and_slide()
 
 func get_mouse_direction():
-	return (get_global_mouse_position() - position).normalized().x
+	if JoyStickDetector.is_joy_connected():
+		var target_post = Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
+		if Input.get_joy_axis(0, JOY_AXIS_RIGHT_X) == 0 and Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y) == 0:
+			target_post = Vector2(1, -1)
+		return (2 * target_post).x
+	return (get_global_mouse_position() - global_position).normalized().x
 
 func get_direction():
-	var is_left_press = int(Input.is_physical_key_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.MOVE_LEFT]))
-	var is_right_press = int(Input.is_physical_key_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.MOVE_RIGHT]))
-	
+	var is_left_press = int( KeyUtill.is_pressing(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.MOVE_LEFT]))
+	var is_right_press = int(KeyUtill.is_pressing(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.MOVE_RIGHT]))
 	return is_right_press - is_left_press
 
 func to_move_stat():
@@ -60,18 +63,18 @@ func set_anim(anim_name):
 
 func move(delta):
 	movement_c_player.update(delta)
-	
-	if key_utill.is_just_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.JUMP]) and movement_c_player.can_jump():
+	if key_utill.is_just_pressed(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.JUMP]) and movement_c_player.can_jump():
 		movement_c_player.jump()
+		
 	# Handle jump.
 	if get_direction():
 		movement_c_player.move()
-		if key_utill.is_just_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.DASH]):
+		if key_utill.is_just_pressed(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.DASH]):
 			current_stat = stat.DASH
 	else:
 		movement_c_player.idle()
 	
-	if key_utill.is_just_pressed(GameControlKeycode.current_key[GameControlKeycode.KEY.ATTACK]):
+	if key_utill.is_just_pressed(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.ATTACK]):
 		attack_c_player.enable_attack()
 		AudioUtill.play_bgm("bgm_test")
 	attack_c_player.update()

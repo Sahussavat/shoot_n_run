@@ -10,6 +10,9 @@ offset_bottom = 416.0
 
 [node name="Audio" type="TabBar" parent="."]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Control")
+focus_neighbor_right = NodePath("../Control")
+focus_neighbor_bottom = NodePath("VBoxContainer/master/HSlider")
 script = ExtResource("1_qjj6c")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Audio"]
@@ -28,8 +31,10 @@ layout_mode = 2
 text = "Master Volume"
 horizontal_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Audio/VBoxContainer/master"]
+[node name="HSlider" type="HSlider" parent="Audio/VBoxContainer/master" groups=["focus_first"]]
 layout_mode = 2
+focus_neighbor_left = NodePath("../../video/HSlider")
+focus_neighbor_right = NodePath("../../bgm/HSlider")
 max_value = 1.0
 step = 0.01
 value = 1.0
@@ -44,6 +49,8 @@ horizontal_alignment = 1
 
 [node name="HSlider" type="HSlider" parent="Audio/VBoxContainer/bgm"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../../master/HSlider")
+focus_neighbor_right = NodePath("../../se/HSlider")
 max_value = 1.0
 step = 0.01
 value = 1.0
@@ -72,6 +79,8 @@ horizontal_alignment = 1
 
 [node name="HSlider" type="HSlider" parent="Audio/VBoxContainer/video"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../../se/HSlider")
+focus_neighbor_right = NodePath("../../master/HSlider")
 max_value = 1.0
 step = 0.01
 value = 1.0
@@ -79,6 +88,9 @@ value = 1.0
 [node name="Control" type="TabBar" parent="."]
 visible = false
 layout_mode = 2
+focus_neighbor_left = NodePath("../Audio")
+focus_neighbor_right = NodePath("../Audio")
+focus_neighbor_bottom = NodePath("default_btn")
 script = ExtResource("2_v7dms")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control"]
@@ -87,6 +99,7 @@ offset_left = 128.0
 offset_top = 65.0
 offset_right = 640.0
 offset_bottom = 297.0
+follow_focus = true
 
 [node name="controls" type="GridContainer" parent="Control/ScrollContainer"]
 layout_mode = 2
@@ -100,4 +113,5 @@ offset_left = 320.0
 offset_top = 338.0
 offset_right = 448.0
 offset_bottom = 369.0
+focus_neighbor_bottom = NodePath("..")
 text = "Default"

@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://rn35mblyic3v"]
+
+[ext_resource type="Texture2D" uid="uid://ds3307lu7k66p" path="res://img/enemies/16bit-squid-vampire2.png" id="1_bm6pb"]
+[ext_resource type="Script" path="res://script/enemies/multi_shot_flyer.gd" id="1_o1j6h"]
+[ext_resource type="Script" path="res://script/hitbox_obj/obstacle_damage_obj.gd" id="2_hgmxw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c0i8k"]
+size = Vector2(32, 48)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_o1j6h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-3.57628e-07, -4.76837e-07)
+scale = Vector2(3.25, 3.25)
+texture = ExtResource("1_bm6pb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c0i8k")
+
+[node name="hurtbox" type="Area2D" parent="."]
+visible = false
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+shape = SubResource("RectangleShape2D_c0i8k")
+
+[node name="hitbox" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+script = ExtResource("2_hgmxw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("RectangleShape2D_c0i8k")

@@ -68,9 +68,10 @@ func get_minigames(_game_type):
 func turn_off_game(game):
 	game.visible = false
 	game.process_mode = Node.PROCESS_MODE_DISABLED
-	menu.process_mode = temp_menu_process_mode
 	if is_inside_tree() and not switching_game:
-		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out()
+		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(func():
+			menu.process_mode = temp_menu_process_mode
+			)
 	enable_visible_character(false)
 
 func turn_on_game(game): 

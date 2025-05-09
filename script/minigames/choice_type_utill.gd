@@ -1,7 +1,11 @@
 extends Node
 
-var keycode_arr = [
+var keycode_keyboard_arr = [
 	KEY_A, KEY_S, KEY_D
+]
+
+var keycode_joy_arr = [
+	JOY_BUTTON_X, JOY_BUTTON_Y, JOY_BUTTON_B
 ]
 
 var time_to_play = 3
@@ -27,7 +31,7 @@ func _init(_minigame, _win_max = 3, _time_to_play = 3):
 	win_count = minigame.get_node("win_count")
 	timer_show = minigame.get_node("timer_show")
 	
-	for i in range(0, keycode_arr.size()):
+	for i in range(0, get_keycode_arr().size()):
 		var hbbox = HBoxContainer.new()
 		var ans_label = Label.new()
 		var key_label = Label.new()
@@ -44,15 +48,25 @@ func _init(_minigame, _win_max = 3, _time_to_play = 3):
 	choice_boxes = choices.get_children()
 	choices_default_color = choice_boxes[0].get_node("ans").get_theme_color("font_color")
 
+func get_keycode_arr():
+	if JoyStickDetector.is_joy_connected():
+		return keycode_joy_arr
+	return keycode_keyboard_arr
+
 func choice_input(event, get_ans_color_fn):
 	var just_pressed = event.is_pressed() and not event.is_echo()
-	if event is InputEventKey and just_pressed:
+	if event is InputEventKey or event is InputEventJoypadButton and just_pressed:
 		var i
-		if event.physical_keycode == KEY_A:
+		var k
+		if JoyStickDetector.is_joy_connected():
+			k = event.button_index
+		else:
+			k = event.physical_keycode
+		if k == KEY_A or k == JOY_BUTTON_X:
 			i = 0
-		elif event.physical_keycode == KEY_S:
+		elif k == KEY_S or k == JOY_BUTTON_Y:
 			i = 1
-		elif event.physical_keycode == KEY_D:
+		elif k == KEY_D or k == JOY_BUTTON_B:
 			i = 2
 		if i != null:
 			var box = choice_boxes[i]
@@ -85,7 +99,7 @@ func set_choice_key():
 	var i = 0
 	var c_children = choices.get_children()
 	for child in c_children:
-		child.get_node("key").text = "[" + OS.get_keycode_string(keycode_arr[i]) + "]"
+		child.get_node("key").text = "[" + GameControlKeycode.get_string(get_keycode_arr()[i]) + "]"
 		i = i + 1
 
 func set_show_win_count():

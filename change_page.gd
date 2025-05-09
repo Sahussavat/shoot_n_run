@@ -15,6 +15,21 @@ func change_to_target_page(target_page : Node = null):
 		target_page.visible = true
 		prev_page = current_page
 		current_page = target_page
+		var f = get_first_focus_child(current_page)
+		if f:
+			f.grab_focus()
+
+func get_first_focus_child(parent):
+	var arr = parent.get_children()
+	while arr.size() > 0:
+		var c = arr[0]
+		if c.get_children().size() > 0:
+			for _c in c.get_children():
+				arr.append(_c)
+		if c.is_in_group(GroupsName.FOCUS_FIRST) and c.visible:
+			return c
+		arr.remove_at(0)
+	return null
 
 func change_to_prev_page():
 	if prev_page:

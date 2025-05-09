@@ -3,18 +3,21 @@ extends Node
 var parent
 var toxic_bullet = preload("res://nodes/hitbox_objs/toxic_bullet.tscn")
 var danger_dash_zone = preload("res://script/system_control/danger_dash_zone.gd")
+var pause_shot = false
 var is_shot_empty = false
+signal shot_empty
 
 # Called when the node enters the scene tree for the first time.
 func _init(_parent):
 	parent = _parent
 
 func create_shots(n, wait_between, target):
-	if n > 0 and is_instance_valid(parent):
+	if n > 0 and is_instance_valid(parent) and not parent.health.is_dead() and not pause_shot:
 		is_shot_empty = false
 		parent.get_tree().create_timer(wait_between, false, false, true).timeout.connect(spawn_bullet.bind(n, wait_between, target));
 	else:
 		is_shot_empty = true
+		shot_empty.emit()
 
 func spawn_bullet(n, wait_between, target):
 	var toxic_bullet_inst = ReuseInitialize.initialize(GroupsName.ENEMIES_BULLET, toxic_bullet)

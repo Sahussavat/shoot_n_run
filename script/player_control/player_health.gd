@@ -34,11 +34,11 @@ func enable_collision(enable = true):
 func heal(delta):
 	health.set_health(delta)
 
-func do_damage(damage):
+func do_damage(damage, damage_obj = null):
 	if can_do_damage and not health.is_invicible:
 		can_do_damage = false
 		enable_collision(can_do_damage)
-		health.do_damage(damage)
+		health.do_damage(damage, damage_obj)
 		if not is_doing_invicible_effect:
 			is_doing_invicible_effect = true
 			set_invicible(true)

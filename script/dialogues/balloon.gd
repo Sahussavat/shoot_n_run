@@ -32,6 +32,8 @@ var can_click_next = false
 ## The current line
 var dialogue_line: DialogueLine:
 	set(next_dialogue_line):
+		var menu = get_tree().get_first_node_in_group(GroupsName.MENU)
+		menu.process_mode = Node.PROCESS_MODE_DISABLED
 		is_waiting_for_input = false
 		balloon.focus_mode = Control.FOCUS_ALL
 		balloon.grab_focus()
@@ -82,6 +84,8 @@ var dialogue_line: DialogueLine:
 			is_waiting_for_input = true
 			balloon.focus_mode = Control.FOCUS_ALL
 			balloon.grab_focus()
+		
+		menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	get:
 		return dialogue_line
 
@@ -103,11 +107,16 @@ func _ready() -> void:
 	balloon.hide()
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
 	skip_container.on_finished_skip.connect(func():
+		var menu = get_tree().get_first_node_in_group(GroupsName.MENU)
+		menu.process_mode = Node.PROCESS_MODE_DISABLED
+		ChangePage.change_to_target_page(menu)
+		menu.do_resume()
+		process_mode = Node.PROCESS_MODE_DISABLED
 		DialogueUtill.circle_in(func():
 			self.dialogue_line = await resource.get_next_dialogue_line(&"end")
 			)
 		)
-
+	skip_container.set_skip_button()
 	# If the responses menu doesn't have a next action set, use this one
 	if responses_menu.next_action.is_empty():
 		responses_menu.next_action = next_action
@@ -135,6 +144,12 @@ func start(dialogue_resource: DialogueResource, title: String, extra_game_states
 	resource = dialogue_resource
 	self.dialogue_line = await resource.get_next_dialogue_line(title, temporary_game_states)
 	skip_container.enable_skip = true
+	var blur = get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL)
+	blur.get_parent().remove_child(blur)
+	get_tree().get_first_node_in_group(GroupsName.SUB_MENU_POS).add_child(blur)
+	var menu = get_tree().get_first_node_in_group(GroupsName.MENU_SET)
+	menu.get_parent().remove_child(menu)
+	get_tree().get_first_node_in_group(GroupsName.SUB_MENU_POS).add_child(menu)
 	DialogueUtill.circle_out(func():
 		can_click_next = true
 		)
@@ -162,7 +177,7 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 	# See if we need to skip typing of the dialogue
 	if dialogue_label.is_typing and can_click_next:
 		var mouse_was_clicked: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed()
-		var skip_button_was_pressed: bool = event.is_action_pressed(skip_action)
+		var skip_button_was_pressed: bool = event.is_action_pressed(skip_action) or KeyUtill.is_just_pressed(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.MENU])
 		if mouse_was_clicked or skip_button_was_pressed:
 			get_viewport().set_input_as_handled()
 			dialogue_label.skip_typing()

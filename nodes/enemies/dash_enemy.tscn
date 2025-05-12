@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqkf2atpmtm5x"]
+[gd_scene load_steps=6 format=3 uid="uid://dqkf2atpmtm5x"]
 
 [ext_resource type="Texture2D" uid="uid://d2o57doxqo4dr" path="res://img/enemies/goblin-shark1.png" id="1_nes8k"]
 [ext_resource type="Script" path="res://script/enemies/dash_enemy.gd" id="1_yl27y"]
+[ext_resource type="Script" path="res://script/enemies/barrier.gd" id="3_aswhy"]
 [ext_resource type="Script" path="res://script/hitbox_obj/obstacle_damage_obj.gd" id="3_y56h8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jts1a"]
@@ -11,6 +12,13 @@ size = Vector2(192, 32)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_yl27y")
+
+[node name="outline" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(96, 24)
+scale = Vector2(6, 6)
+texture = ExtResource("1_nes8k")
+script = ExtResource("3_aswhy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

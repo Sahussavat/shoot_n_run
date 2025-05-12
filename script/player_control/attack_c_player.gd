@@ -3,6 +3,7 @@ var player_body
 
 var enable_shoot = false
 var is_cooldown_shoot = false
+var attack_bullet_type = BulletType.RED
 
 var toxic_bullet = preload("res://nodes/hitbox_objs/toxic_bullet.tscn")
 
@@ -31,6 +32,7 @@ func stop_attack():
 
 func spawn_toxic_bullet():
 	var toxic_bullet_inst = ReuseInitialize.initialize(GroupsName.BULLET, toxic_bullet)
+	toxic_bullet_inst.set_bullet_type(attack_bullet_type)
 	toxic_bullet_inst.position = player_body.position
 	if JoyStickDetector.is_joy_connected():
 		var target_post = Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
@@ -58,3 +60,6 @@ func get_area2d(obj):
 		if child is Area2D:
 			return child
 	return null
+
+func set_attack_bullet_type(type):
+	attack_bullet_type = type

@@ -18,13 +18,15 @@ offset_right = 16.0
 offset_bottom = 16.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_u4hwa")
 
 [node name="hitbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 6
 script = ExtResource("2_sccq0")
-damage = 10
+damage = 25
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource("RectangleShape2D_u4hwa")

@@ -35,6 +35,9 @@ SlowMotionVal="*res://slow_motion_val.gd"
 ReuseInitialize="*res://reuse_initialize.gd"
 DialogueUtill="*res://dialogue_utill.gd"
 JoyStickDetector="*res://joy_stick_detector.gd"
+BulletType="*res://bullet_type.gd"
+FadeOnDead="*res://fade_on_dead.gd"
+LiterallyExplosion="*res://literally_explosion.gd"
 
 [dialogue_manager]
 

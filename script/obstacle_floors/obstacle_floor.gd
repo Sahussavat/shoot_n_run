@@ -19,7 +19,7 @@ var is_spawnable_coin = true
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	is_spawnable_coin = floor_control.is_spawnable_coin
-	var color = Color(randf(),randf(),randf())
+	var color = Color(0,0,0)
 	colorRect.color = color
 	var i = 0
 	var obs_num = 0

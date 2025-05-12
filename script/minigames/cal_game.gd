@@ -85,9 +85,15 @@ func set_question():
 func set_choices():
 	var c_children = choices.get_children()
 	var right_ans_pos = randi_range(0, c_children.size() - 1)
+	var wrong_ans
 	for i in range(0, c_children.size()):
 		if i == right_ans_pos:
 			c_children[i].get_node("ans").text = str(correct_ans)
 		else:
 			var n = [1, -1]
-			c_children[i].get_node("ans").text = str(correct_ans + randi_range(1, 10) * n[randi_range(0, n.size() - 1)])
+			var ans = correct_ans + randi_range(1, 10) * n[randi_range(0, n.size() - 1)]
+			if not wrong_ans:
+				wrong_ans = ans
+			elif wrong_ans == ans:
+				ans = ans + (wrong_ans - correct_ans)
+			c_children[i].get_node("ans").text = str(ans)

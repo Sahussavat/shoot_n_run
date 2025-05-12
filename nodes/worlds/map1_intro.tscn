@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://c80irdim0g1ca"]
+[gd_scene load_steps=10 format=3 uid="uid://c80irdim0g1ca"]
 
 [ext_resource type="Script" path="res://nodes/worlds/short_text_cutscene.gd" id="1_yea7f"]
 [ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="3_57dc5"]
+[ext_resource type="Script" path="res://nodes/worlds/blur_screen.gd" id="3_bngrv"]
+[ext_resource type="PackedScene" uid="uid://c6ra0fdmdqfgl" path="res://nodes/menu/menu.tscn" id="3_hdd8c"]
 [ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="4_sn4mk"]
 [ext_resource type="Shader" path="res://shader/circle_transition.gdshader" id="5_7mrcn"]
 
@@ -84,6 +86,34 @@ text = "[ ESC ]"
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 show_percentage = false
+
+[node name="blur_pos" type="Control" parent="Control" groups=["blur_pos"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="blur_screen" type="Control" parent="Control/blur_pos"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 760.0
+script = ExtResource("3_bngrv")
+
+[node name="blur" type="ColorRect" parent="Control/blur_pos/blur_screen"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 744.0
+color = Color(0, 0, 0, 0)
+
+[node name="menu_pos" type="Control" parent="Control" groups=["main_menu_pos"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="menu" parent="Control/menu_pos" instance=ExtResource("3_hdd8c")]
 
 [node name="black_screen" type="Control" parent="." groups=["black_screen_control"]]
 process_mode = 3

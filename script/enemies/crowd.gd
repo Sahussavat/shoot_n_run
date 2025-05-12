@@ -25,6 +25,7 @@ var fly_movement = preload("res://script/enemies/fly_movement.gd")
 @onready var player = get_tree().get_first_node_in_group(GroupsName.PLAYER)
 @onready var wait_for_self_bullet = Timer.new()
 @onready var collision = get_collision(self)
+@onready var barrier = $outline
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -42,12 +43,14 @@ func _ready():
 	wait_for_self_bullet.timeout.connect(to_full_charge)
 	add_child(wait_for_self_bullet)
 	fly_movement = fly_movement.new(self)
+	barrier.init_barrier(self)
+	barrier.start_random_barrier()
 
 func _re_ready():
 	health.revive()
 	health_bar_control.reset_bar()
 	current_state = state.MOVE
-	
+	barrier.start_random_barrier()
 	wait_for_self_bullet.free()
 	wait_for_self_bullet = Timer.new()
 	wait_for_self_bullet.wait_time = 10

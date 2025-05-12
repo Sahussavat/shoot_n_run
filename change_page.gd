@@ -14,7 +14,10 @@ func change_to_target_page(target_page : Node = null):
 	if target_page:
 		target_page.visible = true
 		prev_page = current_page
-		current_page = target_page
+		if target_page.is_in_group(GroupsName.PAGE_WRAP):
+			current_page = target_page.get_node(target_page.focus_neighbor_bottom)
+		else:
+			current_page = target_page
 		var f = get_first_focus_child(current_page)
 		if f:
 			f.grab_focus()
@@ -32,9 +35,11 @@ func get_first_focus_child(parent):
 	return null
 
 func change_to_prev_page():
-	if prev_page:
-		change_to_target_page(prev_page)
-		prev_page = null
+	if current_page and \
+		not current_page.focus_neighbor_left and current_page.get_parent().is_in_group(GroupsName.PAGE_WRAP) and current_page.get_parent().focus_neighbor_left:
+		current_page = current_page.get_parent()
+	if current_page and current_page.focus_neighbor_left:
+		change_to_target_page(current_page.get_node(current_page.focus_neighbor_left))
 
 func is_current_page_show():
 	if current_page and is_instance_valid(current_page):

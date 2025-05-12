@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://73jm5qjy52vq"]
 
 [ext_resource type="Script" path="res://script/dialogues/balloon.gd" id="1_hfej4"]
-[ext_resource type="Texture2D" uid="uid://dmvxkf2gbxg3d" path="res://img/visual_characters/sprite1 angry small.png" id="2_bk8fy"]
+[ext_resource type="Texture2D" uid="uid://dxqtkrmkcp6op" path="res://img/visual_characters/ลาฟี่_angry.png" id="3_18ycf"]
 [ext_resource type="PackedScene" uid="uid://ckvgyvclnwggo" path="res://addons/dialogue_manager/dialogue_label.tscn" id="3_aygt5"]
 [ext_resource type="Script" path="res://addons/dialogue_manager/dialogue_reponses_menu.gd" id="4_ko4gn"]
 [ext_resource type="FontFile" uid="uid://crv230mibegw5" path="res://fonts/upceb.ttf" id="4_nikci"]
@@ -100,7 +100,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="background_load" type="TextureRect" parent="Balloon"]
-texture_filter = 1
+texture_filter = 4
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
@@ -114,6 +114,7 @@ offset_bottom = 648.0
 expand_mode = 3
 
 [node name="character" type="HBoxContainer" parent="Balloon"]
+texture_filter = 2
 layout_direction = 1
 layout_mode = 0
 offset_left = 64.0
@@ -123,8 +124,9 @@ offset_bottom = 745.0
 alignment = 2
 
 [node name="character_pic" type="TextureRect" parent="Balloon/character"]
+texture_filter = 1
 layout_mode = 2
-texture = ExtResource("2_bk8fy")
+texture = ExtResource("3_18ycf")
 expand_mode = 3
 
 [node name="Panel" type="Panel" parent="Balloon" groups=["dialogue_box"]]
@@ -207,7 +209,13 @@ layout_mode = 0
 offset_right = 397.0
 offset_bottom = 775.0
 
+[node name="menu_pos" type="Control" parent="Balloon" groups=["sub_menu_pos"]]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="black_screen_control" type="Control" parent="Balloon"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0

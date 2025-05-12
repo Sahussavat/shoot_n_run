@@ -28,6 +28,7 @@ var toxic_bullet = preload("res://nodes/hitbox_objs/toxic_bullet.tscn")
 @onready var wait_for_attack = Timer.new()
 @onready var wait_for_self_bullet = Timer.new()
 @onready var collision = get_collision(self)
+@onready var barrier = $outline
 
 func _ready():
 	add_to_group(GroupsName.ENEMIES)
@@ -45,11 +46,14 @@ func _ready():
 	wait_for_self_bullet.timeout.connect(to_full_charge)
 	add_child(wait_for_self_bullet)
 	fly_movement = fly_movement.new(self)
+	barrier.init_barrier(self)
+	barrier.start_random_barrier()
 
 func _re_ready():
 	health.revive()
 	health_bar_control.reset_bar()
 	
+	barrier.start_random_barrier()
 	current_state = state.RETREAT
 	
 	wait_for_attack.free()

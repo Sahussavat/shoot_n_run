@@ -12,6 +12,9 @@ enum KEY {
 	MOVE_RIGHT,
 	MOVE_LEFT,
 	MENU,
+	BULLET_TYPE1,
+	BULLET_TYPE2,
+	BULLET_TYPE3,
 }
 
 var default_key_keyboard = {
@@ -21,6 +24,9 @@ var default_key_keyboard = {
 	KEY.MOVE_LEFT: KEY_A,
 	KEY.MOVE_RIGHT: KEY_D,
 	KEY.MENU: KEY_ESCAPE,
+	KEY.BULLET_TYPE1: KEY_1,
+	KEY.BULLET_TYPE2: KEY_2,
+	KEY.BULLET_TYPE3: KEY_3,
 }
 
 var default_key_joypad = {
@@ -30,6 +36,9 @@ var default_key_joypad = {
 	KEY.MOVE_LEFT: JOY_BUTTON_DPAD_LEFT,
 	KEY.MOVE_RIGHT: JOY_BUTTON_DPAD_RIGHT,
 	KEY.MENU: JOY_BUTTON_B,
+	KEY.BULLET_TYPE1: JOY_BUTTON_Y,
+	KEY.BULLET_TYPE2: JOY_BUTTON_X,
+	KEY.BULLET_TYPE3: JOY_BUTTON_A,
 }
 
 @onready var current_key = {
@@ -57,6 +66,12 @@ func get_key_name(key_index):
 			return "Move Left"
 		KEY.MENU:
 			return "Menu"
+		KEY.BULLET_TYPE1:
+			return "Bullet Red"
+		KEY.BULLET_TYPE2:
+			return "Bullet Green"
+		KEY.BULLET_TYPE3:
+			return "Bullet Yellow"
 		_:
 			return "Whoops, forget to name this."
 
@@ -106,6 +121,8 @@ func get_joy_string(keycode):
 				return "L2"
 			JOY_AXIS_TRIGGER_RIGHT:
 				return "R2"
+			_:
+				return get_joy_string(JOY_BUTTON_LEFT_SHOULDER)
 	else:
 		match  keycode:
 			JOY_BUTTON_LEFT_SHOULDER:
@@ -129,11 +146,11 @@ func get_joy_string(keycode):
 			JOY_BUTTON_Y:
 				return "Y"
 			JOY_BUTTON_LEFT_STICK:
-				return "Left Stick Button"
+				return "L3"
 			JOY_BUTTON_RIGHT_STICK:
-				return "Right Stick Button"
+				return "R3"
 			_:
-				return 0
+				return get_joy_string(JOY_BUTTON_LEFT_SHOULDER)
 
 func get_key_string(keycode):
 	if keycode > 0:

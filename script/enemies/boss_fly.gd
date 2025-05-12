@@ -66,7 +66,6 @@ func _ready():
 	hit_flash = hit_flash.new(self)
 	health.change_health.connect(hit_flash.do_hit_flash)
 	health.change_health.connect(set_half_hp_mode)
-	health.add_on_death(on_death)
 	health_bar_control = health_bar_control.new(boss_bar, health)
 	boss_bar.set_visible(true)
 	add_to_group(GroupsName.BOSS)
@@ -95,6 +94,7 @@ func set_half_hp_mode():
 		$Sprite2D.material = ShaderMaterial.new()
 		$Sprite2D.material.shader = preload("res://shader/anger_boss_color.gdshader")
 	elif health.health <= health.max_health/1.5 and not pass_question1 and not disable_minigame:
+		disable_minigame = true
 		Engine.time_scale = 0.1
 		await get_tree().create_timer(0.05).timeout
 		Engine.time_scale = 1
@@ -104,13 +104,16 @@ func set_half_hp_mode():
 			pass_question1 = true
 			get_tree().paused = false
 			slow_motion()
+			disable_minigame = false
 			, 
 		func():
 			health.set_health(health.max_health)
 			get_tree().paused = false
 			slow_motion()
+			disable_minigame = false
 			)
 	elif health.health <= health.max_health/2.5 and not pass_question2 and not disable_minigame:
+		disable_minigame = true
 		Engine.time_scale = 0.1
 		await get_tree().create_timer(0.05).timeout
 		Engine.time_scale = 1
@@ -120,45 +123,57 @@ func set_half_hp_mode():
 			pass_question2 = true
 			get_tree().paused = false
 			slow_motion()
+			disable_minigame = false
 			, 
 		func():
 			health.set_health(health.max_health * 0.5)
 			get_tree().paused = false
 			slow_motion()
+			disable_minigame = false
 			)
+	elif health.health <= 0:
+		if not disable_minigame:
+			disable_minigame = true
+			Engine.time_scale = 0.1
+			await get_tree().create_timer(0.05).timeout
+			Engine.time_scale = 1
+			minigames.run_the_game(minigames.game_type.CALCULATE_TYPE, 
+			func():
+				get_tree().paused = false
+				boss_bar.set_visible(false)
+				process_mode = Node.PROCESS_MODE_DISABLED
+				visible = false
+				LiterallyExplosion.explode(self, func():
+					get_tree().paused = true
+					get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(change_scene)
+					)
+				,
+			func():
+				health.set_health(health.max_health * 0.5)
+				get_tree().paused = false
+				slow_motion()
+				disable_minigame = false
+				)
+			get_tree().paused = true
+		else:
+			ExplodeEffect.explode(self)
+			ScoreControl.score_delta(50)
+			queue_free()
+
 func change_scene():
-	Engine.time_scale = 0.1
-	await get_tree().create_timer(0.05).timeout
-	Engine.time_scale = 1
+	get_tree().get_first_node_in_group(GroupsName.MENU).process_mode = Node.PROCESS_MODE_DISABLED
 	get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_in(func():
+		get_tree().paused = true
 		BalloonControl.set_on_finish_balloon(func():
-			ScoreControl.score_delta(150)
-			ChangePage.change_to_target_scene("res://nodes/worlds/credit.tscn")
+			get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_in(func():
+				await get_tree().create_timer(1).timeout
+				ScoreControl.score_delta(150)
+				ChangePage.change_to_target_scene("res://nodes/worlds/credit.tscn")
+				)
 			)
 		DialogueUtill.get_balloon().start(load("res://dialogues/intro_map3.dialogue"),"end_boss_3")
 	)
 
-
-func on_death():
-	boss_bar.set_visible(false)
-	if not disable_minigame:
-		Engine.time_scale = 0.1
-		await get_tree().create_timer(0.05).timeout
-		Engine.time_scale = 1
-		minigames.run_the_game(minigames.game_type.CALCULATE_TYPE, 
-		func():
-			get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(change_scene)
-			,
-		func():
-			health.set_health(health.max_health * 0.5)
-			get_tree().paused = false
-			slow_motion()
-			)
-		get_tree().paused = true
-	else:
-		ExplodeEffect.explode(self)
-		ScoreControl.score_delta(50)
-		queue_free()
 
 func get_next_attack():
 	current_i_atk = current_i_atk + 1

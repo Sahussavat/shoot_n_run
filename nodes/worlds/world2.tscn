@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://bd2lxjuy28df1"]
+[gd_scene load_steps=31 format=3 uid="uid://bd2lxjuy28df1"]
 
 [ext_resource type="PackedScene" uid="uid://p8xwnbwynlgc" path="res://nodes/player/tako.tscn" id="1_dyd82"]
 [ext_resource type="Script" path="res://script/system_control/floor_map2.gd" id="2_rnihx"]
@@ -9,17 +9,9 @@
 [ext_resource type="Script" path="res://script/hitbox_obj/coin_show.gd" id="7_a8uje"]
 [ext_resource type="Script" path="res://script/system_control/boss_health.gd" id="8_x7oib"]
 [ext_resource type="Script" path="res://script/system_control/tutorial_popup.gd" id="9_phmoc"]
-[ext_resource type="Script" path="res://script/minigames/mini_games.gd" id="10_undwk"]
-[ext_resource type="Script" path="res://script/minigames/quick_type_game.gd" id="11_h63sg"]
-[ext_resource type="Script" path="res://script/minigames/speech_game.gd" id="12_8w4mn"]
-[ext_resource type="Script" path="res://script/minigames/cal_game.gd" id="13_kxn8y"]
-[ext_resource type="Script" path="res://script/system_control/character_pic_control.gd" id="14_vrlik"]
-[ext_resource type="Texture2D" uid="uid://dmvxkf2gbxg3d" path="res://img/visual_characters/sprite1 angry small.png" id="15_og766"]
+[ext_resource type="PackedScene" uid="uid://dxhlgxmc66q5u" path="res://nodes/menu/minigames.tscn" id="10_j4d7l"]
 [ext_resource type="Script" path="res://nodes/worlds/game_over_btn.gd" id="16_od01u"]
-[ext_resource type="PackedScene" uid="uid://bd6i2usn56jyb" path="res://nodes/menu/setting.tscn" id="17_o2p6o"]
-[ext_resource type="Script" path="res://script/system_control/menu.gd" id="18_hmab8"]
-[ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="19_q6c07"]
-[ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="20_syg2k"]
+[ext_resource type="PackedScene" uid="uid://c6ra0fdmdqfgl" path="res://nodes/menu/menu.tscn" id="16_tyr37"]
 [ext_resource type="Script" path="res://nodes/worlds/cutscene.gd" id="21_wate3"]
 [ext_resource type="Script" path="res://script/system_control/skip_control.gd" id="22_st5jk"]
 [ext_resource type="Script" path="res://script/system_control/control_black_screen.gd" id="23_iudvt"]
@@ -62,13 +54,6 @@ tracks/1/keys = {
 _data = {
 "intro": SubResource("Animation_mt32g")
 }
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dln0u"]
-content_margin_left = 25.0
-content_margin_top = 25.0
-content_margin_right = 25.0
-content_margin_bottom = 25.0
-bg_color = Color(0, 0, 0, 0.662745)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sfkll"]
 shader = ExtResource("24_tieej")
@@ -135,7 +120,13 @@ autoplay = "intro"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="blur_screen" type="Control" parent="CanvasLayer"]
+[node name="blur_pos" type="Control" parent="CanvasLayer" groups=["blur_pos"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="blur_screen" type="Control" parent="CanvasLayer/blur_pos"]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0
@@ -143,7 +134,7 @@ offset_right = 1152.0
 offset_bottom = 760.0
 script = ExtResource("4_e48mp")
 
-[node name="blur" type="ColorRect" parent="CanvasLayer/blur_screen"]
+[node name="blur" type="ColorRect" parent="CanvasLayer/blur_pos/blur_screen"]
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 744.0
@@ -285,263 +276,40 @@ text = "Dash:"
 layout_mode = 2
 text = "A"
 
-[node name="Control2" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="mini_games" type="PanelContainer" parent="CanvasLayer/Control2" groups=["minigames"]]
-visible = false
-layout_mode = 0
-offset_left = 192.0
-offset_top = 75.0
-offset_right = 960.0
-offset_bottom = 581.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_dln0u")
-script = ExtResource("10_undwk")
-
-[node name="quick_type_game" type="VBoxContainer" parent="CanvasLayer/Control2/mini_games"]
-process_mode = 4
-visible = false
+[node name="bullet_1" type="HBoxContainer" parent="CanvasLayer/tutorial_popup/move_list"]
 layout_mode = 2
-theme_override_constants/separation = 50
-script = ExtResource("11_h63sg")
 
-[node name="question_text" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
+[node name="name" type="Label" parent="CanvasLayer/tutorial_popup/move_list/bullet_1"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 60
-text = "ตะเกียบคีบเนื้อ"
-horizontal_alignment = 1
+text = "Bullet Red:"
 
-[node name="show_text" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
-custom_minimum_size = Vector2(0, 50)
+[node name="key" type="Label" parent="CanvasLayer/tutorial_popup/move_list/bullet_1"]
 layout_mode = 2
-theme_override_constants/separation = 50
-alignment = 1
+text = "A"
 
-[node name="Label" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/show_text"]
-custom_minimum_size = Vector2(200, 0)
+[node name="bullet_2" type="HBoxContainer" parent="CanvasLayer/tutorial_popup/move_list"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 36
-horizontal_alignment = 1
-text_overrun_behavior = 3
 
-[node name="Label2" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/show_text"]
-custom_minimum_size = Vector2(200, 0)
+[node name="name" type="Label" parent="CanvasLayer/tutorial_popup/move_list/bullet_2"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 36
-horizontal_alignment = 1
-text_overrun_behavior = 3
+text = "Bullet Green:"
 
-[node name="Label3" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/show_text"]
-custom_minimum_size = Vector2(200, 0)
+[node name="key" type="Label" parent="CanvasLayer/tutorial_popup/move_list/bullet_2"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 36
-horizontal_alignment = 1
-text_overrun_behavior = 3
+text = "A"
 
-[node name="choices" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
+[node name="bullet_3" type="HBoxContainer" parent="CanvasLayer/tutorial_popup/move_list"]
 layout_mode = 2
-theme_override_constants/separation = 102
-alignment = 1
 
-[node name="win_count" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
+[node name="name" type="Label" parent="CanvasLayer/tutorial_popup/move_list/bullet_3"]
 layout_mode = 2
-alignment = 1
+text = "Bullet Yellow:"
 
-[node name="counter" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/win_count"]
+[node name="key" type="Label" parent="CanvasLayer/tutorial_popup/move_list/bullet_3"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "0"
+text = "A"
 
-[node name="Label2" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/win_count"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "/"
-
-[node name="max" type="Label" parent="CanvasLayer/Control2/mini_games/quick_type_game/win_count"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "4"
-
-[node name="timer_show" type="ProgressBar" parent="CanvasLayer/Control2/mini_games/quick_type_game"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-value = 100.0
-show_percentage = false
-
-[node name="speech_game" type="VBoxContainer" parent="CanvasLayer/Control2/mini_games"]
-process_mode = 4
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 30
-script = ExtResource("12_8w4mn")
-
-[node name="question_text" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 50
-text = "ตะเกียบคีบเนื้อ"
-horizontal_alignment = 1
-text_overrun_behavior = 3
-
-[node name="show_answer" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 35
-text = "ตะเกียบคีบเนื้อ"
-horizontal_alignment = 1
-text_overrun_behavior = 3
-
-[node name="win_show" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/speech_game"]
-layout_mode = 2
-alignment = 1
-
-[node name="win_count" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/win_show"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "0"
-
-[node name="label" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/win_show"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "/"
-
-[node name="win_max" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/win_show"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "3"
-
-[node name="show_buttton" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/speech_game"]
-layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
-
-[node name="Label" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/show_buttton"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 40
-text = "กด"
-
-[node name="button_to_start" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/show_buttton"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 40
-text = "P"
-
-[node name="Label2" type="Label" parent="CanvasLayer/Control2/mini_games/speech_game/show_buttton"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 40
-text = "เพื่อเริ่ม"
-
-[node name="mistake_bar" type="ProgressBar" parent="CanvasLayer/Control2/mini_games/speech_game"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-value = 100.0
-show_percentage = false
-
-[node name="cal_game" type="VBoxContainer" parent="CanvasLayer/Control2/mini_games"]
-process_mode = 4
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 50
-script = ExtResource("13_kxn8y")
-
-[node name="question" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/cal_game"]
-layout_mode = 2
-alignment = 1
-
-[node name="num1" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/question"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 75
-text = "2"
-
-[node name="arth_sign" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/question"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 75
-text = "+"
-
-[node name="num2" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/question"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 75
-text = "3"
-
-[node name="key4" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/question"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_80xk7")
-theme_override_font_sizes/font_size = 75
-text = "= ?"
-
-[node name="choices" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/cal_game"]
-layout_mode = 2
-theme_override_constants/separation = 102
-alignment = 1
-
-[node name="win_count" type="HBoxContainer" parent="CanvasLayer/Control2/mini_games/cal_game"]
-layout_mode = 2
-alignment = 1
-
-[node name="counter" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/win_count"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "0"
-
-[node name="Label2" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/win_count"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "/"
-
-[node name="max" type="Label" parent="CanvasLayer/Control2/mini_games/cal_game/win_count"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "4"
-
-[node name="timer_show" type="ProgressBar" parent="CanvasLayer/Control2/mini_games/cal_game"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-value = 100.0
-show_percentage = false
-
-[node name="character_left" type="HBoxContainer" parent="CanvasLayer/Control2"]
-visible = false
-layout_direction = 1
-layout_mode = 0
-offset_left = -10.0
-offset_top = 222.0
-offset_right = 201.0
-offset_bottom = 645.0
-alignment = 2
-script = ExtResource("14_vrlik")
-
-[node name="character_pic" type="TextureRect" parent="CanvasLayer/Control2/character_left"]
-layout_mode = 2
-texture = ExtResource("15_og766")
-expand_mode = 3
-
-[node name="character_right" type="HBoxContainer" parent="CanvasLayer/Control2"]
-visible = false
-layout_direction = 1
-layout_mode = 0
-offset_left = 945.0
-offset_top = 222.0
-offset_right = 1156.0
-offset_bottom = 645.0
-alignment = 2
-script = ExtResource("14_vrlik")
-
-[node name="character_pic" type="TextureRect" parent="CanvasLayer/Control2/character_right"]
-layout_mode = 2
-texture = ExtResource("15_og766")
-expand_mode = 3
+[node name="Control5" parent="CanvasLayer" instance=ExtResource("10_j4d7l")]
 
 [node name="game_over" type="PanelContainer" parent="CanvasLayer"]
 visible = false
@@ -577,47 +345,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Main Menu"
 
-[node name="setting" parent="CanvasLayer" instance=ExtResource("17_o2p6o")]
-visible = false
-offset_left = 192.0
-offset_top = 96.0
-offset_right = 960.0
-offset_bottom = 512.0
+[node name="menu_pos" type="Control" parent="CanvasLayer" groups=["main_menu_pos"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="menu" type="PanelContainer" parent="CanvasLayer"]
-process_mode = 3
-visible = false
-offset_left = 448.0
-offset_top = 128.0
-offset_right = 704.0
-offset_bottom = 512.0
-script = ExtResource("18_hmab8")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/menu"]
-process_mode = 2
-layout_mode = 2
-theme_override_constants/separation = 35
-
-[node name="resume" type="Button" parent="CanvasLayer/menu/VBoxContainer" groups=["focus_first"]]
-layout_mode = 2
-text = "Resume"
-
-[node name="setting" type="Button" parent="CanvasLayer/menu/VBoxContainer" node_paths=PackedStringArray("page_target")]
-process_mode = 2
-layout_mode = 2
-text = "Setting"
-script = ExtResource("19_q6c07")
-page_target = NodePath("../../../setting")
-
-[node name="to_main_menu" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
-layout_mode = 2
-text = "Quit to Main Menu"
-script = ExtResource("20_syg2k")
-world_target = "res://nodes/worlds/main_menu.tscn"
-
-[node name="quit_game" type="Button" parent="CanvasLayer/menu/VBoxContainer"]
-layout_mode = 2
-text = "Quit Game"
+[node name="menu" parent="CanvasLayer/menu_pos" instance=ExtResource("16_tyr37")]
 
 [node name="Control4" type="Control" parent="CanvasLayer"]
 process_mode = 3

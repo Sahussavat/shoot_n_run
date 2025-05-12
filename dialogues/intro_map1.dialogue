@@ -3,7 +3,7 @@
 do DialogueUtill.set_background("town.jpg")
 เปโร่[feel]happy1[a]center: อ่า~ ตอนเช้าอันแสนอบอุ่น
 เปโร่[feel]angry1[a]center: เดี๋ยวนะ เขาฉันหายไปไหน?!
-กีกี้[feel]happy1[a]center: ฮี่ ฮี่ ขอรับเขาไปล่ะนะ
+ลาฟี่[feel]happy1[a]right: ฮี่ ฮี่ ขอรับเขาไปล่ะนะ
 เปโร่[feel]angry1[a]center: เฮ้ย! เอากลับมานี่นะ!
 => END
 
@@ -12,9 +12,9 @@ do DialogueUtill.set_background("green.png")
 เปโร่[feel]angry1[a]center: ไม่มีทางหนีแล้ว เอาเขาคืนมาเลยนะ!
 กีกี้[feel]happy1[a]center: หึ แย่จังเลยนะ... แต่ว่าฉันไม่ได้มาคนเดียวหรอกนะ!
 เปโร่[feel]angry1[a]center: นานิ!!
-อาลิน[feel]happy1[a]center: ฮี่ ฮี่ แกไม่มีทางแย่งเขาคืนไปได้หรอกนะ เป้!
+ลาฟี่[feel]happy1[a]center: ฮี่ ฮี่ แกไม่มีทางแย่งเขาคืนไปได้หรอกนะ เป้!
 เปโร่[feel]angry1[a]center: เอ้า ไม่ใช่ว่าบอสด่านนี้มันต้องเป็นคนอื่นหรอกเรอะ
-อาลิน[feel]happy1[a]center: ก็ใช่แหละ แต่คน code เกมมันขี้เกียจไปหาภาพอื่นมาใช้น่ะซี่
+ลาฟี่[feel]happy1[a]center: ก็ใช่แหละ แต่คน code เกมมันขี้เกียจไปหาภาพอื่นมาใช้น่ะซี่
 เปโร่[feel]angry1[a]center: อ้าว งั้นก็ได้ มาสู้กัน!
 => END
 

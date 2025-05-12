@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://byy4jvo7iv06"]
+[gd_scene load_steps=6 format=3 uid="uid://byy4jvo7iv06"]
 
 [ext_resource type="Texture2D" uid="uid://d14o3lmutqryb" path="res://img/enemies/32bit-gastropod-general1.png" id="1_kt68b"]
 [ext_resource type="Script" path="res://script/enemies/circle_flyer.gd" id="1_rqv5q"]
 [ext_resource type="Script" path="res://script/hitbox_obj/obstacle_damage_obj.gd" id="2_b3t1d"]
+[ext_resource type="Script" path="res://script/enemies/barrier.gd" id="3_oc25u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uecfi"]
 size = Vector2(48, 48)
@@ -11,6 +12,11 @@ size = Vector2(48, 48)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_rqv5q")
+
+[node name="outline" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(8.25, 8.25)
+script = ExtResource("3_oc25u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

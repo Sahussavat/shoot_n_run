@@ -10,6 +10,8 @@ const DialogueResponse = preload("./dialogue_response.gd")
 const DialogueManagerParser = preload("./components/parser.gd")
 const DialogueManagerParseResult = preload("./components/parse_result.gd")
 const ResolvedLineData = preload("./components/resolved_line_data.gd")
+var is_ended = false
+signal ended
 
 
 ## Emitted when a title is encountered while traversing dialogue, usually when jumping from a
@@ -111,9 +113,14 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 
 	# If our dialogue is nothing then we hit the end
 	if not is_valid(dialogue):
-		DialogueUtill.circle_in()
-		await get_tree().create_timer(1).timeout
-		(func(): dialogue_ended.emit(resource)).call_deferred()
+		if not is_ended:
+			is_ended = true
+			DialogueUtill.circle_in(func():
+				is_ended = false
+				(func(): dialogue_ended.emit(resource)).call_deferred()
+				(func(): ended.emit()).call_deferred()
+				)
+		await ended
 		return null
 
 	# Run the mutation if it is one
@@ -128,9 +135,14 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 				pass
 		if actual_next_id in [DialogueConstants.ID_END_CONVERSATION, DialogueConstants.ID_NULL, null]:
 			# End the conversation
-			DialogueUtill.circle_in()
-			await get_tree().create_timer(1).timeout
-			(func(): dialogue_ended.emit(resource)).call_deferred()
+			if not is_ended:
+				is_ended = true
+				DialogueUtill.circle_in(func():
+					is_ended = false
+					(func(): dialogue_ended.emit(resource)).call_deferred()
+					(func(): ended.emit()).call_deferred()
+					)
+			await ended
 			return null
 		else:
 			return await get_next_dialogue_line(resource, dialogue.next_id, extra_game_states, mutation_behaviour)

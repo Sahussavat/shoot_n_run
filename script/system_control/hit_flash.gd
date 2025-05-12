@@ -18,16 +18,17 @@ func do_hit_flash():
 		parent.get_tree().create_timer(0, false).timeout.connect(hit_flash)
 
 func hit_flash():
+	var old_mat = sprite.material
 	if is_instance_valid(sprite):
 		sprite.material = mat
 		await parent.get_tree().create_timer(0.05, false).timeout
 	if is_instance_valid(sprite):
-		sprite.material = null
+		sprite.material = old_mat
 	is_hit_flashing = false
 
 func get_sprite(obj):
 	var children = obj.get_children()
 	for child in children:
-		if child is Sprite2D:
+		if child is Sprite2D and child.name != "outline":
 			return child
 	return null

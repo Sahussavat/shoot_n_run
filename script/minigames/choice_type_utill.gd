@@ -23,6 +23,9 @@ var timer_show
 var timer_show_tween
 
 func _init(_minigame, _win_max = 3, _time_to_play = 3):
+	Input.joy_connection_changed.connect(func(_device, _connected):
+		set_choice_key()
+		)
 	self.minigame = _minigame
 	minigame_control = minigame.get_tree().get_first_node_in_group(GroupsName.MINIGAMES)
 	self.win_max = _win_max
@@ -55,7 +58,7 @@ func get_keycode_arr():
 
 func choice_input(event, get_ans_color_fn):
 	var just_pressed = event.is_pressed() and not event.is_echo()
-	if event is InputEventKey or event is InputEventJoypadButton and just_pressed:
+	if (event is InputEventKey or event is InputEventJoypadButton) and just_pressed:
 		var i
 		var k
 		if JoyStickDetector.is_joy_connected():

@@ -31,6 +31,8 @@ func _ready():
 	add_child(raycast)
 
 func _re_ready():
+	BulletType.remove_to_all_type(self)
+	set_color_by_type()
 	destory_timer.timeout.disconnect(destroy)
 	destory_timer.free()
 	destory_timer = Timer.new()
@@ -47,7 +49,20 @@ func _re_ready():
 	add_child(raycast)
 	
 	direction = null
-	
+
+func set_bullet_type(type):
+	add_to_group(type)
+	set_color_by_type(type)
+
+func set_color_by_type(type = null):
+	var colorrect = $ColorRect
+	if type:
+		var c = BulletType.get_bullet_type_color(type)
+		colorrect.color = Color(c.x, c.y, c.z)
+	else:
+		colorrect.color = Color.WHITE
+
+
 func get_hitbox():
 	var children = get_children()
 	for child in children:

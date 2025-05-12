@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://rn35mblyic3v"]
+[gd_scene load_steps=6 format=3 uid="uid://rn35mblyic3v"]
 
 [ext_resource type="Texture2D" uid="uid://ds3307lu7k66p" path="res://img/enemies/16bit-squid-vampire2.png" id="1_bm6pb"]
 [ext_resource type="Script" path="res://script/enemies/multi_shot_flyer.gd" id="1_o1j6h"]
 [ext_resource type="Script" path="res://script/hitbox_obj/obstacle_damage_obj.gd" id="2_hgmxw"]
+[ext_resource type="Script" path="res://script/enemies/barrier.gd" id="3_q7k3p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c0i8k"]
 size = Vector2(32, 48)
@@ -11,6 +12,11 @@ size = Vector2(32, 48)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_o1j6h")
+
+[node name="outline" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(8.25, 8.25)
+script = ExtResource("3_q7k3p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

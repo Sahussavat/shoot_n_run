@@ -8,6 +8,7 @@ extends Control
 var done_skip = false
 
 func _ready():
+	get_tree().get_first_node_in_group(GroupsName.MENU).process_mode = Node.PROCESS_MODE_DISABLED
 	get_tree().paused = true
 	BalloonControl.set_on_finish_balloon(func():
 		get_tree().paused = false
@@ -15,6 +16,7 @@ func _ready():
 		)
 	skip_container.on_finished_skip.connect(func(): 
 		done_skip = true)
+	skip_container.set_skip_button()
 	skip_container.enable_skip = true
 
 func start():

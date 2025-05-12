@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddgki7svj7upm"]
+
+[ext_resource type="Texture2D" uid="uid://cb7mepv5i0vin" path="res://img/enemies/32bit-nudibranch-white1.png" id="1_6wbpd"]
+[ext_resource type="Script" path="res://script/hitbox_obj/obstacle_damage_obj.gd" id="1_cld8k"]
+[ext_resource type="Script" path="res://script/enemies/ricocheter.gd" id="1_xc200"]
+[ext_resource type="Script" path="res://script/enemies/barrier.gd" id="3_q3usn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehtnh"]
+size = Vector2(80, 32)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_xc200")
+
+[node name="outline" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -16)
+scale = Vector2(3.25, 3.25)
+texture = ExtResource("1_6wbpd")
+script = ExtResource("3_q3usn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -16)
+scale = Vector2(3.25, 3.25)
+texture = ExtResource("1_6wbpd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ehtnh")
+
+[node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+shape = SubResource("RectangleShape2D_ehtnh")
+
+[node name="hitbox" type="Area2D" parent="."]
+collision_layer = 0
+script = ExtResource("1_cld8k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("RectangleShape2D_ehtnh")

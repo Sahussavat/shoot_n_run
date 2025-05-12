@@ -2,7 +2,8 @@ extends VBoxContainer
 
 signal player_has_win
 signal player_has_lose
-var key_start_speech = KEY_W
+var key_keyboard_start_speech = KEY_W
+var key_joy_start_speech = JOY_BUTTON_Y
 var window = JavaScriptBridge.get_interface("window")
 var navigator = JavaScriptBridge.get_interface("navigator")
 var speechRecognition 
@@ -15,10 +16,12 @@ var win_counter = 0
 var win_count_max = 3
 
 @onready var question_text  = $question_text
-@onready var show_answer = $show_answer
+@onready var ans = $ans
+@onready var show_answer = $ans/show_answer
 @onready var win_show = $win_show
 @onready var show_button = $show_buttton
 @onready var mistake_bar = $mistake_bar
+@onready var order = $order
 
 var quest_text
 var choices_default_color = Color(1,1,1)
@@ -38,11 +41,15 @@ var random_text_list_dup = random_text_list.duplicate()
 var onresult = JavaScriptBridge.create_callback(func(args):
 	if args and args.size():
 		var t = args[0].results[0][0].transcript
+		ans.visible = true
 		show_answer.text = t
 		checker(t)
 	)
 var onerror = JavaScriptBridge.create_callback(func(args):
 	if args and args.size():
+		ans.visible = false
+		order.visible = false
+		show_answer.text = ""
 		var err = args[0].error
 		if err == "no-speech":
 			return;
@@ -50,6 +57,7 @@ var onerror = JavaScriptBridge.create_callback(func(args):
 	)
 var onspeechend = JavaScriptBridge.create_callback(func(_args):
 	speechRecognition.stop()
+	order.visible = false
 	)
 var js_start = JavaScriptBridge.create_callback(func(_args):
 	start()
@@ -76,7 +84,10 @@ func run():
 		});")
 
 func start():
-	show_button.get_node("button_to_start").text = OS.get_keycode_string(key_start_speech)
+	ans.visible = false
+	show_answer.text = ""
+	order.visible = false
+	show_button.get_node("button_to_start").text = GameControlKeycode.get_string(get_speech_key())
 	reset_mistake_bar()
 	reset_win_counter()
 	reset_text_list()
@@ -96,10 +107,17 @@ func _ready():
 		speechRecognition.onspeechend = onspeechend
 
 func _input(event):
-	if event is InputEventKey:
-		if event.pressed and event.physical_keycode == key_start_speech:
+	var just_pressed = event.is_pressed() and not event.is_echo()
+	if (event is InputEventKey or event is InputEventJoypadButton) and just_pressed:
+		var k
+		if JoyStickDetector.is_joy_connected():
+			k = event.button_index
+		else:
+			k = event.physical_keycode
+		if k == get_speech_key():
 			if window and speechRecognition:
 				speechRecognition.start()
+				order.visible = true
 
 func checker(text):
 	if quest_text == text:
@@ -171,6 +189,11 @@ func set_question_text():
 
 func set_obj_font_color(obj, color):
 	obj.set("theme_override_colors/font_color", color)
+
+func get_speech_key():
+	if JoyStickDetector.is_joy_connected():
+		return key_joy_start_speech
+	return key_keyboard_start_speech
 
 func get_timer_to_default_color(obj):
 	var children = obj.get_children()

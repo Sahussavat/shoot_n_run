@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://script/system_control/menu.gd" id="1_brglx"]
 [ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="2_wuw02"]
-[ext_resource type="PackedScene" uid="uid://bd6i2usn56jyb" path="res://nodes/menu/setting.tscn" id="3_5fcf5"]
+[ext_resource type="PackedScene" uid="uid://cp8b6kcqdj3x" path="res://nodes/menu/setting.tscn" id="3_5fcf5"]
 [ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="3_80e50"]
 [ext_resource type="Texture2D" uid="uid://bfbb7rwrm7dpr" path="res://img/Parallax Clouds Pack by Captainskeleto/Parallax10.png" id="5_2ngkv"]
 [ext_resource type="Script" path="res://script/system_control/choose_map_btn.gd" id="5_7p5y3"]
@@ -65,14 +65,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="setting" parent="." instance=ExtResource("3_5fcf5")]
-visible = false
-layout_mode = 0
-offset_left = 192.0
-offset_top = 96.0
-offset_right = 960.0
-offset_bottom = 512.0
-
 [node name="choose_map" type="PanelContainer" parent="."]
 visible = false
 layout_mode = 0
@@ -80,6 +72,7 @@ offset_left = 256.0
 offset_top = 128.0
 offset_right = 832.0
 offset_bottom = 512.0
+focus_neighbor_left = NodePath("../main_menu")
 script = ExtResource("5_7p5y3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="choose_map"]
@@ -173,6 +166,10 @@ custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 show_percentage = false
 
+[node name="setting" parent="." instance=ExtResource("3_5fcf5")]
+visible = false
+focus_neighbor_left = NodePath("../main_menu")
+
 [node name="shop_menu" type="TabContainer" parent="."]
 visible = false
 layout_mode = 0
@@ -180,6 +177,7 @@ offset_left = 296.0
 offset_top = 128.0
 offset_right = 872.0
 offset_bottom = 512.0
+focus_neighbor_left = NodePath("../main_menu")
 tab_focus_mode = 0
 script = SubResource("GDScript_dg5ka")
 

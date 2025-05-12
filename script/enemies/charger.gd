@@ -30,6 +30,7 @@ var danger_dash_zone = preload("res://script/system_control/danger_dash_zone.gd"
 @onready var wait_for_attack = Timer.new()
 @onready var wait_for_self_bullet = Timer.new()
 @onready var collision = get_collision(self)
+@onready var barrier = $outline
 
 func _ready():
 	add_to_group(GroupsName.ENEMIES)
@@ -47,12 +48,14 @@ func _ready():
 	wait_for_self_bullet.timeout.connect(to_full_charge)
 	add_child(wait_for_self_bullet)
 	fly_movement = fly_movement.new(self)
+	barrier.init_barrier(self)
+	barrier.start_random_barrier()
 
 func _re_ready():
 	health.revive()
 	health_bar_control.reset_bar()
 	current_state = state.RETRET
-	
+	barrier.start_random_barrier()
 	wait_for_attack.free()
 	wait_for_attack = Timer.new()
 	wait_for_attack.wait_time = 1

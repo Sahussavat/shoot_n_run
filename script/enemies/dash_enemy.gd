@@ -13,6 +13,7 @@ var danger_dash_zone_inst
 @onready var dash_collision = get_node("dash_collision")
 @onready var collision_height = dash_collision.shape.size.y
 @onready var collision_y = position.y
+@onready var barrier = $outline
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -34,11 +35,13 @@ func _ready():
 		is_lauchable = true
 		destroy_timer.start()
 		)
+	barrier.init_barrier(self)
+	barrier.start_random_barrier()
 
 func _re_ready():
 	health.revive()
 	health_bar_control.reset_bar()
-	
+	barrier.start_random_barrier()
 	destroy_timer.free()
 	destroy_timer = Timer.new()
 	destroy_timer.wait_time = 10

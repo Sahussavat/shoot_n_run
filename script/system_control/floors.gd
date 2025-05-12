@@ -9,6 +9,11 @@ var spawn_enemies_dash = preload("res://script/system_control/spawn_enemies_dash
 var spawn_enemies_charger = preload("res://script/system_control/spawn_enemies_charger.gd")
 var spawn_enemies_crowd = preload("res://script/system_control/spawn_enemies_crowd.gd")
 var spawn_enemies_flyer = preload("res://script/system_control/spawn_enemies_flyer.gd")
+var spawn_enemies_multi_shot_flyer = preload("res://script/system_control/spawn_enemies_multi_shot_flyer.gd")
+var spawn_enemies_circle_flyer = preload("res://script/system_control/spawn_enemies_circle_flyer.gd")
+var spawn_enemies_ricocheter = preload("res://script/system_control/spawn_enemies_ricocheter.gd")
+var spawn_enemies_dash_stair = preload("res://script/system_control/spawn_enemies_dash_stair.gd")
+var spawn_enemies_dash_half_screen = preload("res://script/system_control/spawn_enemies_dash_half_screen.gd")
 var spawn_boss = preload("res://script/system_control/spawn_boss.gd")
 
 var boss = preload("res://nodes/enemies/boss.tscn")

@@ -9,7 +9,6 @@ var run_other_cutscene_fn
 func _ready():
 	add_to_group(GroupsName.CUTSCENE)
 	video_player.add_to_group(GroupsName.VIDEO)
-	AudioUtill.set_video_volume_scale()
 	video_player.finished.connect(on_finished)
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	if get_tree().get_first_node_in_group(GroupsName.MENU):

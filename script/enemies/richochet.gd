@@ -5,10 +5,11 @@ var dist_from_viewport = 10
 var vel
 
 # Called when the node enters the scene tree for the first time.
-func _init(_parent, _dist_from_viewport):
+func _init(_parent, _dist_from_viewport = 10):
 	parent = _parent
 	dist_from_viewport = _dist_from_viewport
-	vel = Vector2(1,1)
+	var r = [-1,1]
+	vel = Vector2(r[randi_range(0, 1)],r[randi_range(0, 1)])
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

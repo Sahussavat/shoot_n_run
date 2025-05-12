@@ -1,7 +1,7 @@
 [gd_scene load_steps=40 format=3 uid="uid://p8xwnbwynlgc"]
 
 [ext_resource type="Script" path="res://script/player_control/tako.gd" id="1_2bxul"]
-[ext_resource type="Texture2D" uid="uid://b51vk1x1sfi85" path="res://img/character/Character base.png" id="2_3nubt"]
+[ext_resource type="Texture2D" uid="uid://boc4jt1ptj6dv" path="res://img/character/Character base 3.png" id="2_y6a1h"]
 [ext_resource type="Script" path="res://script/player_control/player_animation_tree.gd" id="3_t5juq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x02wt"]
@@ -458,9 +458,9 @@ libraries = {
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(-8, -24)
-scale = Vector2(5.375, 5.375)
-texture = ExtResource("2_3nubt")
+position = Vector2(-6, -19)
+scale = Vector2(1.23047, 1.29437)
+texture = ExtResource("2_y6a1h")
 flip_h = true
 hframes = 6
 vframes = 7

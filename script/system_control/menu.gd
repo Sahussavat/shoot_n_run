@@ -4,6 +4,7 @@ extends Container
 var resume
 
 var is_main_menu = false
+var old_focus
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,15 +28,23 @@ func _input(event):
 				do_resume()
 
 func do_resume():
+	var in_sub = get_parent().get_parent().is_in_group(GroupsName.SUB_MENU_POS)
 	if ChangePage.is_current_page_show() and ChangePage.current_page == self:
-		get_tree().paused = false
+		if not in_sub:
+			get_tree().paused = false
 		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out()
 	else:
-		get_tree().paused = true
+		if not in_sub:
+			get_tree().paused = true
 		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_in()
 	if ChangePage.is_current_page_show():
+		if in_sub:
+			old_focus.grab_focus()
 		ChangePage.change_to_target_page()
 	elif not visible:
+		if in_sub:
+			old_focus = get_viewport().gui_get_focus_owner()
+		ChangePage.get_first_focus_child(self).grab_focus()
 		ChangePage.change_to_target_page(self)
 
 func pause():

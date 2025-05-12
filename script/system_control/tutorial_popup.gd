@@ -4,14 +4,23 @@ var temp_menu_process_mode = PROCESS_MODE_INHERIT
 var is_close_able = false
 
 func _ready():
+	Input.joy_connection_changed.connect(func(_device, _connected):
+		show_list_movement()
+		)
 	if not is_in_group(GroupsName.TUTORIAL):
 		add_to_group(GroupsName.TUTORIAL)
 	
+	show_list_movement()
+
+func show_list_movement():
 	var keys = {
 		"move": get_key_name(GameControlKeycode.KEY.MOVE_LEFT) + ", " + get_key_name(GameControlKeycode.KEY.MOVE_RIGHT),
 		"attack": get_key_name(GameControlKeycode.KEY.ATTACK),
 		"jump": get_key_name(GameControlKeycode.KEY.JUMP),
 		"dash": get_key_name(GameControlKeycode.KEY.DASH),
+		"bullet_1": get_key_name(GameControlKeycode.KEY.BULLET_TYPE1),
+		"bullet_2": get_key_name(GameControlKeycode.KEY.BULLET_TYPE2),
+		"bullet_3": get_key_name(GameControlKeycode.KEY.BULLET_TYPE3),
 	}
 	
 	for move_name in keys:

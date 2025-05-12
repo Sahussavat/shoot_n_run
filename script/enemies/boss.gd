@@ -17,6 +17,7 @@ var health_bar_control = preload("res://script/system_control/health_bar.gd")
 
 @export var end_dialogue_target : String
 @export var end_dialogue_sub_target : String
+var dialogue_path = "res://dialogues/%s.dialogue"
 
 var wait_to_attack_end_fn
 var is_cooldown_next = false
@@ -47,7 +48,7 @@ func _ready():
 	hit_flash = hit_flash.new(self)
 	health_bar_control = health_bar_control.new(boss_bar, health)
 	boss_bar.set_visible(true)
-	animation_player.play("run")
+	#animation_player.play("run")
 	add_to_group(GroupsName.BOSS)
 
 func _physics_process(_delta):
@@ -57,7 +58,10 @@ func _physics_process(_delta):
 		get_tree().paused = true
 		minigames.run_the_game(chosen_minigame,
 		func():
-			get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_out(change_scene)
+			get_tree().paused = false
+			visible = false
+			boss_bar.set_visible(false)
+			FadeOnDead.play(self, change_scene)
 			, 
 		func():
 			player.health.health.is_invicible = false
@@ -70,17 +74,18 @@ func _physics_process(_delta):
 			)
 
 func change_scene():
-	Engine.time_scale = 0.1
-	await get_tree().create_timer(0.05).timeout
-	Engine.time_scale = 1
 	get_tree().get_first_node_in_group(GroupsName.MENU).process_mode = Node.PROCESS_MODE_DISABLED
 	get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_in(func():
+		get_tree().paused = true
 		BalloonControl.set_on_finish_balloon(func():
-			ScoreControl.score_delta(150)
-			ChangePage.store_next_world(store_next_world)
-			ChangePage.change_to_target_scene("res://nodes/worlds/score.tscn")
+			get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_in(func():
+				await get_tree().create_timer(1).timeout
+				ScoreControl.score_delta(150)
+				ChangePage.store_next_world(store_next_world)
+				ChangePage.change_to_target_scene("res://nodes/worlds/score.tscn")
+				)
 			)
-		DialogueUtill.get_balloon().start(load("res://dialogues/intro_map1.dialogue"),"end_boss_1")
+		DialogueUtill.get_balloon().start(load(dialogue_path % end_dialogue_target),end_dialogue_sub_target)
 	)
 
 func spawn(spawn_pos):

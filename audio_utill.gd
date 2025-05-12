@@ -22,7 +22,6 @@ func load_volume():
 			if not parse_result == OK:
 				print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 				continue
-			
 			var data = json.data
 			master_volume = data["master_volume"]
 			bgm_volume = data["bgm_volume"]

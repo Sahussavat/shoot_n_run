@@ -21,7 +21,7 @@ var attack_seq = [
 		for i in range(0, left_n_max):
 			if not is_first_count and total_enemies < max_enemies * 2 or is_first_count:
 				var flyer_inst = ReuseInitialize.initialize(GroupsName.CROWD, flyer)
-				flyer_inst.position = get_index_of(flyer_inst)
+				flyer_inst.position = get_index_of(flyer_inst, attack_from.RIGHT)
 				if not flyer_inst.get_parent():
 					parent.add_child(flyer_inst)
 				check_is_dead(flyer_inst)

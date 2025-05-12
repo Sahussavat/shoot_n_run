@@ -29,6 +29,7 @@ var multi_shot = preload("res://script/enemies/multi_shot.gd")
 @onready var wait_for_attack = Timer.new()
 @onready var wait_for_self_bullet = Timer.new()
 @onready var collision = get_collision(self)
+@onready var barrier = $outline
 
 func _ready():
 	add_to_group(GroupsName.ENEMIES)
@@ -52,13 +53,15 @@ func _ready():
 		current_state = state.MOVE
 		aiming = false
 		)
+	barrier.init_barrier(self)
+	barrier.start_random_barrier()
 
 func _re_ready():
 	health.revive()
 	health_bar_control.reset_bar()
 	
 	current_state = state.RETREAT
-	
+	barrier.start_random_barrier()
 	wait_for_attack.free()
 	wait_for_attack = Timer.new()
 	wait_for_attack.wait_time = 1

@@ -1,21 +1,74 @@
-[gd_scene load_steps=3 format=3 uid="uid://bd6i2usn56jyb"]
+[gd_scene load_steps=4 format=3 uid="uid://cp8b6kcqdj3x"]
 
+[ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="1_iqurf"]
 [ext_resource type="Script" path="res://script/system_control/volume_sliders.gd" id="1_qjj6c"]
 [ext_resource type="Script" path="res://script/system_control/key_control_btn.gd" id="2_v7dms"]
 
-[node name="setting" type="TabContainer"]
-process_mode = 3
-offset_right = 768.0
-offset_bottom = 416.0
+[node name="setting" type="Control" groups=["page_wrap"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+focus_neighbor_bottom = NodePath("setting")
 
-[node name="Audio" type="TabBar" parent="."]
+[node name="control" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 192.0
+offset_top = 96.0
+offset_right = 960.0
+offset_bottom = 512.0
+focus_neighbor_left = NodePath("../setting")
+script = ExtResource("2_v7dms")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="control"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 65.0
+offset_right = 640.0
+offset_bottom = 297.0
+follow_focus = true
+
+[node name="controls" type="GridContainer" parent="control/ScrollContainer"]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Control")
-focus_neighbor_right = NodePath("../Control")
-focus_neighbor_bottom = NodePath("VBoxContainer/master/HSlider")
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="control"]
+layout_mode = 0
+offset_left = 255.0
+offset_top = 336.0
+offset_right = 511.0
+offset_bottom = 372.0
+theme_override_constants/separation = 70
+alignment = 1
+
+[node name="default_btn" type="Button" parent="control/HBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../back")
+focus_neighbor_right = NodePath("../back")
+text = "Default"
+
+[node name="back" type="Button" parent="control/HBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../default_btn")
+focus_neighbor_right = NodePath("../default_btn")
+text = "Back"
+script = ExtResource("1_iqurf")
+to_previous = true
+
+[node name="audio" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 192.0
+offset_top = 96.0
+offset_right = 960.0
+offset_bottom = 512.0
+focus_neighbor_left = NodePath("../setting")
 script = ExtResource("1_qjj6c")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Audio"]
+[node name="VBoxContainer" type="VBoxContainer" parent="audio"]
 layout_mode = 0
 offset_left = 64.0
 offset_right = 704.0
@@ -23,31 +76,32 @@ offset_bottom = 385.0
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="master" type="VBoxContainer" parent="Audio/VBoxContainer"]
+[node name="master" type="VBoxContainer" parent="audio/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Audio/VBoxContainer/master"]
+[node name="Label" type="Label" parent="audio/VBoxContainer/master"]
 layout_mode = 2
 text = "Master Volume"
 horizontal_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Audio/VBoxContainer/master" groups=["focus_first"]]
+[node name="HSlider" type="HSlider" parent="audio/VBoxContainer/master" groups=["focus_first"]]
 layout_mode = 2
-focus_neighbor_left = NodePath("../../video/HSlider")
+focus_neighbor_left = NodePath("../../back")
+focus_neighbor_top = NodePath("../../back")
 focus_neighbor_right = NodePath("../../bgm/HSlider")
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="bgm" type="VBoxContainer" parent="Audio/VBoxContainer"]
+[node name="bgm" type="VBoxContainer" parent="audio/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Audio/VBoxContainer/bgm"]
+[node name="Label" type="Label" parent="audio/VBoxContainer/bgm"]
 layout_mode = 2
 text = "BGM Volume"
 horizontal_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Audio/VBoxContainer/bgm"]
+[node name="HSlider" type="HSlider" parent="audio/VBoxContainer/bgm"]
 layout_mode = 2
 focus_neighbor_left = NodePath("../../master/HSlider")
 focus_neighbor_right = NodePath("../../se/HSlider")
@@ -55,63 +109,79 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="se" type="VBoxContainer" parent="Audio/VBoxContainer"]
+[node name="se" type="VBoxContainer" parent="audio/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Audio/VBoxContainer/se"]
+[node name="Label" type="Label" parent="audio/VBoxContainer/se"]
 layout_mode = 2
 text = "Sound Effect Volume"
 horizontal_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Audio/VBoxContainer/se"]
+[node name="HSlider" type="HSlider" parent="audio/VBoxContainer/se"]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="video" type="VBoxContainer" parent="Audio/VBoxContainer"]
+[node name="video" type="VBoxContainer" parent="audio/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Audio/VBoxContainer/video"]
+[node name="Label" type="Label" parent="audio/VBoxContainer/video"]
 layout_mode = 2
 text = "Video Volume"
 horizontal_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Audio/VBoxContainer/video"]
+[node name="HSlider" type="HSlider" parent="audio/VBoxContainer/video"]
 layout_mode = 2
 focus_neighbor_left = NodePath("../../se/HSlider")
-focus_neighbor_right = NodePath("../../master/HSlider")
+focus_neighbor_right = NodePath("../../back")
 max_value = 1.0
 step = 0.01
 value = 1.0
 
-[node name="Control" type="TabBar" parent="."]
-visible = false
+[node name="back" type="Button" parent="audio/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Audio")
-focus_neighbor_right = NodePath("../Audio")
-focus_neighbor_bottom = NodePath("default_btn")
-script = ExtResource("2_v7dms")
+focus_neighbor_top = NodePath("../video/HSlider")
+focus_neighbor_bottom = NodePath("../master/HSlider")
+text = "Back"
+script = ExtResource("1_iqurf")
+to_previous = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control"]
-layout_mode = 2
-offset_left = 128.0
-offset_top = 65.0
-offset_right = 640.0
-offset_bottom = 297.0
-follow_focus = true
-
-[node name="controls" type="GridContainer" parent="Control/ScrollContainer"]
-layout_mode = 2
-theme_override_constants/h_separation = 50
-theme_override_constants/v_separation = 20
-columns = 2
-
-[node name="default_btn" type="Button" parent="Control"]
+[node name="setting" type="Panel" parent="."]
 layout_mode = 0
-offset_left = 320.0
-offset_top = 338.0
-offset_right = 448.0
-offset_bottom = 369.0
-focus_neighbor_bottom = NodePath("..")
-text = "Default"
+offset_left = 448.0
+offset_top = 192.0
+offset_right = 704.0
+offset_bottom = 400.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="setting"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 232.0
+offset_bottom = 168.0
+theme_override_constants/separation = 30
+
+[node name="audio" type="Button" parent="setting/VBoxContainer" node_paths=PackedStringArray("page_target") groups=["focus_first"]]
+layout_mode = 2
+focus_neighbor_top = NodePath("../back")
+focus_neighbor_bottom = NodePath("../control")
+text = "Audio"
+script = ExtResource("1_iqurf")
+page_target = NodePath("../../../audio")
+
+[node name="control" type="Button" parent="setting/VBoxContainer" node_paths=PackedStringArray("page_target")]
+layout_mode = 2
+focus_neighbor_top = NodePath("../audio")
+focus_neighbor_bottom = NodePath("../back")
+text = "Control"
+script = ExtResource("1_iqurf")
+page_target = NodePath("../../../control")
+
+[node name="back" type="Button" parent="setting/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../control")
+focus_neighbor_bottom = NodePath("../audio")
+text = "Back"
+script = ExtResource("1_iqurf")
+to_previous = true

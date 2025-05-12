@@ -5,6 +5,7 @@ var max_health
 var health
 var is_invicible = false
 var is_died = false
+var custom_hit_conditions = []
 signal has_died 
 signal change_health
 
@@ -14,9 +15,19 @@ func _init(_health):
 	max_health = health
 	check_death()
 
-func do_damage(damage):
-	if not is_invicible:
+func do_damage(damage, damage_obj = null):
+	if not is_invicible and check_can_hit(damage_obj):
 		set_health(-damage)
+
+func add_hit_condition(fn):
+	custom_hit_conditions.push_front(fn)
+
+func check_can_hit(damage_obj):
+	if damage_obj:
+		for con in custom_hit_conditions:
+			if not con.call(damage_obj):
+				return false
+	return true
 
 func add_on_death(call_back):
 	has_died.connect(func():

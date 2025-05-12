@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6ra0fdmdqfgl"]
+
+[ext_resource type="Script" path="res://script/system_control/menu.gd" id="1_18q5f"]
+[ext_resource type="PackedScene" uid="uid://cp8b6kcqdj3x" path="res://nodes/menu/setting.tscn" id="1_b6gvj"]
+[ext_resource type="Script" path="res://script/system_control/change_page_btn.gd" id="2_rbb34"]
+[ext_resource type="Script" path="res://script/system_control/change_world_btn.gd" id="3_7c4ta"]
+
+[node name="menu" type="Control" groups=["menu_set"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="setting" parent="." instance=ExtResource("1_b6gvj")]
+process_mode = 3
+visible = false
+focus_neighbor_left = NodePath("../menu")
+
+[node name="menu" type="PanelContainer" parent="." groups=["menu"]]
+process_mode = 3
+visible = false
+layout_mode = 0
+offset_left = 448.0
+offset_top = 128.0
+offset_right = 704.0
+offset_bottom = 512.0
+script = ExtResource("1_18q5f")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menu"]
+process_mode = 2
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="resume" type="Button" parent="menu/VBoxContainer" groups=["focus_first"]]
+layout_mode = 2
+focus_neighbor_top = NodePath("../quit_game")
+focus_neighbor_bottom = NodePath("../setting")
+text = "Resume"
+
+[node name="setting" type="Button" parent="menu/VBoxContainer" node_paths=PackedStringArray("page_target")]
+process_mode = 2
+layout_mode = 2
+focus_neighbor_top = NodePath("../resume")
+focus_neighbor_bottom = NodePath("../skip")
+text = "Setting"
+script = ExtResource("2_rbb34")
+page_target = NodePath("../../../setting")
+
+[node name="skip" type="Button" parent="menu/VBoxContainer" groups=["skip_button"]]
+visible = false
+layout_mode = 2
+focus_neighbor_top = NodePath("../setting")
+focus_neighbor_bottom = NodePath("../to_main_menu")
+text = "Skip Dialogue"
+
+[node name="to_main_menu" type="Button" parent="menu/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../skip")
+focus_neighbor_bottom = NodePath("../quit_game")
+text = "Quit to Main Menu"
+script = ExtResource("3_7c4ta")
+world_target = "res://nodes/worlds/main_menu.tscn"
+
+[node name="quit_game" type="Button" parent="menu/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../to_main_menu")
+focus_neighbor_bottom = NodePath("../resume")
+text = "Quit Game"

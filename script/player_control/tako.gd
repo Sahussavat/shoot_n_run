@@ -43,8 +43,8 @@ func _physics_process(delta):
 func get_mouse_direction():
 	if JoyStickDetector.is_joy_connected():
 		var target_post = Vector2(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
-		if Input.get_joy_axis(0, JOY_AXIS_RIGHT_X) == 0 and Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y) == 0:
-			target_post = Vector2(1, -1)
+		if ceil(10 * Input.get_joy_axis(0, JOY_AXIS_RIGHT_X))/100 == 0 and ceil(10 * Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))/100 == 0:
+			target_post = 3 * Vector2(1, -1)
 		return (2 * target_post).x
 	return (get_global_mouse_position() - global_position).normalized().x
 
@@ -78,6 +78,13 @@ func move(delta):
 		attack_c_player.enable_attack()
 		AudioUtill.play_bgm("bgm_test")
 	attack_c_player.update()
+	
+	if key_utill.is_just_pressed(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.BULLET_TYPE1]):
+		attack_c_player.set_attack_bullet_type(BulletType.RED)
+	elif key_utill.is_just_pressed(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.BULLET_TYPE2]):
+		attack_c_player.set_attack_bullet_type(BulletType.GREEN)
+	elif key_utill.is_just_pressed(GameControlKeycode.get_current_key()[GameControlKeycode.KEY.BULLET_TYPE3]):
+		attack_c_player.set_attack_bullet_type(BulletType.YELLOW)
 	
 
 func stop_dash():

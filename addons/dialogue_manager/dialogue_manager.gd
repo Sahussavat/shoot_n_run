@@ -117,6 +117,9 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 			is_ended = true
 			DialogueUtill.circle_in(func():
 				is_ended = false
+				var balloon = get_tree().get_first_node_in_group(GroupsName.BALLOON)
+				if balloon:
+					balloon.skip_container.reset_skip_button()
 				(func(): dialogue_ended.emit(resource)).call_deferred()
 				(func(): ended.emit()).call_deferred()
 				)
@@ -139,6 +142,9 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 				is_ended = true
 				DialogueUtill.circle_in(func():
 					is_ended = false
+					var balloon = get_tree().get_first_node_in_group(GroupsName.BALLOON)
+					if balloon:
+						balloon.skip_container.reset_skip_button()
 					(func(): dialogue_ended.emit(resource)).call_deferred()
 					(func(): ended.emit()).call_deferred()
 					)

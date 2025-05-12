@@ -130,13 +130,13 @@ func get_joy_string(keycode):
 			JOY_BUTTON_RIGHT_SHOULDER:
 				return "R1"
 			JOY_BUTTON_DPAD_LEFT:
-				return "Pad Left"
+				return "Dpad Left"
 			JOY_BUTTON_DPAD_RIGHT:
-				return "Pad Right"
+				return "Dpad Right"
 			JOY_BUTTON_DPAD_UP:
-				return "Pad Up"
+				return "Dpad Up"
 			JOY_BUTTON_DPAD_DOWN:
-				return "Pad Down"
+				return "Dpad Down"
 			JOY_BUTTON_A:
 				return "A"
 			JOY_BUTTON_B:

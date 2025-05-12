@@ -31,14 +31,17 @@ func _process(_delta):
 func set_skip_button():
 	var button : Button = get_tree().get_first_node_in_group(GroupsName.SKIP_BUTTON)
 	skip_button = button
-	skip_button.pressed.connect(func():
-		skip_button.visible = false
-		on_finished_skip.emit()
-		for c in skip_button.pressed.get_connections():
-			skip_button.pressed.disconnect(c.callable)
-		skip_button = null
-		)
+	skip_button.pressed.connect(reset_skip_button)
 	skip_button.visible = true
+
+func reset_skip_button():
+	var button : Button = get_tree().get_first_node_in_group(GroupsName.SKIP_BUTTON)
+	skip_button = button
+	skip_button.visible = false
+	on_finished_skip.emit()
+	for c in skip_button.pressed.get_connections():
+		skip_button.pressed.disconnect(c.callable)
+	skip_button = null
 
 func on_skip_bar_changed(val):
 	var v = clamp(val, 0, skip_bar.max_value)

@@ -38,12 +38,11 @@ func do_resume():
 			get_tree().paused = true
 		get_tree().get_first_node_in_group(GroupsName.BLUR_SCREEN_CONTROL).blur_in()
 	if ChangePage.is_current_page_show():
-		if in_sub:
+		if in_sub and old_focus:
 			old_focus.grab_focus()
 		ChangePage.change_to_target_page()
 	elif not visible:
-		if in_sub:
-			old_focus = get_viewport().gui_get_focus_owner()
+		old_focus = get_viewport().gui_get_focus_owner()
 		ChangePage.get_first_focus_child(self).grab_focus()
 		ChangePage.change_to_target_page(self)
 

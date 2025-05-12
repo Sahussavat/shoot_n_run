@@ -38,7 +38,7 @@ func _ready():
 					#DialogueUtill.get_balloon().start(load("res://dialogues/test1_dialog.dialogue"),"this_is_a_node_title")
 					#)
 				#],
-			[floor_control.floor_types.RANDOM, 25, func():
+			[floor_control.floor_types.RANDOM, 30, func():
 				FloorsUtill.save_floor_position(floor_control.floors_path)
 				],
 				#[floor_types.EVENT, 1, func():

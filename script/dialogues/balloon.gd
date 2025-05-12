@@ -106,17 +106,6 @@ var dialogue_line: DialogueLine:
 func _ready() -> void:
 	balloon.hide()
 	Engine.get_singleton("DialogueManager").mutated.connect(_on_mutated)
-	skip_container.on_finished_skip.connect(func():
-		var menu = get_tree().get_first_node_in_group(GroupsName.MENU)
-		menu.process_mode = Node.PROCESS_MODE_DISABLED
-		ChangePage.change_to_target_page(menu)
-		menu.do_resume()
-		process_mode = Node.PROCESS_MODE_DISABLED
-		DialogueUtill.circle_in(func():
-			self.dialogue_line = await resource.get_next_dialogue_line(&"end")
-			)
-		)
-	skip_container.set_skip_button()
 	# If the responses menu doesn't have a next action set, use this one
 	if responses_menu.next_action.is_empty():
 		responses_menu.next_action = next_action
@@ -153,6 +142,17 @@ func start(dialogue_resource: DialogueResource, title: String, extra_game_states
 	DialogueUtill.circle_out(func():
 		can_click_next = true
 		)
+	skip_container.on_finished_skip.connect(func():
+		menu = get_tree().get_first_node_in_group(GroupsName.MENU)
+		menu.process_mode = Node.PROCESS_MODE_DISABLED
+		ChangePage.change_to_target_page(menu)
+		menu.do_resume()
+		process_mode = Node.PROCESS_MODE_DISABLED
+		DialogueUtill.circle_in(func():
+			self.dialogue_line = await resource.get_next_dialogue_line(&"end")
+			)
+		)
+	skip_container.set_skip_button()
 
 
 ## Go to the next line

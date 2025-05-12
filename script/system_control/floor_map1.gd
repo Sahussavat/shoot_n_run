@@ -64,26 +64,26 @@ func _ready():
 			floor_control.spawn_control.spawn_data(floor_control.spawn_enemies_flyer, func():
 				return true;
 				, 10),
-			#floor_control.spawn_control.spawn_data(floor_control.spawn_enemies_charger, func():
-				#return true;
-				#, 10),
-			#floor_control.spawn_control.spawn_data(floor_control.spawn_enemies_dash, func():
-				#return true;
-				#, 10),
-			#floor_control.spawn_control.spawn_data(floor_control.spawn_enemies_crowd, func():
-				#return true;
-				#, 10),
+			floor_control.spawn_control.spawn_data(floor_control.spawn_enemies_charger, func():
+				return true;
+				, 10),
+			floor_control.spawn_control.spawn_data(floor_control.spawn_enemies_dash, func():
+				return true;
+				, 10),
+			floor_control.spawn_control.spawn_data(floor_control.spawn_enemies_crowd, func():
+				return true;
+				, 10),
 		],
 		
 		func():
 			var menu = get_tree().get_first_node_in_group(GroupsName.MENU)
 			var temp_menu = menu.process_mode
-			#menu.process_mode = Node.PROCESS_MODE_DISABLED
+			menu.process_mode = Node.PROCESS_MODE_DISABLED
 			get_tree().paused = true
 			BalloonControl.set_on_finish_balloon(func():
 				get_tree().get_first_node_in_group(GroupsName.BLACK_SCREEN_CONTROL).circle_out(func():
 					get_tree().paused = false
-					get_tree().get_first_node_in_group(GroupsName.MENU).process_mode = temp_menu
+					menu.process_mode = temp_menu
 					
 					var boss_inst = boss.instantiate()
 					get_parent().add_child(boss_inst)
